@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Django 5 – Introduction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Global Theme -->
+  <link rel="stylesheet" href="/extra/djangostyle.css" />
+  <script defer src="/extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<!-- Theme Toggle -->
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<!-- Header -->
+<header class="content-header">
+  <div class="header-inner">
+    <img src="../../assets/django-logo.png" alt="Django Logo" class="topic-logo">
+    <h1 class="title">Introduction to Django 5</h1>
+    <p class="subtitle">
+      Core concepts, features, advantages, and prerequisites
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<!-- =======================
+   WHAT IS DJANGO
+======================= -->
+<section class="content-section">
+  <h2>What is Django 5?</h2>
+
+  <p>
+    <strong>Django 5</strong> is a high-level, open-source web framework written in
+    <strong>Python</strong> that allows developers to build secure, scalable,
+    and maintainable web applications quickly.
+  </p>
+
+  <img src="../../assets/django framework.png" alt="Django Framework Overview" class="content-image">
+
+  <ul>
+    <li><strong>Rapid development</strong> – build applications faster</li>
+    <li><strong>Clean design</strong> – readable and maintainable code</li>
+    <li><strong>Less repetition</strong> – follows the DRY principle</li>
+  </ul>
+
+  <div class="note">
+    Django handles complex backend tasks so developers can focus on
+    <strong>business logic</strong> instead of boilerplate code.
+  </div>
+</section>
+
+<!-- =======================
+   FEATURES & ADVANTAGES
+======================= -->
+<section class="content-section">
+  <h2>📘 Features and Advantages of Django 5</h2>
+
+  <h3>1. Built-in Admin Interface</h3>
+  <img src="../../assets/Django administration home.png" alt="Django Admin Panel" class="content-image">
+
+  <p>
+    Django comes with a ready-made admin panel automatically generated from your models.
+    It allows you to manage data, users, and permissions with minimal code.
+  </p>
+
+  <div class="note">
+    <strong>Real-Life Example:</strong>  
+    In a college management system, admins can add students, update marks,
+    and manage teachers directly from Django’s admin panel.
+  </div>
+
+  <h3>2. ORM (Object Relational Mapping)</h3>
+
+  <p>
+    Django ORM allows developers to interact with databases using Python code
+    instead of raw SQL queries.
+  </p>
+
+  <pre><code>Student.objects.all()</code></pre>
+
+  <div class="note">
+    ORM reduces SQL errors and makes database handling beginner-friendly.
+  </div>
+
+  <h3>3. Authentication System</h3>
+  <p>
+    Django provides built-in support for login, logout, password hashing,
+    roles, and permissions.
+  </p>
+
+  <h3>4. Rapid Development</h3>
+  <p>
+    With reusable apps and prebuilt modules, Django helps developers
+    build projects quickly.
+  </p>
+
+  <h3>5. Versatility</h3>
+  <p>
+    Django can be used for CMS, e-commerce platforms, REST APIs,
+    dashboards, and ML-based applications.
+  </p>
+
+  <h3>6. Security</h3>
+  <p>
+    Django includes built-in protection against SQL Injection, XSS,
+    CSRF, and clickjacking.
+  </p>
+</section>
+
+<!-- =======================
+   MCQs – FEATURES
+======================= -->
+<section class="mcq-section">
+  <h2>🧠 MCQs – Features of Django 5</h2>
+
+  <div class="mcq">
+    <p>Which Django feature automatically creates an admin dashboard?</p>
+    <label><input type="radio" name="f1"> ORM</label>
+    <label><input type="radio" name="f1"> Authentication</label>
+    <label><input type="radio" name="f1" data-correct="true"> Built-in Admin Interface</label>
+    <label><input type="radio" name="f1"> Middleware</label>
+  </div>
+
+  <div class="mcq">
+    <p>What does ORM stand for?</p>
+    <label><input type="radio" name="f2"> Object Resource Manager</label>
+    <label><input type="radio" name="f2"> Open Relation Model</label>
+    <label><input type="radio" name="f2" data-correct="true"> Object Relational Mapping</label>
+    <label><input type="radio" name="f2"> Online Resource Manager</label>
+  </div>
+
+  <div class="mcq">
+    <p>Which feature manages login and permissions?</p>
+    <label><input type="radio" name="f3"> ORM</label>
+    <label><input type="radio" name="f3"> Templates</label>
+    <label><input type="radio" name="f3" data-correct="true"> Authentication System</label>
+    <label><input type="radio" name="f3"> Admin Panel</label>
+  </div>
+</section>
+
+<!-- =======================
+   PREREQUISITES
+======================= -->
+<section class="content-section">
+  <h2>📘 Django 5 – Prerequisites</h2>
+
+  <ul>
+    <li><img src="../../assets/HTML5.png" class="icon"> <strong>HTML</strong> – Structure of templates</li>
+    <li><img src="../../assets/CSS3.png" class="icon"> <strong>CSS</strong> – Styling & layout</li>
+    <li><img src="../../assets/JavaScript.png" class="icon"> <strong>JavaScript</strong> – Interactivity</li>
+    <li><img src="../../assets/Python.png" class="icon"> <strong>Python</strong> – Core Django language</li>
+    <li><img src="../../assets/MySQL.png" class="icon"> <strong>SQL</strong> – Helps understand ORM</li>
+  </ul>
+
+  <pre><code>pip install django</code></pre>
+</section>
+
+<!-- =======================
+   MCQs – PREREQUISITES
+======================= -->
+<section class="mcq-section">
+  <h2>🧠 MCQs – Django 5 Prerequisites</h2>
+
+  <div class="mcq">
+    <p>Which language structures Django templates?</p>
+    <label><input type="radio" name="p1"> CSS</label>
+    <label><input type="radio" name="p1"> JavaScript</label>
+    <label><input type="radio" name="p1" data-correct="true"> HTML</label>
+    <label><input type="radio" name="p1"> Python</label>
+  </div>
+
+  <div class="mcq">
+    <p>Which tool is used to install Django?</p>
+    <label><input type="radio" name="p2"> npm</label>
+    <label><input type="radio" name="p2" data-correct="true"> pip</label>
+    <label><input type="radio" name="p2"> yarn</label>
+    <label><input type="radio" name="p2"> composer</label>
+  </div>
+</section>
+
+<!-- =======================
+   SUMMARY
+======================= -->
+<section class="content-section summary">
+  <h2>Final Summary</h2>
+  <p>
+    Django 5 is a powerful, secure, and versatile Python framework
+    suitable for beginners and enterprise-level applications.
+  </p>
+</section>
+
+<!-- Navigation -->
+<div class="content-navigation">
+  <a href="content.html" class="btn secondary">⬅ Back to Contents</a>
+  <a href="setup.html" class="btn primary">Next: Django Setup ➜</a>
+</div>
+
+</body>
+</html>

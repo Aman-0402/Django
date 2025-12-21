@@ -1,0 +1,168 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+  overflow: hidden; /* Prevents scrollbars from moving icons */
+  position: relative;
+}
+
+/* --- Background Setup --- */
+.background-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("assets/djangonewconfirm.png"); /* Note: Use / for web paths */
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
+}
+
+/* Dark overlay to make text/cards pop */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: -1;
+}
+
+/* --- Main Content Area --- */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 500px; /* Space between the two boxes */
+  position: relative;
+  z-index: 10; /* Ensures cards are above floating icons */
+}
+
+/* Card Styling */
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px); /* Glass effect */
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  width: 300px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-decoration: none; /* Remove link underline */
+  color: white;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.card img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.3));
+}
+
+.card h2 {
+  font-size: 2rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* --- Floating Icons Animation --- */
+.floating-icon {
+  position: absolute;
+  width: 60px; /* Size of floating icons */
+  height: auto;
+  opacity: 0.7;
+  z-index: 1; /* Behind the cards, above the background */
+  animation: float-anim 6s ease-in-out infinite;
+}
+
+@keyframes float-anim {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+/* Specific positions for each icon to scatter them */
+.icon-1 {
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+  width: 50px;
+}
+.icon-2 {
+  top: 15%;
+  right: 15%;
+  animation-delay: 1s;
+  width: 70px;
+}
+.icon-3 {
+  bottom: 15%;
+  left: 15%;
+  animation-delay: 2s;
+  width: 60px;
+}
+.icon-4 {
+  bottom: 10%;
+  right: 10%;
+  animation-delay: 0.5s;
+  width: 55px;
+}
+.icon-5 {
+  top: 45%;
+  left: 5%;
+  animation-delay: 3s;
+  width: 45px;
+}
+.icon-6 {
+  top: 50%;
+  right: 5%;
+  animation-delay: 1.5s;
+  width: 65px;
+}
+.icon-7 {
+  top: 5%;
+  left: 45%;
+  animation-delay: 2.5s;
+  width: 40px;
+}
+.icon-8 {
+  bottom: 5%;
+  right: 40%;
+  animation-delay: 4s;
+  width: 50px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    gap: 30px;
+  }
+  .floating-icon {
+    width: 40px; /* Smaller icons on mobile */
+    opacity: 0.4;
+  }
+}
