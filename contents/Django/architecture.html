@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Django 5 – Architecture & Project Structure</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Global Theme (GitHub Pages safe paths) -->
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<!-- Theme Toggle -->
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<!-- Header -->
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Django 5 – Architecture & Project Structure</h1>
+    <p class="subtitle">
+      How Django works internally, server control, and professional project & app structure
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<!-- =======================
+   INTRODUCTION
+======================= -->
+<section class="content-section">
+  <p>
+    This chapter explains how Django works internally, how to run and control
+    the development server, and how projects and applications are structured
+    in a professional Django workflow.
+  </p>
+
+  <div class="note">
+    Understanding this chapter is critical before learning URLs, Views,
+    Templates, and Models.
+  </div>
+</section>
+
+<!-- =======================
+   RUN DJANGO SERVER
+======================= -->
+<section class="content-section">
+  <h2>How to Run Django Development Server</h2>
+
+  <p>
+    The Django development server is a lightweight web server used only for
+    development and testing purposes.
+  </p>
+
+  <ol>
+    <li>Open terminal / command prompt</li>
+    <li>Navigate to your Django project folder (where <code>manage.py</code> exists)</li>
+    <li>Run the command:</li>
+  </ol>
+
+  <pre><code>python manage.py runserver</code></pre>
+
+  <img src="../../assets/TerminalStartDjango.png" alt="Start Django Server" class="content-image">
+
+  <h3>Default Server Address</h3>
+  <p>
+    By default, Django runs on:
+  </p>
+
+  <pre><code>http://127.0.0.1:8000/</code></pre>
+
+  <ul>
+    <li><strong>127.0.0.1</strong> → Localhost (your own computer)</li>
+    <li><strong>8000</strong> → Default Django port</li>
+  </ul>
+
+  <div class="note">
+    The site is accessible only on your system, not on the internet.
+  </div>
+</section>
+
+<!-- =======================
+   CHANGE SERVER PORT
+======================= -->
+<section class="content-section">
+  <h2>How to Change Django Server Port</h2>
+
+  <p>
+    Sometimes port <strong>8000</strong> may already be in use, or you may want
+    to run multiple projects simultaneously.
+  </p>
+
+  <pre><code>python manage.py runserver 8080</code></pre>
+
+  <p>
+    Server will now run at:
+  </p>
+
+  <pre><code>http://127.0.0.1:8080/</code></pre>
+</section>
+
+<!-- =======================
+   STOP SERVER
+======================= -->
+<section class="content-section">
+  <h2>How to Stop Django Server</h2>
+
+  <p>
+    To stop the development server safely:
+  </p>
+
+  <pre><code>CTRL + C</code></pre>
+</section>
+
+<!-- =======================
+   PROJECT VS APP
+======================= -->
+<section class="content-section">
+  <h2>Django Project vs Django Application</h2>
+
+  <h3>Django Project</h3>
+  <ul>
+    <li>The entire website or system</li>
+    <li>Contains settings, URLs, and configurations</li>
+    <li>Can include multiple apps</li>
+  </ul>
+
+  <p><strong>Examples:</strong></p>
+  <ul>
+    <li>College Management System</li>
+    <li>E-Commerce Website</li>
+    <li>Learning Management System</li>
+  </ul>
+
+  <h3>Django Application (App)</h3>
+  <ul>
+    <li>A specific module inside a project</li>
+    <li>Handles one responsibility</li>
+  </ul>
+
+  <p><strong>Examples:</strong></p>
+  <ul>
+    <li>Authentication app</li>
+    <li>Blog app</li>
+    <li>Student management app</li>
+    <li>Payment app</li>
+  </ul>
+
+  <div class="note">
+    A single Django project can contain multiple apps, each handling
+    a different feature.
+  </div>
+</section>
+
+<!-- =======================
+   CREATE DJANGO APP
+======================= -->
+<section class="content-section">
+  <h2>Creating a Django Application (Professional Way)</h2>
+
+  <h3>Step 1: Go to Project Directory</h3>
+  <pre><code>cd sms</code></pre>
+
+  <h3>Step 2: Create Django App</h3>
+  <pre><code>python manage.py startapp app1</code></pre>
+
+  <img src="../../assets/folderStructureofDjango.jpg" alt="Django App Structure" class="content-image" style="width:380px;">
+</section>
+
+<!-- =======================
+   APP FILE STRUCTURE
+======================= -->
+<section class="content-section">
+  <h2>Django App Folder Structure</h2>
+
+  <pre><code>app1/
+│── migrations/
+│   └── __init__.py
+│── __init__.py
+│── admin.py
+│── apps.py
+│── models.py
+│── tests.py
+│── views.py</code></pre>
+
+  <img src="../../assets/DjangoProjectStruture.png" alt="Django Project Structure" class="content-image">
+</section>
+
+<!-- =======================
+   FILE EXPLANATION
+======================= -->
+<section class="content-section">
+  <h2>Explanation of Django App Files</h2>
+
+  <h3>migrations/</h3>
+  <p>
+    Stores migration files and tracks database changes step by step.
+  </p>
+
+  <h3>__init__.py</h3>
+  <p>
+    Marks the folder as a Python package so Django can import it.
+  </p>
+
+  <h3>admin.py</h3>
+  <p>
+    Registers models with Django Admin for CRUD operations.
+  </p>
+
+  <h3>apps.py</h3>
+  <p>
+    App configuration file used internally by Django.
+  </p>
+
+  <h3>models.py</h3>
+  <p>
+    Defines database tables using Python classes.
+  </p>
+
+  <h3>views.py</h3>
+  <p>
+    Contains business logic and handles HTTP requests and responses.
+  </p>
+
+  <h3>tests.py</h3>
+  <p>
+    Used for writing test cases to ensure app quality and stability.
+  </p>
+</section>
+
+<!-- =======================
+   REGISTER APP
+======================= -->
+<section class="content-section">
+  <h2>Registering Django App (Mandatory)</h2>
+
+  <p>
+    After creating an app, Django will <strong>not</strong> recognize it automatically.
+    You must register it inside <code>settings.py</code>.
+  </p>
+
+  <div class="note">
+    Without registering the app:
+    <ul>
+      <li>Models won’t migrate</li>
+      <li>Admin won’t show models</li>
+      <li>Views won’t work correctly</li>
+    </ul>
+  </div>
+</section>
+
+<!-- =======================
+   ARCHITECTURE FLOW
+======================= -->
+<section class="content-section">
+  <h2>Django Architecture – Big Picture</h2>
+
+  <ol>
+    <li>User sends request via browser</li>
+    <li>URL matched in <code>urls.py</code></li>
+    <li>View processes the request</li>
+    <li>Model interacts with database</li>
+    <li>Template renders HTML</li>
+    <li>Response sent back to user</li>
+  </ol>
+
+  <p>
+    This flow follows Django’s <strong>MVT (Model–View–Template)</strong> architecture.
+  </p>
+</section>
+
+<!-- =======================
+   MCQs
+======================= -->
+<section class="mcq-section">
+  <h2>🧠 MCQs – Django Architecture & Apps</h2>
+
+  <div class="mcq">
+    <p>Which command starts the Django development server?</p>
+    <label><input type="radio" name="q1" data-correct="true"> python manage.py runserver</label>
+    <label><input type="radio" name="q1"> django-admin startproject</label>
+  </div>
+
+  <div class="mcq">
+    <p>What is the default Django port number?</p>
+    <label><input type="radio" name="q2" data-correct="true"> 8000</label>
+    <label><input type="radio" name="q2"> 8080</label>
+  </div>
+
+  <div class="mcq">
+    <p>Where are database tables defined in Django?</p>
+    <label><input type="radio" name="q3" data-correct="true"> models.py</label>
+    <label><input type="radio" name="q3"> views.py</label>
+  </div>
+
+  <div class="mcq">
+    <p>Where must a Django app be registered?</p>
+    <label><input type="radio" name="q4" data-correct="true"> settings.py (INSTALLED_APPS)</label>
+    <label><input type="radio" name="q4"> urls.py</label>
+  </div>
+</section>
+
+<!-- =======================
+   FINAL NOTES
+======================= -->
+<section class="content-section summary">
+  <h2>Final Notes</h2>
+  <ul>
+    <li>Django server is for development only</li>
+    <li>Project = whole system, App = specific feature</li>
+    <li>Every app must be registered</li>
+    <li>Understanding architecture prevents confusion later</li>
+  </ul>
+</section>
+
+<!-- Navigation -->
+<div class="content-navigation">
+  <a href="./setup.html" class="btn secondary">⬅ Previous: Setup</a>
+  <a href="./views-urls.html" class="btn primary">Next: URLs & Views ➜</a>
+</div>
+
+</body>
+</html>
