@@ -122,33 +122,94 @@ sqlparse==0.4.4</code></pre>
 mkdir django_projects
 cd django_projects</code></pre>
 
-  <img src="../../assets/LayoutStruture.png" alt="Project Folder Structure" class="content-image">
 </section>
 
 <!-- =======================
    VIRTUAL ENVIRONMENT
 ======================= -->
 <section class="content-section">
-  <h2>4. Create & Activate Virtual Environment</h2>
-
-  <h3>Install virtualenv (Once)</h3>
-  <pre><code>pip install virtualenv</code></pre>
-
-  <h3>Create Virtual Environment</h3>
-  <pre><code>virtualenv venv</code></pre>
-
-  <img src="../../assets/Virtualenv.png" alt="Virtual Environment" class="content-image">
-
-  <h3>Activate Virtual Environment</h3>
-
-  <pre><code>venv\Scripts\activate</code></pre>
+  <h2>4️⃣ Create & Activate Virtual Environment</h2>
 
   <p>
-    When activated, your terminal will show:
+    A <strong>virtual environment</strong> allows you to create an isolated
+    Python setup for each Django project. This prevents dependency conflicts
+    between different projects.
   </p>
 
-  <pre><code>(venv)</code></pre>
+  <!-- ===================== -->
+  <!-- Install virtualenv -->
+  <!-- ===================== -->
+
+  <h3>🔹 Install virtualenv (One-Time)</h3>
+  <p>
+    Install <strong>virtualenv</strong> globally if it is not already installed.
+    This tool helps create isolated Python environments.
+  </p>
+
+  <pre><code>python -m pip install virtualenv</code></pre>
+
+  <!-- ===================== -->
+  <!-- Create venv -->
+  <!-- ===================== -->
+
+  <h3>🔹 Create Virtual Environment</h3>
+  <p>
+    Create a virtual environment inside your project folder.
+    You can name it anything; commonly used names are <code>venv</code> or <code>env</code>.
+  </p>
+
+  <pre><code>python -m venv env</code></pre>
+
+  <img
+    src="../../assets/Virtualenv.png"
+    alt="Python Virtual Environment"
+    class="content-image"
+  >
+
+  <div class="note">
+    📌 This creates an <code>env</code> folder containing a separate Python
+    interpreter and libraries for your project.
+  </div>
+
+  <!-- ===================== -->
+  <!-- Windows policy -->
+  <!-- ===================== -->
+
+  <h3>🔹 Fix PowerShell Execution Policy (Windows Only)</h3>
+  <p>
+    If PowerShell blocks script execution, run the following command
+    <strong>once</strong>:
+  </p>
+
+  <pre><code>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
+
+  <div class="note">
+    ✔ This allows activation scripts to run safely on your system.
+  </div>
+
+  <!-- ===================== -->
+  <!-- Activate -->
+  <!-- ===================== -->
+
+  <h3>🔹 Activate Virtual Environment</h3>
+  <p>
+    Activate the virtual environment using:
+  </p>
+
+  <pre><code>env\Scripts\activate</code></pre>
+
+  <p>
+    When activated successfully, your terminal will display:
+  </p>
+
+  <pre><code>(env)</code></pre>
+
+  <div class="note">
+    🎯 From now on, any Python or Django package you install
+    will be installed <strong>only inside this environment</strong>.
+  </div>
 </section>
+
 
 <!-- =======================
    INSTALL DJANGO
@@ -221,6 +282,98 @@ cd django_projects</code></pre>
   <h3>Stop Server</h3>
   <pre><code>CTRL + C</code></pre>
 </section>
+
+<section class="content-section">
+  <h2>📘 Setup VS Code for Django Development</h2>
+
+  <p>
+    <strong>Visual Studio Code (VS Code)</strong> is a lightweight and powerful editor
+    widely used for Django development because of its excellent extension support.
+  </p>
+
+  <!-- ===================== -->
+  <!-- Step 1 -->
+  <!-- ===================== -->
+
+  <h3>🔹 Step 1: Install VS Code</h3>
+  <p>
+    Download and install <strong>Visual Studio Code</strong> from the official website,
+    then open it after installation.
+  </p>
+
+  <!-- ===================== -->
+  <!-- Step 2 -->
+  <!-- ===================== -->
+
+  <h3>🔹 Step 2: Open Django Project</h3>
+  <ol>
+    <li>Open VS Code</li>
+    <li>Click <strong>File → Open Folder</strong></li>
+    <li>Select your Django project folder (where <code>manage.py</code> exists)</li>
+  </ol>
+
+  <div class="note">
+    📌 This helps VS Code understand the Django project structure.
+  </div>
+
+  <!-- ===================== -->
+  <!-- Step 3 -->
+  <!-- ===================== -->
+
+  <h3>🔹 Step 3: Install Essential Extensions</h3>
+  <p>
+    Open <strong>Extensions Panel</strong> (<code>Ctrl + Shift + X</code>) and install:
+  </p>
+
+  <ul>
+    <li><strong>Python (Microsoft)</strong> – Python support, debugging, venv detection</li>
+    <li><strong>Pylance</strong> – Fast auto-completion & error checking</li>
+    <li><strong>Django</strong> – Template highlighting & Django snippets</li>
+    <li><strong>Autopep8</strong> – Auto-format Python code (PEP 8)</li>
+    <li><strong>Auto Rename Tag</strong> – Renames paired HTML tags</li>
+    <li><strong>SQLite3 Editor</strong> – View <code>db.sqlite3</code> inside VS Code</li>
+    <li><strong>Color Highlight</strong> – Shows actual CSS colors</li>
+  </ul>
+
+  <!-- ===================== -->
+  <!-- Step 4 -->
+  <!-- ===================== -->
+
+  <h3>🔹 Step 4: Select Python Interpreter</h3>
+  <ol>
+    <li>Press <code>Ctrl + Shift + P</code></li>
+    <li>Select <strong>Python: Select Interpreter</strong></li>
+    <li>Choose your virtual environment Python</li>
+  </ol>
+
+  <pre><code>venv\Scripts\python.exe</code></pre>
+
+  <div class="note">
+    ✔ Ensures Django runs inside the virtual environment.
+  </div>
+
+  <!-- ===================== -->
+  <!-- Step 5 -->
+  <!-- ===================== -->
+
+  <h3>🔹 Step 5: Use Integrated Terminal</h3>
+  <p>Open terminal using <code>Ctrl + `</code> and run:</p>
+
+  <pre><code>python manage.py runserver</code></pre>
+
+  <!-- ===================== -->
+  <!-- Optional -->
+  <!-- ===================== -->
+
+  <h3>⭐ Optional but Useful Extensions</h3>
+  <ul>
+    <li>GitLens – Git history & blame</li>
+    <li>Prettier – HTML/CSS formatting</li>
+    <li>IntelliSense for CSS class names</li>
+    <li>Live Server – Static HTML testing</li>
+  </ul>
+</section>
+
 
 <!-- =======================
    SUMMARY
