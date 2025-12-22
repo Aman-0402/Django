@@ -192,43 +192,142 @@
    FILE EXPLANATION
 ======================= -->
 <section class="content-section">
-  <h2>Explanation of Django App Files</h2>
+  <h2>📘 Django Project Files – Explanation & Uses</h2>
 
-  <h3>migrations/</h3>
   <p>
-    Stores migration files and tracks database changes step by step.
+    When you create a Django project, Django automatically generates several
+    important files. Each file has a specific role in running, configuring,
+    and managing your application.
   </p>
 
-  <h3>__init__.py</h3>
+  <!-- ===================== -->
+  <!-- __init__.py -->
+  <!-- ===================== -->
+
+  <h3>🔹 __init__.py</h3>
+  <p><strong>What it is:</strong></p>
+  <ul>
+    <li>An empty file</li>
+    <li>Marks the folder as a Python package</li>
+  </ul>
+
+  <p><strong>Why it is needed:</strong></p>
   <p>
-    Marks the folder as a Python package so Django can import it.
+    Allows Django and Python to import files from this directory.
   </p>
 
-  <h3>admin.py</h3>
-  <p>
-    Registers models with Django Admin for CRUD operations.
-  </p>
+  <div class="note">
+    🌍 <strong>Real-Life Example:</strong><br>
+    Like an ID card identifies a person, <code>__init__.py</code> tells Python:
+    “This folder is a package.”
+  </div>
 
-  <h3>apps.py</h3>
-  <p>
-    App configuration file used internally by Django.
-  </p>
+  <!-- ===================== -->
+  <!-- settings.py -->
+  <!-- ===================== -->
 
-  <h3>models.py</h3>
-  <p>
-    Defines database tables using Python classes.
-  </p>
+  <h3>🔹 settings.py</h3>
+  <p><strong>What it is:</strong> The main configuration file of the Django project.</p>
 
-  <h3>views.py</h3>
-  <p>
-    Contains business logic and handles HTTP requests and responses.
-  </p>
+  <p><strong>What it contains:</strong></p>
+  <ul>
+    <li>Installed apps</li>
+    <li>Database configuration</li>
+    <li>Middleware</li>
+    <li>Templates</li>
+    <li>Static & media files</li>
+    <li>Security settings</li>
+  </ul>
 
-  <h3>tests.py</h3>
-  <p>
-    Used for writing test cases to ensure app quality and stability.
-  </p>
+  <div class="note">
+    🌍 <strong>Real-Life Example:</strong><br>
+    <code>settings.py</code> is like the settings app of a mobile phone
+    (Wi-Fi, display, security, apps).
+  </div>
+
+  <!-- ===================== -->
+  <!-- urls.py -->
+  <!-- ===================== -->
+
+  <h3>🔹 urls.py</h3>
+  <p><strong>What it is:</strong> URL routing file.</p>
+
+  <p><strong>What it does:</strong></p>
+  <ul>
+    <li>Maps browser URLs to views</li>
+    <li>Decides which logic runs for a given request</li>
+  </ul>
+
+  <div class="note">
+    🌍 <strong>Real-Life Example:</strong><br>
+    If a user opens <code>/login</code>, <code>urls.py</code> decides
+    which page or logic should run — like a road map directing traffic.
+  </div>
+
+  <!-- ===================== -->
+  <!-- asgi.py -->
+  <!-- ===================== -->
+
+  <h3>🔹 asgi.py</h3>
+  <p><strong>What it is:</strong> ASGI (Asynchronous Server Gateway Interface) configuration file.</p>
+
+  <p><strong>Used for:</strong></p>
+  <ul>
+    <li>WebSockets</li>
+    <li>Chat applications</li>
+    <li>Live notifications</li>
+  </ul>
+
+  <div class="note">
+    🌍 <strong>Real-Life Example:</strong><br>
+    Used in real-time apps like live chat systems and real-time dashboards.
+  </div>
+
+  <!-- ===================== -->
+  <!-- wsgi.py -->
+  <!-- ===================== -->
+
+  <h3>🔹 wsgi.py</h3>
+  <p><strong>What it is:</strong> WSGI (Web Server Gateway Interface) configuration file.</p>
+
+  <p><strong>Used for:</strong></p>
+  <ul>
+    <li>Connecting Django with servers like Apache, Nginx, Gunicorn</li>
+    <li>Production deployment</li>
+  </ul>
+
+  <div class="note">
+    🌍 <strong>Real-Life Example:</strong><br>
+    Acts like a bridge between Django and the web server.
+  </div>
+
+  <!-- ===================== -->
+  <!-- manage.py -->
+  <!-- ===================== -->
+
+  <h3>🔹 manage.py</h3>
+  <p><strong>What it is:</strong> A command-line utility to manage the Django project.</p>
+
+  <p><strong>What it can do:</strong></p>
+  <ul>
+    <li>Start development server</li>
+    <li>Create apps</li>
+    <li>Apply migrations</li>
+    <li>Create superuser</li>
+  </ul>
+
+  <p><strong>Common Commands:</strong></p>
+  <pre><code>python manage.py runserver
+python manage.py startapp appname
+python manage.py makemigrations
+python manage.py migrate</code></pre>
+
+  <div class="note">
+    🌍 <strong>Real-Life Example:</strong><br>
+    <code>manage.py</code> is like a remote control for your Django project.
+  </div>
 </section>
+
 
 <!-- =======================
    REGISTER APP
@@ -274,33 +373,6 @@
 <!-- =======================
    MCQs
 ======================= -->
-<section class="mcq-section">
-  <h2>🧠 MCQs – Django Architecture & Apps</h2>
-
-  <div class="mcq">
-    <p>Which command starts the Django development server?</p>
-    <label><input type="radio" name="q1" data-correct="true"> python manage.py runserver</label>
-    <label><input type="radio" name="q1"> django-admin startproject</label>
-  </div>
-
-  <div class="mcq">
-    <p>What is the default Django port number?</p>
-    <label><input type="radio" name="q2" data-correct="true"> 8000</label>
-    <label><input type="radio" name="q2"> 8080</label>
-  </div>
-
-  <div class="mcq">
-    <p>Where are database tables defined in Django?</p>
-    <label><input type="radio" name="q3" data-correct="true"> models.py</label>
-    <label><input type="radio" name="q3"> views.py</label>
-  </div>
-
-  <div class="mcq">
-    <p>Where must a Django app be registered?</p>
-    <label><input type="radio" name="q4" data-correct="true"> settings.py (INSTALLED_APPS)</label>
-    <label><input type="radio" name="q4"> urls.py</label>
-  </div>
-</section>
 
 <!-- =======================
    FINAL NOTES
@@ -317,7 +389,7 @@
 
 <!-- Navigation -->
 <div class="content-navigation">
-  <a href="./setup.html" class="btn secondary">⬅ Previous: Setup</a>
+  <a href="./content.html" class="btn secondary">⬅ Back to Contents</a>
   <a href="./apps-urls.html" class="btn primary">Next: URLs & Views ➜</a>
 </div>
 

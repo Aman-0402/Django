@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Django 5 – Function-Based Views, Apps & URLs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Global Theme (GitHub Pages safe) -->
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<!-- Theme Toggle -->
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<!-- Header -->
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Django templates</h1>
+    <p class="subtitle">
+        Understanding Django's templating system, creating and rendering templates, and using template tags and filters.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+    <h2>📘 Using Templates in Django (Logic vs UI)</h2>
+  
+    <p>
+      You have created a Django project and app using:
+    </p>
+  
+    <pre><code>django-admin startproject useTemplate
+  cd useTemplate
+  python manage.py startapp course</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Folder Structure -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Folder Structure (Important)</h3>
+    <pre><code>course/
+  ├── templates/
+  │   └── course/
+  │       ├── django.html
+  │       └── fastapi.html
+  ├── views.py
+  ├── urls.py   (we will create this)</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Logic vs UI -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Business Logic vs Representation (Very Important)</h3>
+  
+    <h4>✅ Business Logic</h4>
+    <ul>
+      <li>Written in Python</li>
+      <li>Decides <strong>what data</strong> to show</li>
+      <li>Lives in <code>views.py</code></li>
+    </ul>
+  
+    <pre><code>course_name = "Django"
+  duration = "3 Months"</code></pre>
+  
+    <h4>✅ Representation (UI)</h4>
+    <ul>
+      <li>Written in HTML</li>
+      <li>Decides <strong>how data looks</strong></li>
+      <li>Lives in templates</li>
+    </ul>
+  
+    <pre><code>&lt;h1&gt;{{ course_name }}&lt;/h1&gt;</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Why Templates -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Why Separate Logic & UI?</h3>
+  
+    <h4>❌ Without Templates (Bad Practice)</h4>
+    <pre><code>return HttpResponse("&lt;h1&gt;Django Course&lt;/h1&gt;")</code></pre>
+  
+    <ul>
+      <li>Messy code</li>
+      <li>Hard to maintain</li>
+      <li>Not reusable</li>
+      <li>Designers cannot work easily</li>
+    </ul>
+  
+    <h4>✅ With Templates (Best Practice)</h4>
+    <ul>
+      <li>Clean code</li>
+      <li>Easy maintenance</li>
+      <li>Reusable HTML</li>
+      <li>Industry standard</li>
+    </ul>
+  
+    <div class="note">
+      📌 Django follows <strong>MVT architecture</strong><br>
+      Model → View → Template
+    </div>
+  
+    <!-- ===================== -->
+    <!-- render() -->
+    <!-- ===================== -->
+  
+    <h3>🔹 What is <code>render()</code> and Why We Use It?</h3>
+  
+    <p>
+      The <code>render()</code> function connects:
+    </p>
+  
+    <pre><code>View (Python) + Template (HTML) + Data</code></pre>
+  
+    <p><strong>Syntax:</strong></p>
+    <pre><code>render(request, template_name, context=None)</code></pre>
+  
+    <table class="content-table">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>request</td>
+          <td>HTTP request</td>
+        </tr>
+        <tr>
+          <td>template_name</td>
+          <td>HTML file path</td>
+        </tr>
+        <tr>
+          <td>context</td>
+          <td>Data dictionary (optional)</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- ===================== -->
+    <!-- views.py -->
+    <!-- ===================== -->
+  
+    <h3>🔹 views.py (course app)</h3>
+    <pre><code>from django.shortcuts import render
+  
+  def learn_django(request):
+      return render(request, 'course/django.html')
+  
+  def learn_fastapi(request):
+      return render(request, 'course/fastapi.html')</code></pre>
+  
+    <div class="note">
+      ✔ No HTML inside Python<br>
+      ✔ Clean separation of logic & UI
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Templates -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Templates (HTML Files)</h3>
+  
+    <p><strong>course/templates/course/django.html</strong></p>
+    <pre><code>&lt;!DOCTYPE html&gt;
+  &lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Django Course&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Welcome to Django Course&lt;/h1&gt;
+    &lt;p&gt;This page is rendered using Django Template&lt;/p&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;</code></pre>
+  
+    <p><strong>course/templates/course/fastapi.html</strong></p>
+    <pre><code>&lt;!DOCTYPE html&gt;
+  &lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;FastAPI Course&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Welcome to FastAPI Course&lt;/h1&gt;
+    &lt;p&gt;This page is rendered using Django Template&lt;/p&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;</code></pre>
+  
+    <!-- ===================== -->
+    <!-- URLs -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Connect Templates Using URLs</h3>
+  
+    <p><strong>course/urls.py</strong></p>
+    <pre><code>from django.urls import path
+  from . import views
+  
+  urlpatterns = [
+      path('django/', views.learn_django, name='django'),
+      path('fastapi/', views.learn_fastapi, name='fastapi'),
+  ]</code></pre>
+  
+    <p><strong>Main Project → useTemplate/urls.py</strong></p>
+    <pre><code>from django.contrib import admin
+  from django.urls import path, include
+  
+  urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('course/', include('course.urls')),
+  ]</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Output -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Output URLs</h3>
+    <table class="content-table">
+      <thead>
+        <tr>
+          <th>URL</th>
+          <th>Output</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>/course/django/</td>
+          <td>Django HTML page</td>
+        </tr>
+        <tr>
+          <td>/course/fastapi/</td>
+          <td>FastAPI HTML page</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- ===================== -->
+    <!-- Template Lookup -->
+    <!-- ===================== -->
+  
+    <h3>🔹 How Django Finds Templates</h3>
+    <p>
+      Django searches templates using:
+    </p>
+  
+    <pre><code>templates/app_name/template.html</code></pre>
+  
+    <div class="note">
+      📌 Using <code>templates/course/django.html</code> avoids
+      template name conflicts in large projects.
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Multiple Apps -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Multiple Apps with Templates (fees app)</h3>
+  
+    <pre><code>python manage.py startapp fees</code></pre>
+  
+    <p><strong>fees/templates/fees/fees.html</strong></p>
+    <pre><code>from django.shortcuts import render
+  
+  def fee_details(request):
+      return render(request, 'fees/fees.html')</code></pre>
+  
+    <p><strong>Final URL Structure</strong></p>
+    <table class="content-table">
+      <thead>
+        <tr>
+          <th>URL</th>
+          <th>App</th>
+          <th>Template</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>/course/django/</td>
+          <td>course</td>
+          <td>django.html</td>
+        </tr>
+        <tr>
+          <td>/course/fastapi/</td>
+          <td>course</td>
+          <td>fastapi.html</td>
+        </tr>
+        <tr>
+          <td>/fees/</td>
+          <td>fees</td>
+          <td>fees.html</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+  
+  <section class="content-section">
+    <h2>📘 Render Dynamic Template in Django</h2>
+  
+    <p>
+      <strong>Dynamic templates</strong> allow Django to send data from
+      <strong>Python (views)</strong> to <strong>HTML (templates)</strong>
+      and display it dynamically.
+    </p>
+  
+    <pre><code>python manage.py startapp DynamicTemplate</code></pre>
+  
+    <!-- ===================== -->
+    <!-- What is Dynamic Template -->
+    <!-- ===================== -->
+  
+    <h3>🔹 What is a Dynamic Template?</h3>
+    <p>
+      A dynamic template displays data coming from:
+    </p>
+    <ul>
+      <li>Database</li>
+      <li>Python variables</li>
+      <li>Calculations</li>
+      <li>User input</li>
+    </ul>
+  
+    <pre><code>View (Python) → Template (HTML)</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Ways -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Ways to Render Data in Templates</h3>
+    <ol>
+      <li>Using <strong>Context Dictionary</strong></li>
+      <li>Using <strong>Template Variables</strong></li>
+      <li>Using <strong>Template Tags & Filters</strong></li>
+    </ol>
+  
+    <!-- ===================== -->
+    <!-- Context -->
+    <!-- ===================== -->
+  
+    <h3>1️⃣ Using Context Dictionary</h3>
+    <p>
+      A <strong>context</strong> is a Python dictionary that sends data
+      from view to template.
+    </p>
+  
+    <p><strong>views.py</strong></p>
+    <pre><code>from django.shortcuts import render
+  
+  def dynamic_view(request):
+      data = {
+          'course': 'Django',
+          'duration': '3 Months',
+          'price': 5000
+      }
+      return render(request, 'dynamic/course.html', data)</code></pre>
+  
+    <p><strong>Template</strong> (<code>DynamicTemplate/templates/dynamic/course.html</code>)</p>
+    <pre><code>&lt;h1&gt;Course Name: {{ course }}&lt;/h1&gt;
+  &lt;p&gt;Duration: {{ duration }}&lt;/p&gt;
+  &lt;p&gt;Price: ₹{{ price }}&lt;/p&gt;</code></pre>
+  
+    <div class="note">
+      📌 Use <code>{{ }}</code> to display dynamic values.
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Variables -->
+    <!-- ===================== -->
+  
+    <h3>2️⃣ Using Template Variables</h3>
+    <p>
+      Template variables display values passed from views:
+    </p>
+  
+    <pre><code>{{ variable_name }}</code></pre>
+  
+    <p><strong>Example:</strong></p>
+    <pre><code>&lt;p&gt;Welcome to {{ course }} Training&lt;/p&gt;</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Tags & Filters -->
+    <!-- ===================== -->
+  
+    <h3>3️⃣ Using Template Tags & Filters</h3>
+  
+    <p><strong>Template Tags (Logic)</strong></p>
+    <pre><code>{% if price &gt; 3000 %}
+    &lt;p&gt;Premium Course&lt;/p&gt;
+  {% endif %}</code></pre>
+  
+    <p><strong>Template Filters (Modify Data)</strong></p>
+    <pre><code>&lt;p&gt;{{ course|upper }}&lt;/p&gt;
+  &lt;p&gt;{{ course|lower }}&lt;/p&gt;</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Structure -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Folder Structure</h3>
+    <pre><code>DynamicTemplate/
+  ├── templates/
+  │   └── dynamic/
+  │       └── course.html
+  ├── views.py
+  ├── urls.py</code></pre>
+  
+    <!-- ===================== -->
+    <!-- URLs -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Create urls.py</h3>
+    <pre><code>from django.urls import path
+  from . import views
+  
+  urlpatterns = [
+      path('', views.dynamic_view, name='dynamic'),
+  ]</code></pre>
+  
+    <h3>🔹 Connect App in Main urls.py</h3>
+    <pre><code>from django.contrib import admin
+  from django.urls import path, include
+  
+  urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('dynamic/', include('DynamicTemplate.urls')),
+  ]</code></pre>
+  
+    <p><strong>Output URL:</strong></p>
+    <pre><code>http://127.0.0.1:8000/dynamic/</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Why -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Why Use Dynamic Templates?</h3>
+    <ul>
+      <li>✔ Real-time data display</li>
+      <li>✔ No hard-coding</li>
+      <li>✔ Reusable templates</li>
+      <li>✔ Clean architecture</li>
+    </ul>
+  
+    <!-- ===================== -->
+    <!-- Static vs Dynamic -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Static vs Dynamic Templates</h3>
+    <table class="content-table">
+      <thead>
+        <tr>
+          <th>Static</th>
+          <th>Dynamic</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Fixed content</td>
+          <td>Data changes</td>
+        </tr>
+        <tr>
+          <td>No Python data</td>
+          <td>Python → HTML</td>
+        </tr>
+        <tr>
+          <td>Simple websites</td>
+          <td>Real applications</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- ===================== -->
+    <!-- Mistakes -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Common Mistakes ❌</h3>
+    <ul>
+      <li>Forgetting to pass context</li>
+      <li>Wrong template path</li>
+      <li>Missing <code>{{ }}</code> braces</li>
+      <li>Not creating <code>urls.py</code></li>
+      <li>Not registering app in <code>INSTALLED_APPS</code></li>
+    </ul>
+  </section>
+  
+  <section class="content-section">
+    <h2>📘 Complete Django Template Language (DTL)</h2>
+  
+    <p>
+      <strong>Django Template Language (DTL)</strong> is used to display dynamic data
+      inside HTML while keeping business logic separate from presentation.
+      Django follows the <strong>MVT Architecture</strong>:
+    </p>
+  
+    <pre><code>Model → View → Template</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Why Templates -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Why Django Uses Templates?</h3>
+  
+    <h4>❌ Without Templates (Bad Practice)</h4>
+    <pre><code>return HttpResponse("&lt;h1&gt;Hello Django&lt;/h1&gt;")</code></pre>
+  
+    <ul>
+      <li>HTML mixed with Python</li>
+      <li>Hard to maintain</li>
+      <li>No reusability</li>
+      <li>Not industry standard</li>
+    </ul>
+  
+    <h4>✅ With Templates (Best Practice)</h4>
+    <ul>
+      <li>Logic → <code>views.py</code></li>
+      <li>UI → <code>.html</code></li>
+      <li>Clean, reusable, scalable</li>
+    </ul>
+  
+    <div class="note">
+      📌 Templates represent the <strong>Presentation Layer</strong>.
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Project Setup -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Project Setup</h3>
+    <pre><code>django-admin startproject djangotemplate
+  cd djangotemplate
+  python manage.py startapp course</code></pre>
+  
+    <h4>Folder Structure</h4>
+    <pre><code>course/
+  ├── templates/
+  │   └── course/
+  │       ├── django.html
+  │       └── hello.html
+  ├── views.py
+  ├── urls.py</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Basic Rendering -->
+    <!-- ===================== -->
+  
+    <h3>🔷 Basic Template Rendering</h3>
+  
+    <h4>🔹 What is <code>render()</code>?</h4>
+    <ul>
+      <li>Loads an HTML template</li>
+      <li>Sends data (context)</li>
+      <li>Returns an HTTP response</li>
+    </ul>
+  
+    <pre><code>render(request, template_name, context=None)</code></pre>
+  
+    <h4>Static Template Example</h4>
+    <pre><code>from django.shortcuts import render
+  
+  def learn_django(request):
+      return render(request, 'course/django.html')</code></pre>
+  
+    <pre><code>&lt;h1&gt;Welcome to Django Template&lt;/h1&gt;</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Context -->
+    <!-- ===================== -->
+  
+    <h3>🔷 Context & Dynamic Data</h3>
+  
+    <p>
+      A <strong>context</strong> is a dictionary used to send data from
+      <code>views.py</code> to templates.
+    </p>
+  
+    <h4>Dynamic Example</h4>
+    <pre><code>def learn_django(request):
+      data = {
+          'name': 'Aman'
+      }
+      return render(request, 'course/hello.html', data)</code></pre>
+  
+    <pre><code>&lt;h1&gt;Hello, {{ name }}!&lt;/h1&gt;</code></pre>
+  
+    <div class="note">
+      ✅ Output: <strong>Hello, Aman!</strong>
+    </div>
+  
+    <!-- ===================== -->
+    <!-- URL Connection -->
+    <!-- ===================== -->
+  
+    <h3>🔹 URL Connection (Mandatory)</h3>
+  
+    <p><strong>course/urls.py</strong></p>
+    <pre><code>from django.urls import path
+  from . import views
+  
+  urlpatterns = [
+      path('', views.learn_django),
+  ]</code></pre>
+  
+    <p><strong>Project urls.py</strong></p>
+    <pre><code>from django.contrib import admin
+  from django.urls import path, include
+  
+  urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('course/', include('course.urls')),
+  ]</code></pre>
+  
+    <!-- ===================== -->
+    <!-- DTL Components -->
+    <!-- ===================== -->
+  
+    <section class="content-section">
+        <h2>🔷 Core Components of Django Template Language (DTL)</h2>
+      
+        <p>
+          Django Template Language (DTL) has <strong>three core building blocks</strong>
+          used inside <code>.html</code> files to display dynamic data sent from views:
+        </p>
+      
+        <ol>
+          <li><strong>Template Variables</strong></li>
+          <li><strong>Template Filters</strong></li>
+          <li><strong>Template Tags</strong></li>
+        </ol>
+      
+        <!-- ===================== -->
+        <!-- 1. Template Variables -->
+        <!-- ===================== -->
+      
+        <h3>1️⃣ Template Variables</h3>
+      
+        <p>
+          Template variables are <strong>placeholders</strong> used to display data
+          sent from <code>views.py</code>.
+        </p>
+      
+        <p><strong>Syntax</strong></p>
+        <pre><code>{{ variable_name }}</code></pre>
+      
+        <h4>📌 Example 1: Single Variable</h4>
+        <pre><code># views.py
+      from django.shortcuts import render
+      
+      def course_page(request):
+          data = {'course': 'Django 5 Mastery'}
+          return render(request, 'course.html', data)</code></pre>
+      
+        <pre><code>&lt;!-- course.html --&gt;
+      &lt;p&gt;Course: {{ course }}&lt;/p&gt;</code></pre>
+      
+        <div class="note">
+          🔍 Output: <strong>Course: Django 5 Mastery</strong><br>
+          ✔ Django replaces <code>{{ course }}</code> with actual data.
+        </div>
+      
+        <h4>📌 Example 2: Multiple Variables</h4>
+        <pre><code># views.py
+      def info(request):
+          return render(request, 'info.html', {
+              'name': 'Aman',
+              'fees': 4500
+          })</code></pre>
+      
+        <pre><code>&lt;p&gt;Name: {{ name }}&lt;/p&gt;
+      &lt;p&gt;Fees: ₹{{ fees }}&lt;/p&gt;</code></pre>
+      
+        <!-- ===================== -->
+        <!-- 2. Template Filters -->
+        <!-- ===================== -->
+      
+        <h3>2️⃣ Template Filters</h3>
+      
+        <p>
+          Filters <strong>modify how data is displayed</strong>.
+          They do <strong>not</strong> change the original data.
+        </p>
+      
+        <p><strong>Syntax</strong></p>
+        <pre><code>{{ variable|filter }}</code></pre>
+      
+        <h4>🔸 Date Filter</h4>
+        <pre><code># views.py
+      from datetime import datetime
+      
+      def show_date(request):
+          return render(request, 'date.html', {
+              'today': datetime.now()
+          })</code></pre>
+      
+        <pre><code>&lt;p&gt;Date: {{ today|date:"d-m-Y" }}&lt;/p&gt;
+      &lt;p&gt;Time: {{ today|date:"H:i:s" }}&lt;/p&gt;</code></pre>
+      
+        <div class="note">
+          🔍 Output: <strong>23-12-2025</strong> | <strong>18:45:12</strong>
+        </div>
+      
+        <h4>🔸 FloatFormat Filter</h4>
+        <pre><code># views.py
+      def price_view(request):
+          return render(request, 'price.html', {
+              'price': 123.45678
+          })</code></pre>
+      
+        <pre><code>&lt;p&gt;{{ price|floatformat:2 }}&lt;/p&gt;
+      &lt;p&gt;{{ price|floatformat:0 }}&lt;/p&gt;</code></pre>
+      
+        <div class="note">
+          🔍 Output: <strong>123.46</strong> | <strong>123</strong><br>
+          ✔ Original value remains unchanged.
+        </div>
+      
+        <!-- ===================== -->
+        <!-- 3. Template Tags -->
+        <!-- ===================== -->
+      
+        <h3>3️⃣ Template Tags</h3>
+      
+        <p>
+          Template tags add <strong>logic</strong> inside HTML such as
+          conditions and loops.
+        </p>
+      
+        <p><strong>Syntax</strong></p>
+        <pre><code>{% tag %}</code></pre>
+      
+        <h4>🔸 {% if %} Tag (Condition)</h4>
+        <pre><code># views.py
+      def fee_check(request):
+          return render(request, 'fees.html', {
+              'fees': 4000
+          })</code></pre>
+      
+        <pre><code>{% if fees > 3000 %}
+        &lt;p&gt;Premium Course&lt;/p&gt;
+      {% else %}
+        &lt;p&gt;Basic Course&lt;/p&gt;
+      {% endif %}</code></pre>
+      
+        <div class="note">
+          ✔ Logic runs inside template without writing Python in HTML
+        </div>
+      
+        <h4>🔸 {% for %} Tag (List Loop)</h4>
+        <pre><code># views.py
+      def courses_view(request):
+          return render(request, 'courses.html', {
+              'courses': ['Django', 'Flask', 'FastAPI']
+          })</code></pre>
+      
+        <pre><code>&lt;ul&gt;
+      {% for c in courses %}
+        &lt;li&gt;{{ c }}&lt;/li&gt;
+      {% endfor %}
+      &lt;/ul&gt;</code></pre>
+      
+        <h4>🔸 Loop Counter</h4>
+        <pre><code>&lt;li&gt;{{ forloop.counter }}. {{ c }}&lt;/li&gt;</code></pre>
+      
+        <table class="content-table">
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>forloop.counter</td>
+              <td>Starts from 1</td>
+            </tr>
+            <tr>
+              <td>forloop.counter0</td>
+              <td>Starts from 0</td>
+            </tr>
+            <tr>
+              <td>forloop.first</td>
+              <td>True if first item</td>
+            </tr>
+            <tr>
+              <td>forloop.last</td>
+              <td>True if last item</td>
+            </tr>
+          </tbody>
+        </table>
+      
+        <h4>🔸 Looping a Dictionary</h4>
+        <pre><code># views.py
+      def student_view(request):
+          return render(request, 'student.html', {
+              'student': {
+                  'Name': 'Aman',
+                  'Age': 22,
+                  'Course': 'Django'
+              }
+          })</code></pre>
+      
+        <pre><code>&lt;ul&gt;
+      {% for key, value in student.items %}
+        &lt;li&gt;{{ key }} : {{ value }}&lt;/li&gt;
+      {% endfor %}
+      &lt;/ul&gt;</code></pre>
+      
+        <!-- ===================== -->
+        <!-- Summary -->
+        <!-- ===================== -->
+      
+        <h3>✅ Quick Revision</h3>
+        <table class="content-table">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ variable }}</td>
+              <td>Display data</td>
+            </tr>
+            <tr>
+              <td>| filter</td>
+              <td>Modify output</td>
+            </tr>
+            <tr>
+              <td>{% if %}</td>
+              <td>Conditional logic</td>
+            </tr>
+            <tr>
+              <td>{% for %}</td>
+              <td>Loop data</td>
+            </tr>
+            <tr>
+              <td>forloop.counter</td>
+              <td>Index numbers</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      
+  
+    <!-- ===================== -->
+    <!-- What NOT -->
+    <!-- ===================== -->
+  
+    <h3>🔹 What Templates SHOULD NOT Do ❌</h3>
+    <ul>
+      <li>❌ Write Python code</li>
+      <li>❌ Database queries</li>
+      <li>❌ Business logic</li>
+    </ul>
+  
+    <div class="note">
+      📌 Templates are only for <strong>display logic</strong>.
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Flow -->
+    <!-- ===================== -->
+  
+    <h3>🔹 How Django Template Works (Flow)</h3>
+    <pre><code>URL
+   ↓
+  urls.py
+   ↓
+  views.py
+   ↓
+  render()
+   ↓
+  HTML Template
+   ↓
+  Browser</code></pre>
+  </section>
+  
+
+<!-- Navigation -->
+<div class="content-navigation">
+  <a href="./content.html" class="btn secondary">⬅ Back to Contents</a>
+  <a href="./static-files.html" class="btn primary">Next: Static Files ➜</a>
+</div>
+
+</body>
+</html>

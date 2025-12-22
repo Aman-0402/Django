@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Django 5 – Function-Based Views, Apps & URLs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Global Theme (GitHub Pages safe) -->
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<!-- Theme Toggle -->
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<!-- Header -->
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Template Inheritance with Static Files
+    </h1>
+    <p class="subtitle">
+        Leveraging Django's template inheritance to manage static files efficiently.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+    <h2>📘 Django Template Inheritance & <code>{% block %}</code> Tag</h2>
+  
+    <p>
+      <strong>Template Inheritance</strong> is a core feature of Django Template Language
+      that lets you reuse a common HTML layout across multiple pages and apps.
+      It follows the <strong>DRY Principle (Don’t Repeat Yourself)</strong>.
+    </p>
+  
+    <!-- ===================== -->
+    <!-- What is Inheritance -->
+    <!-- ===================== -->
+  
+    <h3>🔹 What is Template Inheritance?</h3>
+    <ul>
+      <li>One <strong>base (parent)</strong> template</li>
+      <li>Multiple <strong>child</strong> templates</li>
+      <li>Common layout written once</li>
+      <li>Dynamic content replaced using <code>{% block %}</code></li>
+    </ul>
+  
+    <!-- ===================== -->
+    <!-- Why -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Why Do We Use Template Inheritance?</h3>
+  
+    <h4>❌ Without Inheritance (Bad Practice)</h4>
+    <pre><code>&lt;header&gt;Menu&lt;/header&gt;
+  &lt;h1&gt;Django Course&lt;/h1&gt;
+  &lt;footer&gt;Footer&lt;/footer&gt;</code></pre>
+  
+    <pre><code>&lt;header&gt;Menu&lt;/header&gt;
+  &lt;h1&gt;HTML Course&lt;/h1&gt;
+  &lt;footer&gt;Footer&lt;/footer&gt;</code></pre>
+  
+    <ul>
+      <li>Code repetition</li>
+      <li>Hard to maintain</li>
+      <li>Multiple-file updates for small changes</li>
+    </ul>
+  
+    <h4>✅ With Inheritance (Best Practice)</h4>
+    <ul>
+      <li>Header & footer written once</li>
+      <li>Pages reuse the same layout</li>
+      <li>Only content changes</li>
+    </ul>
+  
+    <!-- ===================== -->
+    <!-- Setup -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Project Setup</h3>
+    <pre><code>django-admin startproject inheritance
+  cd inheritance
+  python manage.py startapp course
+  python manage.py startapp course1</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Structure -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Project Structure</h3>
+    <pre><code>inheritance/
+  ├── manage.py
+  ├── inheritance/
+  │   └── urls.py
+  │
+  ├── course/
+  │   ├── views.py
+  │   ├── urls.py
+  │   └── templates/
+  │       └── course/
+  │           ├── base.html
+  │           └── course.html
+  │
+  ├── course1/
+  │   ├── views.py
+  │   ├── urls.py
+  │   └── templates/
+  │       └── course1/
+  │           └── course1.html</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Register Apps -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 1: Register Apps</h3>
+    <pre><code>INSTALLED_APPS = [
+      'course',
+      'course1',
+  ]</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Base Template -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 2: Base Template (Parent)</h3>
+    <p><strong>course/templates/course/base.html</strong></p>
+  
+    <pre><code>&lt;!DOCTYPE html&gt;
+  &lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;{% block title %}My Learning Platform{% endblock %}&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  
+  &lt;header style="background:#222;color:white;padding:10px"&gt;
+    &lt;h2&gt;Course Website&lt;/h2&gt;
+    &lt;a href="/course/"&gt;Course&lt;/a&gt; |
+    &lt;a href="/course1/"&gt;Course1&lt;/a&gt;
+  &lt;/header&gt;
+  
+  &lt;hr&gt;
+  
+  {% block content %}
+  {% endblock %}
+  
+  &lt;hr&gt;
+  
+  &lt;footer style="background:#eee;padding:10px"&gt;
+    &lt;p&gt;© 2025 Learning Platform&lt;/p&gt;
+  &lt;/footer&gt;
+  
+  &lt;/body&gt;
+  &lt;/html&gt;</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Block -->
+    <!-- ===================== -->
+  
+    <h3>🔹 What is <code>{% block %}</code>?</h3>
+    <ul>
+      <li>Defines a replaceable section</li>
+      <li>Child templates override this content</li>
+    </ul>
+  
+    <pre><code>{% block block_name %}
+  {% endblock %}</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Child Course -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 3: Child Template – course App</h3>
+    <p><strong>course/templates/course/course.html</strong></p>
+  
+    <pre><code>{% extends 'course/base.html' %}
+  
+  {% block title %}
+  Django Course
+  {% endblock %}
+  
+  {% block content %}
+  &lt;h1&gt;Welcome to Django Course&lt;/h1&gt;
+  &lt;p&gt;This page uses Template Inheritance.&lt;/p&gt;
+  {% endblock %}</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Extends -->
+    <!-- ===================== -->
+  
+    <h3>🔹 What is <code>{% extends %}</code>?</h3>
+    <ul>
+      <li>Inherits layout from base template</li>
+      <li>Must be the <strong>first line</strong> in child template</li>
+    </ul>
+  
+    <pre><code>{% extends 'parent_template.html' %}</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Child Course1 -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 4: Child Template – course1 App</h3>
+    <p><strong>course1/templates/course1/course1.html</strong></p>
+  
+    <pre><code>{% extends 'course/base.html' %}
+  
+  {% block title %}
+  HTML Course
+  {% endblock %}
+  
+  {% block content %}
+  &lt;h1&gt;Welcome to HTML Course&lt;/h1&gt;
+  &lt;p&gt;This page also uses the same base layout.&lt;/p&gt;
+  {% endblock %}</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Views -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 5: Views (Business Logic)</h3>
+  
+    <p><strong>course/views.py</strong></p>
+    <pre><code>from django.shortcuts import render
+  
+  def course_page(request):
+      return render(request, 'course/course.html')</code></pre>
+  
+    <p><strong>course1/views.py</strong></p>
+    <pre><code>from django.shortcuts import render
+  
+  def course1_page(request):
+      return render(request, 'course1/course1.html')</code></pre>
+  
+    <!-- ===================== -->
+    <!-- URLs -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 6–7: URLs</h3>
+  
+    <p><strong>course/urls.py</strong></p>
+    <pre><code>from django.urls import path
+  from . import views
+  
+  urlpatterns = [
+    path('', views.course_page),
+  ]</code></pre>
+  
+    <p><strong>course1/urls.py</strong></p>
+    <pre><code>from django.urls import path
+  from . import views
+  
+  urlpatterns = [
+    path('', views.course1_page),
+  ]</code></pre>
+  
+    <p><strong>inheritance/urls.py</strong></p>
+    <pre><code>from django.contrib import admin
+  from django.urls import path, include
+  
+  urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('course/', include('course.urls')),
+    path('course1/', include('course1.urls')),
+  ]</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Output -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Final Output</h3>
+    <table class="content-table">
+      <thead>
+        <tr>
+          <th>URL</th>
+          <th>Page</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>/course/</td>
+          <td>Django Course Page</td>
+        </tr>
+        <tr>
+          <td>/course1/</td>
+          <td>HTML Course Page</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="note">
+      ✔ Same header & footer<br>
+      ✔ Different content<br>
+      ✔ One base template
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Flow -->
+    <!-- ===================== -->
+  
+    <h3>🔹 How Template Inheritance Works (Flow)</h3>
+    <pre><code>Child Template
+     ↓ extends
+  Base Template
+     ↓ blocks replaced
+  Final HTML
+     ↓
+  Browser</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Rules -->
+    <!-- ===================== -->
+  
+    <h3>⚠️ Important Rules</h3>
+    <ul>
+      <li><code>{% extends %}</code> must be the first line</li>
+      <li>Block names must match</li>
+      <li>Base defines blocks</li>
+      <li>Child overrides blocks</li>
+      <li>No Python logic in templates</li>
+    </ul>
+  
+    <!-- ===================== -->
+    <!-- Mistakes -->
+    <!-- ===================== -->
+  
+    <h3>❌ Common Mistakes</h3>
+    <ul>
+      <li>Wrong base template path</li>
+      <li>Block name mismatch</li>
+      <li>Forgetting <code>{% extends %}</code></li>
+      <li>Writing content outside <code>{% block %}</code></li>
+    </ul>
+  </section>
+  
+  <section class="content-section">
+    <h2>📘 Django Template Inheritance with Static Files</h2>
+  
+    <p>
+      In real-world Django projects, we combine <strong>Template Inheritance</strong>
+      with <strong>Static Files</strong> to build reusable layouts, consistent design,
+      and a clean, scalable UI.
+    </p>
+  
+    <ul>
+      <li>Reusable layouts</li>
+      <li>Consistent CSS & JS across pages</li>
+      <li>Industry-standard project structure</li>
+    </ul>
+  
+    <!-- ===================== -->
+    <!-- Setup -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 1–2: Create Project & Apps</h3>
+    <pre><code>django-admin startproject inheritancestatics
+  cd inheritancestatics
+  python manage.py startapp course
+  python manage.py startapp course1</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Register Apps -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 3: Register Apps</h3>
+    <pre><code>INSTALLED_APPS = [
+      'course',
+      'course1',
+  ]</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Structure -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 4: Folder Structure (IMPORTANT)</h3>
+    <pre><code>inheritancestatics/
+  ├── manage.py
+  ├── inheritancestatics/
+  │   ├── urls.py
+  │   ├── settings.py
+  │
+  ├── course/
+  │   ├── views.py
+  │   ├── urls.py
+  │   ├── templates/
+  │   │   └── course/
+  │   │       ├── base.html
+  │   │       └── course.html
+  │   └── static/
+  │       └── course/
+  │           ├── css/
+  │           │   └── style.css
+  │           ├── js/
+  │           │   └── script.js
+  │           └── images/
+  │               └── django.png
+  │
+  ├── course1/
+  │   ├── views.py
+  │   ├── urls.py
+  │   └── templates/
+  │       └── course1/
+  │           └── course1.html</code></pre>
+  
+    <div class="note">
+      📌 Best Practice: <code>app/static/app_name/</code><br>
+      ✔ Avoids conflicts • ✔ Auto-discovery • ✔ Scales well
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Enable Static -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 5: Enable Static Files</h3>
+    <pre><code>STATIC_URL = '/static/'</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Base Template -->
+    <!-- ===================== -->
+  
+    <h3>🔷 Template Inheritance with Static Files</h3>
+  
+    <h4>🔹 Step 6: Base Template (Parent)</h4>
+    <p><strong>course/templates/course/base.html</strong></p>
+  
+    <pre><code>{% load static %}
+  &lt;!DOCTYPE html&gt;
+  &lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;{% block title %}My Website{% endblock %}&lt;/title&gt;
+    &lt;link rel="stylesheet" href="{% static 'course/css/style.css' %}"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  
+  &lt;header class="header"&gt;
+    &lt;h2&gt;Learning Platform&lt;/h2&gt;
+    &lt;a href="/course/"&gt;Course&lt;/a&gt; |
+    &lt;a href="/course1/"&gt;Course1&lt;/a&gt;
+  &lt;/header&gt;
+  
+  &lt;main class="content"&gt;
+    {% block content %}{% endblock %}
+  &lt;/main&gt;
+  
+  &lt;footer class="footer"&gt;
+    &lt;p&gt;© 2025 Learning Platform&lt;/p&gt;
+  &lt;/footer&gt;
+  
+  &lt;script src="{% static 'course/js/script.js' %}"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;</code></pre>
+  
+    <div class="note">
+      ✔ Load static once in base template<br>
+      ✔ Used automatically by all child templates<br>
+      ✔ Avoids repetition (industry standard)
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Child course -->
+    <!-- ===================== -->
+  
+    <h4>🔹 Step 7: Child Template – course App</h4>
+    <p><strong>course/templates/course/course.html</strong></p>
+  
+    <pre><code>{% extends 'course/base.html' %}
+  {% load static %}
+  
+  {% block title %}Django Course{% endblock %}
+  
+  {% block content %}
+  &lt;h1&gt;Django Course Page&lt;/h1&gt;
+  &lt;img src="{% static 'course/images/django.png' %}" width="200"&gt;
+  &lt;p&gt;This page uses template inheritance with static files.&lt;/p&gt;
+  {% endblock %}</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Child course1 -->
+    <!-- ===================== -->
+  
+    <h4>🔹 Step 8: Child Template – course1 App</h4>
+    <p><strong>course1/templates/course1/course1.html</strong></p>
+  
+    <pre><code>{% extends 'course/base.html' %}
+  
+  {% block title %}HTML Course{% endblock %}
+  
+  {% block content %}
+  &lt;h1&gt;HTML Course Page&lt;/h1&gt;
+  &lt;p&gt;This page also uses the same base template and CSS.&lt;/p&gt;
+  {% endblock %}</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Views -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 9: Views</h3>
+  
+    <pre><code># course/views.py
+  from django.shortcuts import render
+  
+  def course_page(request):
+      return render(request, 'course/course.html')</code></pre>
+  
+    <pre><code># course1/views.py
+  from django.shortcuts import render
+  
+  def course1_page(request):
+      return render(request, 'course1/course1.html')</code></pre>
+  
+    <!-- ===================== -->
+    <!-- URLs -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 10–11: URLs</h3>
+  
+    <pre><code># course/urls.py
+  from django.urls import path
+  from . import views
+  
+  urlpatterns = [
+    path('', views.course_page),
+  ]</code></pre>
+  
+    <pre><code># course1/urls.py
+  from django.urls import path
+  from . import views
+  
+  urlpatterns = [
+    path('', views.course1_page),
+  ]</code></pre>
+  
+    <pre><code># inheritancestatics/urls.py
+  from django.contrib import admin
+  from django.urls import path, include
+  
+  urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('course/', include('course.urls')),
+    path('course1/', include('course1.urls')),
+  ]</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Static Files -->
+    <!-- ===================== -->
+  
+    <h3>🔷 Static Files</h3>
+  
+    <p><strong>CSS</strong> — <code>course/static/course/css/style.css</code></p>
+    <pre><code>body { margin: 0; font-family: Arial; }
+  .header { background: #222; color: white; padding: 10px; }
+  .content { padding: 20px; }
+  .footer { background: #eee; text-align: center; padding: 10px; }</code></pre>
+  
+    <p><strong>JavaScript</strong> — <code>course/static/course/js/script.js</code></p>
+    <pre><code>console.log("Static JS Loaded Successfully");</code></pre>
+  
+    <p><strong>Images</strong> — <code>course/static/course/images/django.png</code></p>
+  
+    <!-- ===================== -->
+    <!-- Restart -->
+    <!-- ===================== -->
+  
+    <h3>🔁 Restart Server (Very Important)</h3>
+    <pre><code>CTRL + C
+  python manage.py runserver</code></pre>
+  
+    <div class="note">
+      📌 Restart after adding static files, creating static folders,
+      or changing <code>settings.py</code>.
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Flow -->
+    <!-- ===================== -->
+  
+    <h3>🔹 How It Works (Flow)</h3>
+    <pre><code>Child Template
+     ↓ extends
+  Base Template
+     ↓ loads static
+  Static Files Applied
+     ↓
+  Final HTML</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Mistakes -->
+    <!-- ===================== -->
+  
+    <h3>❌ Common Mistakes</h3>
+    <ul>
+      <li>Forgetting <code>{% load static %}</code></li>
+      <li>Wrong static path</li>
+      <li>Static folder outside app</li>
+      <li>Server not restarted</li>
+      <li>Hardcoded static URLs</li>
+    </ul>
+  </section>
+  
+
+<!-- Navigation -->
+<div class="content-navigation">
+    <a href="./content.html" class="btn secondary">⬅ Back to Contents</a>
+
+  <a href="./bootstrap.html" class="btn primary">Next: Bootstrap ➜</a>
+</div>
+
+</body>
+</html>

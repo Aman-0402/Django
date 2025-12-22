@@ -155,77 +155,392 @@ urlpatterns = [
    MULTIPLE APPS
 ======================= -->
 <section class="content-section">
-  <h2>Creating Multiple Applications in Django</h2>
+  <h2>📘 Create Multiple Applications in Django</h2>
 
-  <pre><code>python manage.py startapp app1
-python manage.py startapp app2</code></pre>
+  <p>
+    Django follows a <strong>modular architecture</strong>, where a single project
+    can contain multiple applications. Each app handles a specific feature,
+    making the project <strong>scalable</strong> and <strong>easy to maintain</strong>.
+  </p>
 
-  <h3>Register Apps in settings.py</h3>
+  <!-- ===================== -->
+  <!-- Step 1 -->
+  <!-- ===================== -->
+
+  <h3>🔹 Step 1: Create Django Project</h3>
+  <pre><code>django-admin startproject main
+cd main</code></pre>
+
+  <!-- ===================== -->
+  <!-- Step 2 -->
+  <!-- ===================== -->
+
+  <h3>🔹 Step 2: Create Multiple Applications</h3>
+
+  <p><strong>Create App 1</strong></p>
+  <pre><code>python manage.py startapp app1</code></pre>
+
+  <p><strong>Create App 2</strong></p>
+  <pre><code>python manage.py startapp app2</code></pre>
+
+  <!-- ===================== -->
+  <!-- Structure -->
+  <!-- ===================== -->
+
+  <h3>🔹 Project Structure (After Creating Apps)</h3>
+  <pre><code>main/
+│── manage.py
+│
+├── main/
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── asgi.py
+│   └── wsgi.py
+│
+├── app1/
+│   ├── migrations/
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── views.py
+│   └── tests.py
+│
+├── app2/
+│   ├── migrations/
+│   │   └── __init__.py
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── views.py
+│   └── tests.py</code></pre>
+
+  <!-- ===================== -->
+  <!-- Step 3 -->
+  <!-- ===================== -->
+
+  <h3>🔹 Step 3: Register Apps in <code>settings.py</code></h3>
+  <p>
+    Open <code>settings.py</code> and add both apps inside <code>INSTALLED_APPS</code>.
+  </p>
+
   <pre><code>INSTALLED_APPS = [
     'app1',
     'app2',
 ]</code></pre>
+
+  <div class="note">
+    📌 Without this step, Django will not recognize the apps.
+  </div>
+
+  <!-- ===================== -->
+  <!-- Step 4 -->
+  <!-- ===================== -->
+
+  <h3>🔹 Step 4: Create Views in Each App</h3>
+
+  <p><strong>app1 → views.py</strong></p>
+  <pre><code>from django.http import HttpResponse
+
+def app1_home(request):
+    return HttpResponse("Welcome to App 1")</code></pre>
+
+  <p><strong>app2 → views.py</strong></p>
+  <pre><code>from django.http import HttpResponse
+
+def app2_home(request):
+    return HttpResponse("Welcome to App 2")</code></pre>
+
+  <!-- ===================== -->
+  <!-- Step 5 -->
+  <!-- ===================== -->
+
+  <h3>🔹 Step 5: Connect Apps Using <code>urls.py</code></h3>
+
+  <p><strong>Main Project → urls.py</strong></p>
+  <pre><code>from django.contrib import admin
+from django.urls import path
+from app1 import views as app1_views
+from app2 import views as app2_views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('app1/', app1_views.app1_home),
+    path('app2/', app2_views.app2_home),
+]</code></pre>
+
+  <!-- ===================== -->
+  <!-- Output -->
+  <!-- ===================== -->
+
+  <h3>🔹 Output in Browser</h3>
+  <table class="content-table">
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>/app1/</td>
+        <td>Welcome to App 1</td>
+      </tr>
+      <tr>
+        <td>/app2/</td>
+        <td>Welcome to App 2</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ===================== -->
+  <!-- Why -->
+  <!-- ===================== -->
+
+  <h3>🔹 Why Use Multiple Apps?</h3>
+  <ul>
+    <li>✔ Better code organization</li>
+    <li>✔ Easy maintenance</li>
+    <li>✔ Reusable apps</li>
+    <li>✔ Team collaboration</li>
+    <li>✔ Scalable architecture</li>
+  </ul>
+
+  <!-- ===================== -->
+  <!-- Example -->
+  <!-- ===================== -->
+
+  <h3>🔹 Real-Life Example</h3>
+  <table class="content-table">
+    <thead>
+      <tr>
+        <th>App Name</th>
+        <th>Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>accounts</td>
+        <td>Login & signup</td>
+      </tr>
+      <tr>
+        <td>students</td>
+        <td>Student data</td>
+      </tr>
+      <tr>
+        <td>payments</td>
+        <td>Fees & billing</td>
+      </tr>
+      <tr>
+        <td>reports</td>
+        <td>Analytics</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ===================== -->
+  <!-- Mistakes -->
+  <!-- ===================== -->
+
+  <h3>🔹 Common Mistakes ❌</h3>
+  <ul>
+    <li>Forgetting to add apps in <code>INSTALLED_APPS</code></li>
+    <li>Using same function names without aliasing</li>
+    <li>Putting all logic inside one app</li>
+  </ul>
+
+  <!-- ===================== -->
+  <!-- Viva -->
+  <!-- ===================== -->
+
+  <h3>🔹 Viva / Exam One-Liners</h3>
+  <ul>
+    <li><strong>Project</strong> → Collection of apps</li>
+    <li><strong>App</strong> → Module for a specific feature</li>
+    <li><strong>Multiple apps</strong> → Modular Django design</li>
+    <li><strong>settings.py</strong> → Registers all apps</li>
+  </ul>
 </section>
+
 
 <!-- =======================
    URL PATTERNS
 ======================= -->
 <section class="content-section">
-  <h2>URL Patterns in Django</h2>
+  <h2>📘 URL Patterns in Django</h2>
+
+  <p>
+    Django uses <strong>URL patterns</strong> to decide which
+    <strong>view function</strong> should run for a given browser URL.
+    In short:
+  </p>
+
+  <pre><code>Browser URL  →  View Function</code></pre>
+
+  <!-- ===================== -->
+  <!-- What are URL Patterns -->
+  <!-- ===================== -->
+
+  <h3>🔹 What are URL Patterns?</h3>
+  <p>
+    URL patterns are defined in <code>urls.py</code> using the
+    <code>path()</code> function.
+  </p>
+
+  <pre><code>path('url/', views.function_name, name='url_name')</code></pre>
+
+  <!-- ===================== -->
+  <!-- Project Structure -->
+  <!-- ===================== -->
+
+  <h3>🔹 Project Structure</h3>
+  <pre><code>urlPattern/
+│── manage.py
+│
+├── urlPattern/
+│   ├── settings.py
+│   ├── urls.py   ← main URL file
+│
+├── url1/
+│   ├── views.py
+│
+├── url2/
+│   ├── views.py</code></pre>
+
+  <!-- ===================== -->
+  <!-- Views -->
+  <!-- ===================== -->
+
+  <h3>🔹 Creating Views</h3>
+
+  <p><strong>url1 → views.py</strong></p>
+  <pre><code>from django.http import HttpResponse
+
+def learn_django(request, **kwargs):
+    status = kwargs.get('status')
+    return HttpResponse(f"Learning Django | Status = {status}")</code></pre>
+
+  <p><strong>url2 → views.py</strong></p>
+  <pre><code>from django.http import HttpResponse
+
+def home(request):
+    return HttpResponse("Welcome to URL App 2")</code></pre>
+
+  <!-- ===================== -->
+  <!-- URL Configuration -->
+  <!-- ===================== -->
+
+  <h3>🔹 URL Configuration (Main urls.py)</h3>
+  <pre><code>from django.contrib import admin
+from django.urls import path
+from url1 import views as url1_views
+from url2 import views as url2_views
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+
+    # multiple URLs → same view
+    path('learn/', url1_views.learn_django),
+    path('study/', url1_views.learn_django),
+    path('django/', url1_views.learn_django),
+
+    # keyword argument
+    path('learn/&lt;str:status&gt;/', url1_views.learn_django),
+
+    path('home/', url2_views.home),
+]</code></pre>
+
+  <!-- ===================== -->
+  <!-- Multiple URLs -->
+  <!-- ===================== -->
+
+  <h3>🔹 Multiple URLs for Same Function</h3>
+  <p><strong>Why use it?</strong></p>
+  <ul>
+    <li>SEO-friendly URLs</li>
+    <li>Backward compatibility</li>
+    <li>Different routes → same logic</li>
+  </ul>
+
+  <p><strong>Example:</strong></p>
+  <pre><code>/learn/
+/study/
+/django/</code></pre>
+
+  <p>
+    All the above URLs call the same view:
+    <code>learn_django()</code>
+  </p>
+
+  <!-- ===================== -->
+  <!-- Keyword Arguments -->
+  <!-- ===================== -->
+
+  <h3>🔹 Keyword Arguments in URLs</h3>
+  <p>
+    Django allows passing dynamic values from the URL using
+    <strong>keyword arguments</strong>.
+  </p>
 
   <pre><code>path('learn/&lt;str:status&gt;/', views.learn_django)</code></pre>
 
+  <p><strong>View using <code>**kwargs</code></strong></p>
   <pre><code>def learn_django(request, **kwargs):
     status = kwargs.get('status')
     return HttpResponse(f"Learning Django | Status = {status}")</code></pre>
 
+  <p><strong>Example URLs:</strong></p>
+  <table class="content-table">
+    <thead>
+      <tr>
+        <th>URL</th>
+        <th>status value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>/learn/beginner/</td>
+        <td>beginner</td>
+      </tr>
+      <tr>
+        <td>/learn/advanced/</td>
+        <td>advanced</td>
+      </tr>
+      <tr>
+        <td>/learn/pro/</td>
+        <td>pro</td>
+      </tr>
+    </tbody>
+  </table>
+
   <div class="note">
-    <strong>kwargs</strong> enables dynamic URLs and prevents KeyError.
+    <strong>Why <code>**kwargs</code>?</strong><br>
+    • Stores URL parameters as a dictionary<br>
+    • <code>.get()</code> prevents <strong>KeyError</strong><br>
+    • Enables clean and dynamic URLs
   </div>
+
+  <!-- ===================== -->
+  <!-- Mistakes -->
+  <!-- ===================== -->
+
+  <h3>🔹 Common Mistakes ❌</h3>
+  <ul>
+    <li>Misspelling <code>kwargs</code></li>
+    <li>Forgetting <code>&lt;datatype:name&gt;</code></li>
+    <li>Mismatch between URL parameter and view logic</li>
+    <li>Using positional arguments incorrectly</li>
+  </ul>
 </section>
+
 
 <!-- =======================
    MCQs
 ======================= -->
-<section class="mcq-section">
-  <h2>🧠 MCQs – FBV, Apps & URLs</h2>
 
-  <div class="mcq">
-    <p>FBV stands for:</p>
-    <label><input type="radio" name="q1" data-correct="true"> Function-Based View</label>
-    <label><input type="radio" name="q1"> File-Based View</label>
-  </div>
-
-  <div class="mcq">
-    <p>Which file contains application logic?</p>
-    <label><input type="radio" name="q2" data-correct="true"> views.py</label>
-    <label><input type="radio" name="q2"> urls.py</label>
-  </div>
-
-  <div class="mcq">
-    <p>Which file handles routing?</p>
-    <label><input type="radio" name="q3" data-correct="true"> urls.py</label>
-    <label><input type="radio" name="q3"> settings.py</label>
-  </div>
-
-  <div class="mcq">
-    <p>Can one Django project have multiple apps?</p>
-    <label><input type="radio" name="q4" data-correct="true"> Yes</label>
-    <label><input type="radio" name="q4"> No</label>
-  </div>
-
-  <div class="mcq">
-    <p>Where are apps registered?</p>
-    <label><input type="radio" name="q5" data-correct="true"> settings.py</label>
-    <label><input type="radio" name="q5"> admin.py</label>
-  </div>
-
-  <div class="mcq">
-    <p>What does <code>**kwargs</code> store?</p>
-    <label><input type="radio" name="q6" data-correct="true"> Keyword arguments</label>
-    <label><input type="radio" name="q6"> Positional arguments</label>
-  </div>
-</section>
 
 <!-- =======================
    SUMMARY
@@ -242,7 +557,7 @@ python manage.py startapp app2</code></pre>
 
 <!-- Navigation -->
 <div class="content-navigation">
-  <a href="./architecture.html" class="btn secondary">⬅ Previous: Architecture</a>
+  <a href="./content.html" class="btn secondary">⬅ Back to Contents</a>
   <a href="./templates.html" class="btn primary">Next: Django Templates ➜</a>
 </div>
 

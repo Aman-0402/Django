@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Django 5 – Function-Based Views, Apps & URLs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Global Theme (GitHub Pages safe) -->
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<!-- Theme Toggle -->
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<!-- Header -->
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Django Static Files (CSS, JavaScript & Images)
+    </h1>
+    <p class="subtitle">
+        Managing and serving static files in Django projects.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+    <h2>📘 Django Static Files (CSS, JavaScript & Images)</h2>
+  
+    <p>
+      In Django, <strong>static files</strong> are assets that do not change dynamically
+      and are used for <strong>UI & client-side behavior</strong>.
+    </p>
+  
+    <ul>
+      <li><strong>CSS</strong> → Styling & layout</li>
+      <li><strong>JavaScript</strong> → Interactivity & logic</li>
+      <li><strong>Images</strong> → Logos, icons, banners</li>
+    </ul>
+  
+    <div class="note">
+      📌 Django strictly separates <strong>logic (Python)</strong> and
+      <strong>design (static files)</strong> — an industry-standard architecture.
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Setup -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 1: Create Project & App</h3>
+    <pre><code>django-admin startproject useStatic
+  cd useStatic
+  python manage.py startapp course</code></pre>
+  
+    <p>
+      Projects hold global config; apps are modular and usually own their static files.
+    </p>
+  
+    <!-- ===================== -->
+    <!-- Structure -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Project Structure (MOST IMPORTANT)</h3>
+    <pre><code>useStatic/
+  ├── manage.py
+  ├── useStatic/
+  │   ├── settings.py
+  │   ├── urls.py
+  │
+  ├── course/
+  │   ├── views.py
+  │   ├── urls.py
+  │   ├── templates/
+  │   │   └── course/
+  │   │       └── index.html
+  │   └── static/
+  │       └── course/
+  │           ├── css/
+  │           │   └── style.css
+  │           ├── js/
+  │           │   └── script.js
+  │           └── images/
+  │               └── django.png</code></pre>
+  
+    <div class="note">
+      ✔ Best Practice: <code>app_name/static/app_name/</code><br>
+      ✔ Avoids name conflicts • ✔ Auto-discovery • ✔ Scales well
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Register App & Static -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 4–5: Register App & Enable Static</h3>
+    <p><strong>settings.py</strong></p>
+    <pre><code>INSTALLED_APPS = [
+      'course',
+  ]
+  
+  STATIC_URL = '/static/'</code></pre>
+  
+    <div class="note">
+      ❌ If the app isn’t registered, static files will NOT load.
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Views & URLs -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 6–8: View & URLs</h3>
+  
+    <p><strong>course/views.py</strong></p>
+    <pre><code>from django.shortcuts import render
+  
+  def home(request):
+      return render(request, 'course/index.html')</code></pre>
+  
+    <p><strong>course/urls.py</strong></p>
+    <pre><code>from django.urls import path
+  from . import views
+  
+  urlpatterns = [
+      path('', views.home),
+  ]</code></pre>
+  
+    <p><strong>useStatic/urls.py</strong></p>
+    <pre><code>from django.contrib import admin
+  from django.urls import path, include
+  
+  urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('', include('course.urls')),
+  ]</code></pre>
+  
+    <div class="note">
+      Browser → project urls.py → app urls.py → view → template
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Using Static -->
+    <!-- ===================== -->
+  
+    <h3>🔷 Using Static Files in Templates</h3>
+  
+    <p><strong>index.html</strong></p>
+    <pre><code>{% load static %}
+  &lt;!DOCTYPE html&gt;
+  &lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Django Static Files&lt;/title&gt;
+    &lt;link rel="stylesheet" href="{% static 'course/css/style.css' %}"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  
+  &lt;h1&gt;Django Static Files Example&lt;/h1&gt;
+  
+  &lt;img src="{% static 'course/images/django.png' %}" width="200"&gt;
+  
+  &lt;script src="{% static 'course/js/script.js' %}"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+  &lt;/html&gt;</code></pre>
+  
+    <div class="note">
+      🔑 Always use <code>{% load static %}</code><br>
+      🔑 Always reference assets via <code>{% static 'path/file' %}</code><br>
+      ❌ Never hardcode: <code>&lt;img src="/static/django.png"&gt;</code>
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Static Files -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step 10–12: Static Files</h3>
+  
+    <p><strong>CSS</strong> — <code>course/static/course/css/style.css</code></p>
+    <pre><code>body { background-color: #f4f6f8; }
+  h1 { color: darkgreen; }</code></pre>
+  
+    <p><strong>JavaScript</strong> — <code>course/static/course/js/script.js</code></p>
+    <pre><code>alert("JavaScript Loaded Successfully!");</code></pre>
+  
+    <p><strong>Images</strong> — <code>course/static/course/images/django.png</code></p>
+  
+    <!-- ===================== -->
+    <!-- Rules -->
+    <!-- ===================== -->
+  
+    <h3>⚠️ Very Important Rules</h3>
+    <ul>
+      <li>Always load static tag</li>
+      <li>Always use <code>{% static %}</code></li>
+      <li>Never hardcode static paths</li>
+    </ul>
+  
+    <!-- ===================== -->
+    <!-- Restart -->
+    <!-- ===================== -->
+  
+    <h3>🔄 Restart Server (Important)</h3>
+    <pre><code>CTRL + C
+  python manage.py runserver</code></pre>
+  
+    <div class="note">
+      📌 Restart after creating static folders, changing settings, or adding assets.
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Comparison -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Static vs Template</h3>
+    <table class="content-table">
+      <thead>
+        <tr>
+          <th>Template</th>
+          <th>Static</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>HTML structure</td>
+          <td>CSS, JS, Images</td>
+        </tr>
+        <tr>
+          <td>Dynamic content</td>
+          <td>Styling & behavior</td>
+        </tr>
+        <tr>
+          <td>Uses views</td>
+          <td>No backend logic</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="note">
+      ✅ Templates = what users see<br>
+      ✅ Static files = how it looks & behaves<br>
+      ✅ Views = who controls it
+    </div>
+  </section>
+  
+
+<!-- Navigation -->
+<div class="content-navigation">
+    <a href="./content.html" class="btn secondary">⬅ Back to Contents</a>
+  
+  <a href="./inheritance-static.html" class="btn primary">Next: inheritance-static ➜</a>
+</div>
+
+</body>
+</html>
