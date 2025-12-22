@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Django 5 – Installation & Setup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Global Theme -->
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<!-- Theme Toggle -->
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<!-- Header -->
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Django 5 – Installation, Setup & Best Practices</h1>
+    <p class="subtitle">
+      Complete practical guide to installing and configuring Django correctly
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<!-- =======================
+   INTRODUCTION
+======================= -->
+<section class="content-section">
+  <p>
+    This chapter gives you a complete practical understanding of how to
+    correctly install, configure, and work with <strong>Django 5</strong>
+    following industry-level best practices.
+  </p>
+
+  <div class="note">
+    Most beginner mistakes in Django happen during the setup stage.
+    Learning this chapter properly will save you hours of debugging later.
+  </div>
+</section>
+
+<!-- =======================
+   CHECK INSTALLED SOFTWARE
+======================= -->
+<section class="content-section">
+  <h2>1. Check Installed Software (Before Anything Else)</h2>
+
+  <h3>Check Python Version</h3>
+  <pre><code>python --version</code></pre>
+
+  <ul>
+    <li><strong>Required:</strong> Python 3.10 or higher</li>
+  </ul>
+
+  <div class="note">
+    Django 5 does not support older Python versions.
+    Using an outdated version will cause installation or runtime errors.
+  </div>
+
+  <h3>Check pip (Python Package Installer)</h3>
+  <pre><code>pip --version</code></pre>
+
+  <h3>Check Django (If Already Installed)</h3>
+  <pre><code>django-admin --version</code></pre>
+</section>
+
+<!-- =======================
+   PIP FREEZE
+======================= -->
+<section class="content-section">
+  <h2>2. What is <code>pip freeze</code>?</h2>
+
+  <pre><code>pip freeze</code></pre>
+
+  <img src="../../assets/pipfreeze.webp" alt="pip freeze output" class="content-image">
+
+  <p>
+    The <code>pip freeze</code> command lists all installed Python packages
+    along with their exact versions.
+  </p>
+
+  <pre><code>Django==5.0.1
+asgiref==3.7.2
+sqlparse==0.4.4</code></pre>
+
+  <h3>Why pip freeze is Important</h3>
+  <ul>
+    <li>Ensures same environment on all systems</li>
+    <li>Required for team projects</li>
+    <li>Essential for deployment</li>
+    <li>Prevents “works on my machine” issues</li>
+  </ul>
+
+  <h3>Save Dependencies</h3>
+  <pre><code>pip freeze &gt; requirements.txt</code></pre>
+
+  <h3>Install on Another System</h3>
+  <pre><code>pip install -r requirements.txt</code></pre>
+
+  <div class="note">
+    Your teammate can set up the project with one command without guessing versions.
+  </div>
+</section>
+
+<!-- =======================
+   PROJECT LOCATION
+======================= -->
+<section class="content-section">
+  <h2>3. Installing Django in Another Drive</h2>
+
+  <p>
+    Avoid using the C drive for projects when possible.
+    Using D or E drive improves organization and avoids storage issues.
+  </p>
+
+  <h3>Create Project Folder</h3>
+  <pre><code>D:
+mkdir django_projects
+cd django_projects</code></pre>
+
+  <img src="../../assets/LayoutStruture.png" alt="Project Folder Structure" class="content-image">
+</section>
+
+<!-- =======================
+   VIRTUAL ENVIRONMENT
+======================= -->
+<section class="content-section">
+  <h2>4. Create & Activate Virtual Environment</h2>
+
+  <h3>Install virtualenv (Once)</h3>
+  <pre><code>pip install virtualenv</code></pre>
+
+  <h3>Create Virtual Environment</h3>
+  <pre><code>virtualenv venv</code></pre>
+
+  <img src="../../assets/Virtualenv.png" alt="Virtual Environment" class="content-image">
+
+  <h3>Activate Virtual Environment</h3>
+
+  <pre><code>venv\Scripts\activate</code></pre>
+
+  <p>
+    When activated, your terminal will show:
+  </p>
+
+  <pre><code>(venv)</code></pre>
+</section>
+
+<!-- =======================
+   INSTALL DJANGO
+======================= -->
+<section class="content-section">
+  <h2>5. Install Django (Inside Virtual Environment)</h2>
+
+  <pre><code>pip install django</code></pre>
+
+  <div class="note">
+    Never install Django globally for projects.
+    Always install it inside a virtual environment.
+  </div>
+
+  <h3>Verify Installation</h3>
+  <pre><code>django-admin --version</code></pre>
+</section>
+
+<!-- =======================
+   BEST PRACTICES
+======================= -->
+<section class="content-section">
+  <h2>6. Best Practices (Very Important)</h2>
+
+  <ul>
+    <li><strong>Always use virtual environment</strong></li>
+    <li>Create <code>requirements.txt</code> for every project</li>
+    <li>Avoid global package installation</li>
+    <li>Maintain clean folder structure</li>
+    <li>Always verify versions</li>
+  </ul>
+
+  <pre><code>django_projects/
+│── venv/
+│── myproject/
+│── requirements.txt</code></pre>
+
+  <h3>Deactivate Virtual Environment</h3>
+  <pre><code>deactivate</code></pre>
+</section>
+
+<!-- =======================
+   CREATE DJANGO PROJECT
+======================= -->
+<section class="content-section">
+  <h2>7. Creating a Django Project</h2>
+
+  <h3>Case 1: Folder Does Not Exist</h3>
+  <pre><code>django-admin startproject sms</code></pre>
+
+  <h3>Case 2: Folder Already Exists</h3>
+  <pre><code>django-admin startproject sms .</code></pre>
+
+  <img src="../../assets/Django-file-structure.webp" alt="Django File Structure" class="content-image">
+</section>
+
+<!-- =======================
+   RUN SERVER
+======================= -->
+<section class="content-section">
+  <h2>8. Start Django Development Server</h2>
+
+  <pre><code>python manage.py runserver</code></pre>
+
+  <p>
+    Open in browser:
+    <strong>http://127.0.0.1:8000/</strong>
+  </p>
+
+  <h3>Stop Server</h3>
+  <pre><code>CTRL + C</code></pre>
+</section>
+
+<!-- =======================
+   SUMMARY
+======================= -->
+<section class="content-section summary">
+  <h2>Final Summary</h2>
+  <p>
+    Correct installation and setup are the foundation of every Django project.
+    Using virtual environments, managing dependencies, and following best
+    practices will keep your projects stable, scalable, and professional.
+  </p>
+</section>
+
+<!-- Navigation -->
+<div class="content-navigation">
+  <a href="./content.html" class="btn secondary">⬅ Back to Contents</a>
+  <a href="./architecture.html" class="btn primary">Next: Django Architecture ➜</a>
+</div>
+
+</body>
+</html>
