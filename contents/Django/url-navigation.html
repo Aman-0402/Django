@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Django 5 – Function-Based Views, Apps & URLs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Global Theme (GitHub Pages safe) -->
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<!-- Theme Toggle -->
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<!-- Header -->
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">URL Navigation & Hyperlinks
+    </h1>
+    <p class="subtitle">
+        Learn how to create and manage URL navigation and hyperlinks in Django 5 applications.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+    <h2>📘 Create Hyperlink in Django 5 using <code>{% url %}</code> Tag</h2>
+  
+    <p>
+      In Django, URLs should <strong>never be hard-coded</strong> inside templates.
+      Instead, Django provides the <code>{% url %}</code> template tag to generate
+      links dynamically.
+    </p>
+  
+    <div class="note">
+      ✔ Flexible &nbsp;✔ Maintainable &nbsp;✔ Error-free &nbsp;✔ Production-ready
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Why Not Hard Code -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Why NOT Use Hard-Coded Links?</h3>
+  
+    <h4>❌ Bad Practice</h4>
+    <pre><code>&lt;a href="/course/"&gt;Course Page&lt;/a&gt;</code></pre>
+  
+    <ul>
+      <li>Links break if URL path changes</li>
+      <li>Hard to maintain in large projects</li>
+      <li>Tight coupling between template & URL</li>
+      <li>Not scalable</li>
+    </ul>
+  
+    <!-- ===================== -->
+    <!-- Why URL Tag -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Why Use <code>{% url %}</code> Tag?</h3>
+  
+    <h4>✅ Best Practice</h4>
+    <pre><code>&lt;a href="{% url 'course' %}"&gt;Course Page&lt;/a&gt;</code></pre>
+  
+    <ul>
+      <li>Auto-updates when URL changes</li>
+      <li>Clean & readable templates</li>
+      <li>Loose coupling</li>
+      <li>Industry standard</li>
+    </ul>
+  
+    <!-- ===================== -->
+    <!-- What is URL -->
+    <!-- ===================== -->
+  
+    <h3>🔹 What is <code>{% url %}</code> Template Tag?</h3>
+    <ul>
+      <li>Generates URLs dynamically</li>
+      <li>Uses <strong>name</strong> defined in <code>urls.py</code></li>
+      <li>Works only inside templates</li>
+      <li>Performs <strong>URL Reversing</strong></li>
+    </ul>
+  
+    <pre><code>Template → url name → urls.py → actual path</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Syntax -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Basic Syntax</h3>
+    <pre><code>{% url 'url_name' %}</code></pre>
+  
+    <div class="note">
+      📌 <code>'url_name'</code> must match the <code>name</code> in <code>urls.py</code>
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Practical -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Step-by-Step Practical Example</h3>
+  
+    <h4>🔹 Step 1: Create Project & Apps</h4>
+    <pre><code>django-admin startproject hyperlinkdemo
+  cd hyperlinkdemo
+  python manage.py startapp course
+  python manage.py startapp course1</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Views -->
+    <!-- ===================== -->
+  
+    <h4>🔹 Step 2: Create Views</h4>
+  
+    <pre><code># course/views.py
+  from django.shortcuts import render
+  
+  def course_page(request):
+      return render(request, 'course/course.html')</code></pre>
+  
+    <pre><code># course1/views.py
+  from django.shortcuts import render
+  
+  def course1_page(request):
+      return render(request, 'course1/course1.html')</code></pre>
+  
+    <!-- ===================== -->
+    <!-- URLs -->
+    <!-- ===================== -->
+  
+    <h4>🔹 Step 3: App URLs (MOST IMPORTANT)</h4>
+  
+    <pre><code># course/urls.py
+  from django.urls import path
+  from . import views
+  
+  urlpatterns = [
+      path('', views.course_page, name='course'),
+  ]</code></pre>
+  
+    <pre><code># course1/urls.py
+  from django.urls import path
+  from . import views
+  
+  urlpatterns = [
+      path('', views.course1_page, name='course1'),
+  ]</code></pre>
+  
+    <div class="note">
+      ⚠️ <strong>name</strong> is mandatory — without it <code>{% url %}</code> will NOT work.
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Project URLs -->
+    <!-- ===================== -->
+  
+    <h4>🔹 Step 4: Project URLs</h4>
+    <pre><code># hyperlinkdemo/urls.py
+  from django.contrib import admin
+  from django.urls import path, include
+  
+  urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('course/', include('course.urls')),
+      path('course1/', include('course1.urls')),
+  ]</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Templates -->
+    <!-- ===================== -->
+  
+    <h4>🔹 Step 5: Create Hyperlinks using <code>{% url %}</code></h4>
+  
+    <pre><code>&lt;!-- course/course.html --&gt;
+  &lt;h1&gt;Course Page&lt;/h1&gt;
+  
+  &lt;a href="{% url 'course1' %}"&gt;
+    Go to Course1 Page
+  &lt;/a&gt;</code></pre>
+  
+    <pre><code>&lt;!-- course1/course1.html --&gt;
+  &lt;h1&gt;Course1 Page&lt;/h1&gt;
+  
+  &lt;a href="{% url 'course' %}"&gt;
+    Back to Course Page
+  &lt;/a&gt;</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Params -->
+    <!-- ===================== -->
+  
+    <h3>🔹 <code>{% url %}</code> with Parameters</h3>
+  
+    <pre><code># urls.py
+  path('details/&lt;int:id&gt;/', views.details, name='details')</code></pre>
+  
+    <pre><code>&lt;a href="{% url 'details' 5 %}"&gt;View Details&lt;/a&gt;</code></pre>
+  
+    <p><strong>Generated URL:</strong></p>
+    <pre><code>/details/5/</code></pre>
+  
+    <h4>🔹 With Keyword Arguments</h4>
+    <pre><code>&lt;a href="{% url 'details' id=10 %}"&gt;Details&lt;/a&gt;</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Flow -->
+    <!-- ===================== -->
+  
+    <h3>🔹 How Django Resolves <code>{% url %}</code></h3>
+    <pre><code>1. Read URL name from template
+  2. Search in urls.py
+  3. Match name
+  4. Replace with correct path
+  5. Render final HTML</code></pre>
+  
+    <div class="note">
+      📌 This process is called <strong>URL Reversing</strong>.
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Mistakes -->
+    <!-- ===================== -->
+  
+    <h3>❌ Common Mistakes</h3>
+    <ul>
+      <li>Missing <code>name</code> in urls.py</li>
+      <li>Wrong URL name in template</li>
+      <li>Using <code>{% url %}</code> outside template</li>
+      <li>Typos in URL names</li>
+      <li>Hard-coding URLs</li>
+    </ul>
+  
+    <!-- ===================== -->
+    <!-- Comparison -->
+    <!-- ===================== -->
+  
+    <h3>🔹 Hard-Code vs <code>{% url %}</code></h3>
+    <table class="content-table">
+      <thead>
+        <tr>
+          <th>Hard-Code</th>
+          <th>{% url %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Breaks easily</td>
+          <td>Auto updates</td>
+        </tr>
+        <tr>
+          <td>Bad practice</td>
+          <td>Best practice</td>
+        </tr>
+        <tr>
+          <td>Not scalable</td>
+          <td>Scalable</td>
+        </tr>
+        <tr>
+          <td>Manual changes</td>
+          <td>Automatic</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="note">
+      ✅ Always use <code>{% url %}</code><br>
+      ✅ Never hard-code paths<br>
+      ✅ <code>name</code> attribute is compulsory
+    </div>
+  </section>
+  
+
+
+<!-- Navigation -->
+<div class="content-navigation">
+    <a href="./content.html" class="btn secondary">⬅ Back to Contents</a>
+
+  <a href="./mini-project.html" class="btn primary">Next: Mini Project ➜</a>
+</div>
+
+</body>
+</html>
