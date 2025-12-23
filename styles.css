@@ -42,7 +42,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  gap: 500px; /* Space between the two boxes */
+  gap: 100px; /* Space between the two boxes */
   position: relative;
   z-index: 10; /* Ensures cards are above floating icons */
 }
