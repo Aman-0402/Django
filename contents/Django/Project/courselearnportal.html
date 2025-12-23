@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Django 5 – Function-Based Views, Apps & URLs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Global Theme (GitHub Pages safe) -->
+  <link rel="stylesheet" href="../../../extra/djangostyle.css">
+  <script defer src="../../../extra/djangoscripts.js"></script>
+  
+</head>
+
+<body>
+
+<!-- Theme Toggle -->
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<!-- Header -->
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Course Learning Portal
+    </h1>
+    <p class="subtitle">
+        A Simple Course Learning Portal Built with Django.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+    <h2>🎯 Course Learning Portal — Project Overview</h2>
+  
+    <p>
+      In this project, we build a complete <strong>Course Learning Portal</strong>
+      using Django that demonstrates real-world concepts like template inheritance,
+      static files, reusable components, and clean URL routing.
+    </p>
+  
+    <!-- ===================== -->
+    <!-- Pages -->
+    <!-- ===================== -->
+  
+    <h3>📄 Pages We Will Build</h3>
+    <table class="content-table">
+      <thead>
+        <tr>
+          <th>Page</th>
+          <th>Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Home</td>
+          <td>Django & Flask course cards</td>
+        </tr>
+        <tr>
+          <td>Course Detail</td>
+          <td>Individual course information</td>
+        </tr>
+        <tr>
+          <td>About</td>
+          <td>Static content</td>
+        </tr>
+        <tr>
+          <td>Contact</td>
+          <td>Static content</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <h3>🧠 Django Concepts Used</h3>
+    <ul>
+      <li>Project & App creation</li>
+      <li>URL routing</li>
+      <li>Views</li>
+      <li>Templates</li>
+      <li>Template inheritance</li>
+      <li>Static files (CSS, JS, Images)</li>
+      <li><code>{% include %}</code> & <code>{% block %}</code></li>
+    </ul>
+  
+    <!-- ===================== -->
+    <!-- Step 1 -->
+    <!-- ===================== -->
+  
+    <h3>🧱 STEP 1: Create Django Project</h3>
+    <pre><code>django-admin startproject courseportal
+  cd courseportal
+  python manage.py startapp course</code></pre>
+  
+    <h4>📂 Folder Structure (Important)</h4>
+    <pre><code>courseportal/
+  │
+  ├── courseportal/
+  │   ├── settings.py
+  │   ├── urls.py
+  │
+  ├── course/
+  │   ├── views.py
+  │   ├── urls.py
+  │
+  ├── templates/
+  ├── static/
+  └── manage.py</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Step 2 -->
+    <!-- ===================== -->
+  
+    <h3>⚙️ STEP 2: Register App & Templates</h3>
+    <p><strong>courseportal/settings.py</strong></p>
+  <pre><code>
+  INSTALLED_APPS = [
+      ...
+      'course',
+  ]
+  
+  TEMPLATES = [
+      {
+          ...
+          'DIRS': [BASE_DIR / 'templates'],
+          ...
+      },
+  ]
+  
+  STATIC_URL = 'static/'
+  STATICFILES_DIRS = [BASE_DIR / 'static']</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Step 3 -->
+    <!-- ===================== -->
+  
+    <h3>🌐 STEP 3: URL Configuration</h3>
+  
+    <p><strong>courseportal/urls.py</strong></p>
+    <pre><code>from django.contrib import admin
+  from django.urls import path, include
+  
+  urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('', include('course.urls')),
+  ]</code></pre>
+  
+    <p><strong>course/urls.py</strong></p>
+    <pre><code>from django.urls import path
+  from . import views
+  
+  urlpatterns = [
+      path('', views.home, name='home'),
+      path('course/&lt;str:name&gt;/', views.course_detail, name='course'),
+      path('about/', views.about, name='about'),
+      path('contact/', views.contact, name='contact'),
+  ]</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Step 4 -->
+    <!-- ===================== -->
+  
+    <h3>👁️ STEP 4: Create Views</h3>
+    <p><strong>course/views.py</strong></p>
+
+    <pre><code>    
+  from django.shortcuts import render
+  
+  def home(request):
+      return render(request, 'home.html')
+  
+  def course_detail(request, name):
+      return render(request, 'course_detail.html', {'course': name})
+  
+  def about(request):
+      return render(request, 'about.html')
+  
+  def contact(request):
+      return render(request, 'contact.html')</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Step 5 -->
+    <!-- ===================== -->
+  
+    <h3>🎨 STEP 5: Templates Setup</h3>
+    <pre><code>templates/
+  │
+  ├── base.html
+  ├── home.html
+  ├── course_detail.html
+  ├── about.html
+  └── contact.html</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Base -->
+    <!-- ===================== -->
+  
+    <h4>🧩 base.html (Template Inheritance Core)</h4>
+    <pre><code>{% load static %}
+  &lt;!DOCTYPE html&gt;
+  &lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Course Portal&lt;/title&gt;
+    &lt;link rel="stylesheet" href="{% static 'css/style.css' %}"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  
+  {% include 'navbar.html' %}
+  
+  &lt;main&gt;
+    {% block content %}{% endblock %}
+  &lt;/main&gt;
+  
+  {% include 'footer.html' %}
+  
+  &lt;/body&gt;
+  &lt;/html&gt;</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Navbar -->
+    <!-- ===================== -->
+  
+    <h4>🧭 Navbar (Include Tag)</h4>
+    <p><strong>templates/navbar.html</strong></p>
+
+     <pre><code>   
+  &lt;nav&gt;
+    &lt;a href="/"&gt;Home&lt;/a&gt;
+    &lt;a href="/about/"&gt;About&lt;/a&gt;
+    &lt;a href="/contact/"&gt;Contact&lt;/a&gt;
+  &lt;/nav&gt;</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Footer -->
+    <!-- ===================== -->
+  
+    <h4>🦶 Footer</h4>
+    <p><strong>templates/footer.html</strong></p>
+     <pre><code>   
+  &lt;footer&gt;
+    &lt;p&gt;© 2025 Course Learning Portal&lt;/p&gt;
+  &lt;/footer&gt;</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Home -->
+    <!-- ===================== -->
+  
+    <h3>🏠 STEP 6: Home Page (Cards)</h3>
+    <p><strong>templates/home.html</strong></p>
+
+    <pre><code>{% extends 'base.html' %}
+  {% block content %}
+  &lt;h1&gt;Choose Your Course&lt;/h1&gt;
+  
+  &lt;div class="cards"&gt;
+    &lt;div class="card"&gt;
+      &lt;h2&gt;Django&lt;/h2&gt;
+      &lt;a href="/course/django/"&gt;View Course&lt;/a&gt;
+    &lt;/div&gt;
+  
+    &lt;div class="card"&gt;
+      &lt;h2&gt;Flask&lt;/h2&gt;
+      &lt;a href="/course/flask/"&gt;View Course&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  {% endblock %}</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Course Detail -->
+    <!-- ===================== -->
+  
+    <h3>📘 STEP 7: Course Detail Page</h3>
+    <p><strong>templates/course_detail.html</strong></p>
+    <pre><code>{% extends 'base.html' %}
+  {% block content %}
+  &lt;h1&gt;{{ course|title }} Course&lt;/h1&gt;
+  &lt;p&gt;This is the {{ course }} learning page.&lt;/p&gt;
+  {% endblock %}</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Static Pages -->
+    <!-- ===================== -->
+  
+    <h3>📄 STEP 8: Static Pages</h3>
+    <p><strong>templates/about.html</strong></p>
+  
+    <pre><code>&lt;!-- about.html --&gt;
+  {% extends 'base.html' %}
+  {% block content %}
+  &lt;h2&gt;About Us&lt;/h2&gt;
+  &lt;p&gt;This portal helps you learn backend frameworks.&lt;/p&gt;
+  {% endblock %}</code></pre>
+  
+    <p><strong>templates/contact.html</strong></p>
+    <pre><code>    
+  {% extends 'base.html' %}
+  {% block content %}
+  &lt;h2&gt;Contact&lt;/h2&gt;
+  &lt;p&gt;Email: support@courseportal.com&lt;/p&gt;
+  {% endblock %}</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Static Files -->
+    <!-- ===================== -->
+  
+    <h3>🎨 STEP 9: Static Files</h3>
+    <pre><code>static/
+  └── css/
+      └── style.css</code></pre>
+  
+    <pre><code>body {
+    font-family: Arial;
+    background: #f5f5f5;
+  }
+  nav a {
+    margin: 10px;
+    text-decoration: none;
+  }
+  .cards {
+    display: flex;
+    gap: 20px;
+  }
+  .card {
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+  }</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Run -->
+    <!-- ===================== -->
+  
+    <h3>▶️ STEP 10: Run Project</h3>
+    <pre><code>python manage.py runserver</code></pre>
+  
+    <p><strong>Open:</strong></p>
+    <pre><code>http://127.0.0.1:8000/</code></pre>
+  
+    <!-- ===================== -->
+    <!-- Achieved -->
+    <!-- ===================== -->
+  
+    <h3>✅ What You Have Achieved</h3>
+    <ul>
+      <li>✔ Real Django project</li>
+      <li>✔ Template inheritance</li>
+      <li>✔ Static file handling</li>
+      <li>✔ Clean project structure</li>
+      <li>✔ Resume-ready mini project</li>
+    </ul>
+  </section>
+  
+
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Django 5 – Function-Based Views, Apps & URLs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Global Theme (GitHub Pages safe) -->
+  <link rel="stylesheet" href="../../../extra/djangostyle.css">
+  <script defer src="../../../extra/djangoscripts.js"></script>
+  
+</head>
+
+<body>
+
+<!-- Theme Toggle -->
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<!-- Header -->
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Course Learning Portal Upgrade Intermediate
+    </h1>
+    <p class="subtitle">
+        Enhance the Course Learning Portal with Dynamic Data & Models.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+<section class="content-section">
+    <h2>📘 Base Layout, Navbar & Home Template (Professional Setup)</h2>
+  
+    <p>
+      This section converts your <strong>base layout</strong>, <strong>navbar</strong>,
+      and <strong>home template</strong> into a clean, reusable Django structure
+      using <code>{% extends %}</code>, <code>{% include %}</code>,
+      static files, SEO tags, and active navigation.
+    </p>
+  
+    <!-- ===================== -->
+    <!-- base.html -->
+    <!-- ===================== -->
+  
+    <h3>✅ <code>templates/base.html</code></h3>
+  
+    <pre><code>{% load static %}
+  &lt;!DOCTYPE html&gt;
+  &lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+  
+    &lt;!-- Responsive Meta --&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  
+    &lt;!-- SEO --&gt;
+    &lt;title&gt;{% block title %}Course Learning Portal{% endblock %}&lt;/title&gt;
+    &lt;meta name="description" content="Learn Django and Flask step by step with structured courses."&gt;
+    &lt;meta name="author" content="Aman Raj"&gt;
+  
+    &lt;!-- CSS --&gt;
+    &lt;link rel="stylesheet" href="{% static 'css/style.css' %}"&gt;
+  
+    &lt;!-- Google Font (Optional but Professional) --&gt;
+    &lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet"&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  
+    &lt;!-- ================= NAVBAR ================= --&gt;
+    {% include "navbar.html" %}
+  
+    &lt;!-- ================= MAIN CONTENT ================= --&gt;
+    &lt;main class="container"&gt;
+      {% block content %}{% endblock %}
+    &lt;/main&gt;
+  
+    &lt;!-- ================= FOOTER ================= --&gt;
+    {% include "footer.html" %}
+  
+    &lt;!-- ================= SCROLL TO TOP ================= --&gt;
+    &lt;button id="scrollTopBtn" title="Go to top"&gt;↑&lt;/button&gt;
+  
+    &lt;!-- JS --&gt;
+    &lt;script src="{% static 'js/script.js' %}"&gt;&lt;/script&gt;
+  
+  &lt;/body&gt;
+  &lt;/html&gt;</code></pre>
+  
+    <div class="note">
+      ✔ Central layout for all pages<br>
+      ✔ SEO-ready & responsive<br>
+      ✔ Static files loaded once<br>
+      ✔ Clean & scalable (industry standard)
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Folder Structure -->
+    <!-- ===================== -->
+  
+    <h3>📌 Folder Reminder (Correct Structure)</h3>
+    <pre><code>templates/
+  │
+  ├── base.html
+  ├── navbar.html
+  ├── footer.html
+  ├── home.html
+  ├── course_detail.html
+  ├── about.html
+  └── contact.html
+  
+  static/
+  │
+  ├── css/
+  │   └── style.css
+  └── js/
+      └── script.js</code></pre>
+  
+    <!-- ===================== -->
+    <!-- navbar.html -->
+    <!-- ===================== -->
+  
+    <h3>✅ <code>templates/navbar.html</code></h3>
+  
+    <pre><code>&lt;nav class="navbar"&gt;
+    &lt;div class="nav-container"&gt;
+  
+      &lt;!-- Brand / Logo --&gt;
+      &lt;div class="nav-brand"&gt;
+        &lt;a href="/"&gt;CoursePortal&lt;/a&gt;
+      &lt;/div&gt;
+  
+      &lt;!-- Navigation Links --&gt;
+      &lt;ul class="nav-links"&gt;
+        &lt;li&gt;
+          &lt;a href="/" class="{% if request.path == '/' %}active{% endif %}"&gt;
+            Home
+          &lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;a href="/about/" class="{% if request.path == '/about/' %}active{% endif %}"&gt;
+            About
+          &lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+          &lt;a href="/contact/" class="{% if request.path == '/contact/' %}active{% endif %}"&gt;
+            Contact
+          &lt;/a&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+  
+    &lt;/div&gt;
+  &lt;/nav&gt;</code></pre>
+  
+    <div class="note">
+      ✔ Reusable navigation bar<br>
+      ✔ Active link highlighting using <code>request.path</code><br>
+      ✔ Clean UI separation using <code>{% include %}</code>
+    </div>
+  
+    <!-- ===================== -->
+    <!-- request.path note -->
+    <!-- ===================== -->
+  
+    <h4>🔧 Important Note (request.path)</h4>
+    <p>
+      To make <code>request.path</code> work, ensure this context processor is enabled
+      (enabled by default):
+    </p>
+  
+    <pre><code>'django.template.context_processors.request'</code></pre>
+  
+    <p>
+      Location:
+      <br>
+      <strong>TEMPLATES → OPTIONS → context_processors</strong>
+    </p>
+  
+    <!-- ===================== -->
+    <!-- home.html -->
+    <!-- ===================== -->
+  
+    <h3>✅ <code>templates/home.html</code></h3>
+  
+    <pre><code>{% extends "base.html" %}
+  
+  {% block title %}
+  Home | Course Learning Portal
+  {% endblock %}
+  
+  {% block content %}
+  &lt;h1&gt;Welcome to Course Learning Portal&lt;/h1&gt;
+  &lt;p&gt;Choose a course to start learning Django or Flask.&lt;/p&gt;
+  {% endblock %}</code></pre>
+  
+    <div class="note">
+      ✔ Inherits layout from <code>base.html</code><br>
+      ✔ Custom page title using <code>{% block title %}</code><br>
+      ✔ Only page-specific content inside <code>{% block content %}</code>
+    </div>
+  
+    <!-- ===================== -->
+    <!-- Final Understanding -->
+    <!-- ===================== -->
+  
+    <h3>✅ Final Understanding</h3>
+    <ul>
+      <li><strong>base.html</strong> → layout, SEO, static loading</li>
+      <li><strong>navbar.html</strong> → reusable navigation</li>
+      <li><strong>footer.html</strong> → reusable footer</li>
+      <li><strong>home.html</strong> → page-specific content</li>
+      <li><strong>Static files</strong> → styling & interaction</li>
+    </ul>
+  
+    <div class="note">
+      🎯 This structure is <strong>production-ready</strong>,
+      <strong>resume-worthy</strong>, and follows <strong>Django best practices</strong>.
+    </div>
+  </section>
+  
+  
+
+</body>
+</html>
