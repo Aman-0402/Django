@@ -12,70 +12,90 @@
 
   <!-- ================= HEADER ================= -->
   <header class="content-header">
-    <h1>Flask Framework</h1>
-    <p>Lightweight Python Web Framework</p>
-
-    <button id="themeToggle">🌙 Toggle Mode</button>
+    <div class="header-inner">
+      <div class="title-group">
+        <h1>Flask</h1>
+        <span class="badge">Python Micro-Framework</span>
+        <p>Build lightweight, fast & scalable web applications</p>
+      </div>
+  
+      <button id="themeToggle" aria-label="Toggle theme">
+        🌗
+      </button>
+    </div>
   </header>
+  
 
   <!-- ================= MAIN CONTENT ================= -->
   <main class="content-wrapper">
 
+    <!-- ================= BEGINNER LEVEL ================= -->
     <section class="content-card">
-      <h2>What is Flask?</h2>
-      <p>
-        Flask is a lightweight and flexible Python web framework used to build
-        web applications quickly and efficiently.
-      </p>
-      <p>
-        It is called a <strong>micro-framework</strong> because it does not
-        include built-in ORM, authentication, or admin panels by default.
-      </p>
+      <h2>📘 Beginner Level</h2>
+  
+      <a href="./introduction.html" class="topic-link">
+        <span class="step">01</span>
+        <div class="topic-text">
+          <h3>Introduction to Flask</h3>
+          <p>What Flask is, why it is used, and where it fits.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+  
+      <a href="./setup.html" class="topic-link">
+        <span class="step">02</span>
+        <div class="topic-text">
+          <h3>Environment Setup & Installation</h3>
+          <p>Python, virtual environment, Flask installation.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+  
+      <a href="./first-app.html" class="topic-link">
+        <span class="step">03</span>
+        <div class="topic-text">
+          <h3>Your First Flask App</h3>
+          <p>Hello World app and project structure.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
     </section>
-
+  
+    <!-- ================= INTERMEDIATE LEVEL ================= -->
     <section class="content-card">
-      <h2>Why Use Flask?</h2>
-      <ul>
-        <li>Minimal & lightweight</li>
-        <li>Easy to learn for beginners</li>
-        <li>High flexibility & customization</li>
-        <li>Perfect for APIs & small projects</li>
-      </ul>
+      <h2>📗 Intermediate Level</h2>
+  
+      <a href="./routing.html" class="topic-link">
+        <span class="step">04</span>
+        <div class="topic-text">
+          <h3>Routing & URL Rules</h3>
+          <p>Routes, dynamic URLs, URL converters.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+  
+      <a href="./templates.html" class="topic-link">
+        <span class="step">05</span>
+        <div class="topic-text">
+          <h3>Templates (Jinja2)</h3>
+          <p>Dynamic HTML using Jinja templating.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+  
+      <a href="./static-files.html" class="topic-link">
+        <span class="step">06</span>
+        <div class="topic-text">
+          <h3>Static Files</h3>
+          <p>CSS, JS, images in Flask projects.</p>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+  
     </section>
-
-    <section class="content-card">
-      <h2>Where Flask is Used?</h2>
-      <ul>
-        <li>REST APIs</li>
-        <li>Microservices</li>
-        <li>Startup MVPs</li>
-        <li>Backend for mobile apps</li>
-      </ul>
-    </section>
-
-    <section class="content-card">
-      <h2>Flask vs Django</h2>
-      <table>
-        <tr>
-          <th>Flask</th>
-          <th>Django</th>
-        </tr>
-        <tr>
-          <td>Micro-framework</td>
-          <td>Full-stack framework</td>
-        </tr>
-        <tr>
-          <td>More control</td>
-          <td>More features built-in</td>
-        </tr>
-        <tr>
-          <td>Lightweight</td>
-          <td>Heavier</td>
-        </tr>
-      </table>
-    </section>
-
+  
   </main>
+  
 
   <!-- ================= FOOTER ================= -->
   <footer class="content-footer">

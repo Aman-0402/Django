@@ -1,4 +1,11 @@
 /* =====================
+   GLOBAL SAFETY
+===================== */
+* {
+  box-sizing: border-box;
+}
+
+/* =====================
    THEME VARIABLES
 ===================== */
 :root {
@@ -27,31 +34,76 @@ body {
   font-family: system-ui, -apple-system, Segoe UI, sans-serif;
   background: var(--bg);
   color: var(--text);
+  line-height: 1.6;
 }
 
 /* =====================
-   HEADER
+   HEADER (MODERN + RESPONSIVE)
 ===================== */
 .content-header {
-  text-align: center;
-  padding: 2.5rem 1rem;
-  background: var(--card);
+  background: linear-gradient(135deg, #020617, #020617);
   border-bottom: 1px solid var(--border);
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
 }
 
-.content-header h1 {
-  margin: 0;
-  font-size: 2.5rem;
+.header-inner {
+  max-width: 1100px;
+  margin: auto;
+  padding: 2.2rem 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
 }
 
-.content-header p {
+.title-group h1 {
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+  
+    /* 🔥 Responsive magic */
+    font-size: clamp(2.8rem, 10vw, 5.2rem);
+  
+    line-height: 1;
+    color: var(--accent);
+  }
+  
+
+.title-group p {
+  margin-top: 0.4rem;
   color: var(--muted);
+  max-width: 520px;
+  font-size: 0.95rem;
 }
 
+.badge {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+}
+
+/* Theme Toggle */
 #themeToggle {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
   cursor: pointer;
+  font-size: 1.1rem;
+  color: var(--text);
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+#themeToggle:hover {
+  transform: rotate(20deg) scale(1.05);
 }
 
 /* =====================
@@ -66,14 +118,61 @@ body {
 .content-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
 }
 
 .content-card h2 {
   margin-top: 0;
   color: var(--accent);
+}
+
+/* =====================
+   TOPIC LIST (SYLLABUS STYLE)
+===================== */
+.topic-link {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1rem;
+  margin-top: 1rem;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.topic-link:hover {
+  transform: translateX(4px);
+  background: var(--card);
+}
+
+.step {
+  font-weight: bold;
+  font-size: 1.05rem;
+  color: var(--accent);
+  min-width: 36px;
+  text-align: center;
+}
+
+.topic-text h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.topic-text p {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.arrow {
+  margin-left: auto;
+  font-size: 1.2rem;
+  color: var(--muted);
 }
 
 /* =====================
@@ -84,7 +183,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   border: 1px solid var(--border);
   padding: 0.75rem;
   text-align: center;
@@ -99,6 +199,7 @@ th {
 ===================== */
 .content-footer {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
   align-items: center;
@@ -109,13 +210,14 @@ th {
 
 .btn {
   text-decoration: none;
-  padding: 0.5rem 1rem;
+  padding: 0.55rem 1rem;
   border-radius: 6px;
   background: var(--accent);
-  color: white;
+  color: #fff;
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  font-size: 0.9rem;
 }
 
 .btn img {
@@ -125,8 +227,27 @@ th {
 /* =====================
    RESPONSIVE
 ===================== */
-@media (max-width: 600px) {
-  .content-header h1 {
-    font-size: 2rem;
+@media (max-width: 768px) {
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #themeToggle {
+    align-self: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .topic-text p {
+    display: none;
+  }
+
+  .arrow {
+    display: none;
+  }
+
+  .content-card {
+    padding: 1.2rem;
   }
 }
