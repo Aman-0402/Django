@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Django 5 – Function-Based Views, Apps & URLs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Global Theme (GitHub Pages safe) -->
+  <link rel="stylesheet" href="../../../extra/djangostyle.css">
+  <script defer src="../../../extra/djangoscripts.js"></script>
+  
+</head>
+
+<body>
+
+<!-- Theme Toggle -->
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<!-- Header -->
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title"> Student Management System 
+    </h1>
+    <p class="subtitle">
+        A Mini Project to Build a Student Management System Using Django.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+<section class="content-section">
+    <h2>📘 STEP 1: Project Setup & Structure (Foundation)</h2>
+  
+    <h3>🎯 Goal of Step 1</h3>
+    <p>By the end of this step, you will have:</p>
+    <ul>
+      <li>Django project ready</li>
+      <li>App connected</li>
+      <li>Proper folder structure</li>
+      <li>Foundation ready for Models & ORM logic</li>
+    </ul>
+  
+    <div class="note">
+      ⚠️ No CRUD operations yet — this step is only about the foundation.
+    </div>
+  
+    <!-- Step 1 -->
+    <h2>✅ 1. Create Project (Already Done by You)</h2>
+    <pre><code>django-admin startproject ormdemo
+  cd ormdemo</code></pre>
+  
+    <p>Your project structure now looks like this:</p>
+    <pre><code>ormdemo/
+  ├── manage.py
+  ├── ormdemo/
+  │   ├── settings.py
+  │   ├── urls.py
+  │   └── __init__.py</code></pre>
+  
+    <!-- Step 2 -->
+    <h2>✅ 2. Create App (Already Done)</h2>
+    <pre><code>python manage.py startapp students</code></pre>
+  
+    <p>Updated structure:</p>
+    <pre><code>ormdemo/
+  ├── manage.py
+  ├── ormdemo/
+  │   ├── settings.py
+  │   ├── urls.py
+  │
+  ├── students/
+  │   ├── admin.py
+  │   ├── apps.py
+  │   ├── models.py
+  │   ├── views.py
+  │   └── migrations/</code></pre>
+  
+    <!-- Step 3 -->
+    <h2>✅ 3. Register App (VERY IMPORTANT)</h2>
+    <p>Open:</p>
+    <pre><code>ormdemo/settings.py</code></pre>
+  
+    <pre><code>INSTALLED_APPS = [
+      'django.contrib.admin',
+      'django.contrib.auth',
+      'django.contrib.contenttypes',
+      'django.contrib.sessions',
+      'django.contrib.messages',
+      'django.contrib.staticfiles',
+  
+      'students',   # 👈 add this
+  ]</code></pre>
+  
+    <div class="note">
+      📌 If you skip this step → Django ORM will NOT work.
+    </div>
+  
+    <!-- Step 4 -->
+    <h2>✅ 4. Run Server (Test Project)</h2>
+    <pre><code>python manage.py runserver</code></pre>
+  
+    <p>Open browser:</p>
+    <pre><code>http://127.0.0.1:8000/</code></pre>
+  
+    <ul>
+      <li>✔ Server running</li>
+      <li>✔ Project setup correct</li>
+    </ul>
+  
+    <p>Stop the server:</p>
+    <pre><code>CTRL + C</code></pre>
+  
+    <!-- Step 5 -->
+    <h2>✅ 5. Prepare Template Structure (Important for Later)</h2>
+    <p>Create the following folders inside the <strong>students</strong> app:</p>
+  
+    <pre><code>students/
+  └── templates/
+      └── students/</code></pre>
+  
+    <div class="note">
+      📌 Why this structure?
+      <ul>
+        <li>Django best practice</li>
+        <li>Avoids template name conflicts</li>
+        <li>Used in real-world projects</li>
+      </ul>
+      ⚠️ No HTML file yet — only folders.
+    </div>
+  
+    <!-- Step 6 -->
+    <h2>✅ 6. Prepare URLs File (Empty for Now)</h2>
+    <p>Create a new file:</p>
+    <pre><code>students/urls.py</code></pre>
+  
+    <pre><code>from django.urls import path
+  
+  urlpatterns = [
+      # views will be added later
+  ]</code></pre>
+  
+    <p>Now connect app URLs to the project:</p>
+    <pre><code># ormdemo/urls.py
+  
+  from django.contrib import admin
+  from django.urls import path, include
+  
+  urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('students/', include('students.urls')),
+  ]</code></pre>
+  
+    <div class="note">
+      ✔ App routing is now ready<br>
+      ✔ Foundation setup is complete
+    </div>
+  
+    <div class="note">
+      🎯 You are now fully prepared to create models and start working with Django ORM.
+    </div>
+  </section>
+  <section class="content-section">
+    <h2>🚀 STEP 2: Create Student Model & Apply ORM (Database Setup)</h2>
+  
+    <h3>🎯 Goal of STEP 2</h3>
+    <p>By the end of this step, you will:</p>
+    <ul>
+      <li>Create a <strong>Student</strong> model</li>
+      <li>Understand each model field clearly</li>
+      <li>Convert model → database table using Django ORM</li>
+      <li>Verify table creation</li>
+    </ul>
+  
+    <div class="note">
+      ⚠️ Still NO CRUD logic — this step focuses only on database foundation.
+    </div>
+  
+    <!-- STEP 2.1 -->
+    <h2>🔹 STEP 2.1: What is a Model? (Very Simple)</h2>
+    <p>A <strong>Model</strong> in Django:</p>
+    <ul>
+      <li>Is a Python class</li>
+      <li>Represents a database table</li>
+      <li>Each attribute = column</li>
+      <li>Each object = row</li>
+    </ul>
+  
+    <div class="note">
+      👉 Django ORM uses models to communicate with the database.
+    </div>
+  
+    <!-- STEP 2.2 -->
+    <h2>✅ STEP 2.2: Write Student Model</h2>
+    <p>Open the file:</p>
+    <pre><code>students/models.py</code></pre>
+  
+    <pre><code>from django.db import models
+  
+  class Student(models.Model):
+      name = models.CharField(max_length=100)
+      age = models.IntegerField()
+      email = models.EmailField(unique=True)
+      course = models.CharField(max_length=50)
+  
+      def __str__(self):
+          return self.name</code></pre>
+  
+    <h3>🔍 Explanation of Each Line</h3>
+  
+    <p><strong>class Student(models.Model):</strong></p>
+    <ul>
+      <li>Creates a database table named <code>students_student</code></li>
+    </ul>
+  
+    <p><strong>name = models.CharField(max_length=100)</strong></p>
+    <ul>
+      <li>Text column</li>
+      <li>Maximum 100 characters</li>
+    </ul>
+  
+    <p><strong>age = models.IntegerField()</strong></p>
+    <ul>
+      <li>Stores numeric age</li>
+    </ul>
+  
+    <p><strong>email = models.EmailField(unique=True)</strong></p>
+    <ul>
+      <li>Validates email format</li>
+      <li><code>unique=True</code> prevents duplicate emails</li>
+    </ul>
+  
+    <p><strong>course = models.CharField(max_length=50)</strong></p>
+    <ul>
+      <li>Stores course name (Django, Flask, etc.)</li>
+    </ul>
+  
+    <p><strong>def __str__(self): return self.name</strong></p>
+    <ul>
+      <li>Human-readable object name</li>
+      <li>Shown in Django admin & shell</li>
+    </ul>
+  
+    <!-- STEP 2.3 -->
+    <h2>✅ STEP 2.3: Create Migrations (ORM → SQL)</h2>
+    <p>Run in terminal:</p>
+    <pre><code>python manage.py makemigrations</code></pre>
+  
+    <p>Expected output:</p>
+    <pre><code>Migrations for 'students':
+    students/migrations/0001_initial.py</code></pre>
+  
+    <div class="note">
+      📌 This migration file contains auto-generated SQL instructions.
+    </div>
+  
+    <!-- STEP 2.4 -->
+    <h2>✅ STEP 2.4: Apply Migrations (Create Table)</h2>
+    <pre><code>python manage.py migrate</code></pre>
+  
+    <ul>
+      <li>✔ Database table is created</li>
+      <li>✔ Django ORM is now fully active</li>
+    </ul>
+  
+    <!-- Auto Work -->
+    <h2>🔹 What Django Did Automatically</h2>
+    <table class="content-table">
+      <tr>
+        <th>You Wrote</th>
+        <th>Django Did</th>
+      </tr>
+      <tr>
+        <td>Model</td>
+        <td>SQL table</td>
+      </tr>
+      <tr>
+        <td>Fields</td>
+        <td>Columns</td>
+      </tr>
+      <tr>
+        <td>migrate</td>
+        <td>CREATE TABLE</td>
+      </tr>
+    </table>
+  
+    <div class="note">
+      👉 No SQL written by you<br>
+      👉 This is the real power of Django ORM
+    </div>
+  
+    <!-- STEP 2.5 -->
+    <h2>✅ STEP 2.5: Verify Using Django Shell</h2>
+    <pre><code>python manage.py shell</code></pre>
+  
+    <pre><code>from students.models import Student
+  Student.objects.all()</code></pre>
+  
+    <p>Output:</p>
+    <pre><code>&lt;QuerySet []&gt;</code></pre>
+  
+    <ul>
+      <li>✔ Table exists</li>
+      <li>✔ No data yet (correct)</li>
+    </ul>
+  
+    <p>Exit shell:</p>
+    <pre><code>exit()</code></pre>
+  
+    <div class="note">
+      🎯 STEP 2 complete — your database foundation is ready.
+      Next step: inserting & fetching data using ORM.
+    </div>
+  </section>
+  <section class="content-section">
+    <h2>🚀 STEP 3: Insert Data into Database (CREATE Operation using Django ORM)</h2>
+  
+    <h3>🎯 Goal of STEP 3</h3>
+    <p>By the end of this step, you will:</p>
+    <ul>
+      <li>Insert student records into the database</li>
+      <li>Understand <strong>CREATE (Insert)</strong> operation in Django ORM</li>
+      <li>Use Django Shell (safe & recommended)</li>
+      <li>Clearly know <strong>WHERE</strong> data is written</li>
+    </ul>
+  
+    <div class="note">
+      ⚠️ Still NO templates or forms — this step focuses only on ORM INSERT.
+    </div>
+  
+    <!-- What is CREATE -->
+    <h2>🔹 What is CREATE in Django ORM?</h2>
+    <p>
+      <strong>CREATE</strong> means inserting a new row into a database table.
+    </p>
+  
+    <p><strong>SQL ❌</strong></p>
+    <pre><code>INSERT INTO students_student VALUES (...);</code></pre>
+  
+    <p><strong>Django ORM ✅</strong></p>
+    <pre><code>Student.objects.create(...)</code></pre>
+  
+    <ul>
+      <li>✔ Cleaner</li>
+      <li>✔ Safer</li>
+      <li>✔ Pythonic</li>
+    </ul>
+  
+    <!-- STEP 3.1 -->
+    <h2>✅ STEP 3.1: Open Django Shell</h2>
+    <pre><code>python manage.py shell</code></pre>
+  
+    <p><strong>Why use shell?</strong></p>
+    <ul>
+      <li>Best for learning</li>
+      <li>No URL or browser needed</li>
+      <li>Direct ORM testing</li>
+    </ul>
+  
+    <!-- STEP 3.2 -->
+    <h2>✅ STEP 3.2: Import Student Model</h2>
+    <pre><code>from students.models import Student</code></pre>
+  
+    <div class="note">
+      ✔ Django ORM now knows which database table to use
+    </div>
+  
+    <!-- STEP 3.3 -->
+    <h2>✅ STEP 3.3: Insert First Student Record</h2>
+    <pre><code>Student.objects.create(
+      name="Aman",
+      age=22,
+      email="aman@gmail.com",
+      course="Django"
+  )</code></pre>
+  
+    <p><strong>Output:</strong></p>
+    <pre><code>&lt;Student: Aman&gt;</code></pre>
+  
+    <div class="note">
+      🎉 Record inserted successfully
+    </div>
+  
+    <!-- STEP 3.4 -->
+    <h2>✅ STEP 3.4: Insert More Records</h2>
+    <pre><code>Student.objects.create(
+      name="Rahul",
+      age=21,
+      email="rahul@gmail.com",
+      course="Flask"
+  )
+  
+  Student.objects.create(
+      name="Neha",
+      age=23,
+      email="neha@gmail.com",
+      course="Django"
+  )</code></pre>
+  
+    <ul>
+      <li>✔ Multiple rows inserted</li>
+      <li>✔ Database now contains student records</li>
+    </ul>
+  
+    <!-- Behind the scenes -->
+    <h2>🔍 What Happened Behind the Scene?</h2>
+    <table class="content-table">
+      <tr>
+        <th>ORM Code</th>
+        <th>Database</th>
+      </tr>
+      <tr>
+        <td>Student.objects.create()</td>
+        <td>INSERT query</td>
+      </tr>
+      <tr>
+        <td>Field names</td>
+        <td>Column names</td>
+      </tr>
+      <tr>
+        <td>Values</td>
+        <td>Row data</td>
+      </tr>
+    </table>
+  
+    <div class="note">
+      👉 Django ORM automatically handled:
+      <ul>
+        <li>SQL syntax</li>
+        <li>Data validation</li>
+        <li>Database connection</li>
+      </ul>
+    </div>
+  
+    <!-- STEP 3.5 -->
+    <h2>✅ STEP 3.5: Verify Inserted Data</h2>
+    <pre><code>Student.objects.all()</code></pre>
+  
+    <p><strong>Output:</strong></p>
+    <pre><code>&lt;QuerySet [
+    &lt;Student: Aman&gt;,
+    &lt;Student: Rahul&gt;,
+    &lt;Student: Neha&gt;
+  ]&gt;</code></pre>
+  
+    <ul>
+      <li>✔ Data stored successfully</li>
+      <li>✔ ORM working perfectly</li>
+    </ul>
+  
+    <!-- Alternative -->
+    <h2>🔹 Alternative CREATE Method (Important to Know)</h2>
+    <pre><code>student = Student(
+      name="Riya",
+      age=20,
+      email="riya@gmail.com",
+      course="FastAPI"
+  )
+  student.save()</code></pre>
+  
+    <table class="content-table">
+      <tr>
+        <th>Method</th>
+        <th>When to Use</th>
+      </tr>
+      <tr>
+        <td><code>.create()</code></td>
+        <td>One-line insert</td>
+      </tr>
+      <tr>
+        <td><code>.save()</code></td>
+        <td>Modify object before saving</td>
+      </tr>
+    </table>
+  
+    <!-- Errors -->
+    <h2>❌ Common Errors (Avoid These)</h2>
+    <ul>
+      <li>
+        <strong>Duplicate Email</strong><br>
+        <code>email="aman@gmail.com"</code> → Error because <code>unique=True</code>
+      </li>
+      <li>
+        <strong>Missing Required Field</strong><br>
+        Django throws validation error
+      </li>
+    </ul>
+  
+    <div class="note">
+      🎯 STEP 3 complete — you can now confidently INSERT data using Django ORM.
+    </div>
+  </section>
+  <section class="content-section">
+    <h2>🚀 STEP 4: Retrieve Data from Database (READ Operation using Django ORM)</h2>
+  
+    <h3>🎯 Goal of STEP 4</h3>
+    <p>By the end of this step, you will:</p>
+    <ul>
+      <li>Fetch data from the database using Django ORM</li>
+      <li>Understand the <strong>READ</strong> operation</li>
+      <li>Display data directly in the browser</li>
+      <li>Clearly know <strong>where</strong> to write retrieval code</li>
+    </ul>
+  
+    <div class="note">
+      ⚠️ In this step, we will <strong>NOT</strong> use templates yet.  
+      We first understand data retrieval clearly using <strong>views</strong>.
+    </div>
+  
+    <!-- What is READ -->
+    <h2>🔹 What is READ in Django ORM?</h2>
+    <p><strong>READ</strong> means fetching data from the database.</p>
+  
+    <p><strong>SQL ❌</strong></p>
+    <pre><code>SELECT * FROM students_student;</code></pre>
+  
+    <p><strong>Django ORM ✅</strong></p>
+    <pre><code>Student.objects.all()</code></pre>
+  
+    <!-- Where to write -->
+    <h2>🔹 Where Do We Write READ Logic?</h2>
+    <p><strong>File:</strong> <code>students/views.py</code></p>
+    <ul>
+      <li>Views handle HTTP requests</li>
+      <li>Views interact with Django ORM</li>
+      <li>Views send responses to the browser</li>
+    </ul>
+  
+    <!-- STEP 4.1 -->
+    <h2>✅ STEP 4.1: Write View to Fetch All Students</h2>
+    <pre><code>from django.http import HttpResponse
+  from .models import Student
+  
+  def list_students(request):
+      students = Student.objects.all()   # READ operation
+  
+      output = ""
+      for student in students:
+          output += f"""
+          Name: {student.name}&lt;br&gt;
+          Age: {student.age}&lt;br&gt;
+          Email: {student.email}&lt;br&gt;
+          Course: {student.course}&lt;br&gt;
+          &lt;hr&gt;
+          """
+  
+      return HttpResponse(output)
+  </code></pre>
+  
+    <!-- Explanation -->
+    <h3>🔍 Explanation (Line by Line)</h3>
+    <ul>
+      <li>
+        <code>Student.objects.all()</code><br>
+        ✔ Fetches all rows from the table<br>
+        ✔ Returns a <strong>QuerySet</strong>
+      </li>
+      <li>
+        <code>for student in students:</code><br>
+        ✔ Loops through each database row
+      </li>
+      <li>
+        <code>student.name</code>, <code>student.age</code><br>
+        ✔ Access column values using dot (<code>.</code>) notation
+      </li>
+      <li>
+        <code>HttpResponse(output)</code><br>
+        ✔ Sends plain HTML response to the browser
+      </li>
+    </ul>
+  
+    <!-- STEP 4.2 -->
+    <h2>✅ STEP 4.2: Add URL for READ View</h2>
+    <pre><code>from django.urls import path
+  from .views import list_students
+  
+  urlpatterns = [
+      path('list/', list_students),
+  ]
+  </code></pre>
+  
+    <!-- STEP 4.3 -->
+    <h2>✅ STEP 4.3: Confirm App URL Is Connected</h2>
+    <pre><code>from django.contrib import admin
+  from django.urls import path, include
+  
+  urlpatterns = [
+      path('admin/', admin.site.urls),
+      path('students/', include('students.urls')),
+  ]
+  </code></pre>
+  
+    <div class="note">
+      ✔ Already done in Step 1  
+      ✔ Just confirming routing
+    </div>
+  
+    <!-- STEP 4.4 -->
+    <h2>✅ STEP 4.4: Run Server & Test</h2>
+    <pre><code>python manage.py runserver</code></pre>
+  
+    <p>Open in browser:</p>
+    <pre><code>http://127.0.0.1:8000/students/list/</code></pre>
+  
+    <div class="note">
+      🎉 All student records will be displayed in the browser.
+    </div>
+  
+    <!-- Variations -->
+    <h2>🔹 Important READ Variations (Must Know)</h2>
+  
+    <h3>🔵 Get Single Student</h3>
+    <pre><code>student = Student.objects.get(id=1)</code></pre>
+    <div class="note">
+      ⚠️ If record not found → error occurs
+    </div>
+  
+    <h3>🔵 Filter Records</h3>
+    <pre><code>students = Student.objects.filter(course="Django")</code></pre>
+  
+    <h3>🔵 Order Records</h3>
+    <pre><code>students = Student.objects.order_by('-age')</code></pre>
+  
+    <!-- Mistakes -->
+    <h2>🔹 Common Beginner Mistakes</h2>
+    <ul>
+      <li>❌ Writing ORM code in <code>urls.py</code></li>
+      <li>❌ Forgetting to import the model</li>
+      <li>❌ Using wrong field names</li>
+      <li>❌ Expecting styled HTML without templates</li>
+    </ul>
+  
+    <div class="note">
+      ✅ STEP 4 complete — you can now READ data using Django ORM confidently.
+    </div>
+  </section>
+  <section class="content-section">
+    <h2>🚀 STEP 5: Retrieve Data from Database Through Template (Django 5)</h2>
+  
+    <h3>🎯 Goal of STEP 5</h3>
+    <p>By the end of this step, you will:</p>
+    <ul>
+      <li>Fetch data using Django ORM</li>
+      <li>Send data to an HTML template</li>
+      <li>Display data using Django Template Language (DTL)</li>
+      <li>Understand where each piece of code belongs</li>
+    </ul>
+  
+    <div class="note">
+      This is how <strong>real Django projects</strong> work.
+    </div>
+  
+    <h3>🔁 Data Flow (Very Important – Remember This)</h3>
+    <pre><code>Database
+     ↓
+  Model (ORM)
+     ↓
+  View (views.py)
+     ↓
+  Template (HTML)
+     ↓
+  Browser
+  </code></pre>
+  
+    <!-- STEP 5.1 -->
+    <h2>✅ STEP 5.1: Create Template Folder &amp; File</h2>
+    <p>Inside the <strong>students</strong> app, ensure this structure exists:</p>
+    <pre><code>students/
+  └── templates/
+      └── students/
+          └── student_list.html
+  </code></pre>
+  
+    <div class="note">
+      📌 This folder structure is a <strong>Django best practice</strong> and avoids template name conflicts.
+    </div>
+  
+    <!-- STEP 5.2 -->
+    <h2>✅ STEP 5.2: Write View to Send Data to Template</h2>
+    <p><strong>File:</strong> <code>students/views.py</code></p>
+    <pre><code>from django.shortcuts import render
+  from .models import Student
+  
+  def student_list(request):
+      students = Student.objects.all()   # ORM READ
+      return render(
+          request,
+          'students/student_list.html',
+          {'students': students}
+      )
+  </code></pre>
+  
+    <h3>🔍 Explanation (Simple)</h3>
+    <ul>
+      <li>
+        <code>Student.objects.all()</code><br>
+        ✔ Fetches all rows from the database<br>
+        ✔ Returns a <strong>QuerySet</strong>
+      </li>
+      <li>
+        <code>{'students': students}</code><br>
+        ✔ Sends data to the template<br>
+        ✔ <code>students</code> becomes available inside HTML
+      </li>
+    </ul>
+  
+    <!-- STEP 5.3 -->
+    <h2>✅ STEP 5.3: Create Template to Display Data</h2>
+    <p><strong>File:</strong> <code>students/templates/students/student_list.html</code></p>
+    <pre><code>&lt;!DOCTYPE html&gt;
+  &lt;html&gt;
+  &lt;head&gt;
+      &lt;title&gt;Student List&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  
+  &lt;h2&gt;Student Records&lt;/h2&gt;
+  
+  {% if students %}
+  &lt;table border="1" cellpadding="8"&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Name&lt;/th&gt;
+          &lt;th&gt;Age&lt;/th&gt;
+          &lt;th&gt;Email&lt;/th&gt;
+          &lt;th&gt;Course&lt;/th&gt;
+      &lt;/tr&gt;
+  
+  {% for student in students %}
+      &lt;tr&gt;
+          &lt;td&gt;{{ student.name }}&lt;/td&gt;
+          &lt;td&gt;{{ student.age }}&lt;/td&gt;
+          &lt;td&gt;{{ student.email }}&lt;/td&gt;
+          &lt;td&gt;{{ student.course }}&lt;/td&gt;
+      &lt;/tr&gt;
+  {% endfor %}
+  &lt;/table&gt;
+  {% else %}
+  &lt;p&gt;No student records found.&lt;/p&gt;
+  {% endif %}
+  
+  &lt;/body&gt;
+  &lt;/html&gt;
+  </code></pre>
+  
+    <h3>🔍 Template Language Explained</h3>
+    <table>
+      <tr>
+        <th>Syntax</th>
+        <th>Meaning</th>
+      </tr>
+      <tr>
+        <td><code>{{ student.name }}</code></td>
+        <td>Print column value</td>
+      </tr>
+      <tr>
+        <td><code>{% for student in students %}</code></td>
+        <td>Loop through QuerySet</td>
+      </tr>
+      <tr>
+        <td><code>{% endfor %}</code></td>
+        <td>End loop</td>
+      </tr>
+      <tr>
+        <td><code>{% if students %}</code></td>
+        <td>Check if data exists</td>
+      </tr>
+    </table>
+  
+    <div class="note">
+      📌 No Python code inside HTML<br>
+      📌 Django safely handles logic using DTL
+    </div>
+  
+    <!-- STEP 5.4 -->
+    <h2>✅ STEP 5.4: Update URL to Use New View</h2>
+    <p><strong>File:</strong> <code>students/urls.py</code></p>
+    <pre><code>from django.urls import path
+  from .views import student_list
+  
+  urlpatterns = [
+      path('list/', student_list, name='student_list'),
+  ]
+  </code></pre>
+  
+    <!-- STEP 5.5 -->
+    <h2>✅ STEP 5.5: Run Server &amp; Test</h2>
+    <pre><code>python manage.py runserver</code></pre>
+  
+    <p>Open in browser:</p>
+    <pre><code>http://127.0.0.1:8000/students/list/</code></pre>
+  
+    <div class="note">
+      🎉 All students are now displayed in an HTML table using Django Templates.
+    </div>
+  
+    <!-- Mistakes -->
+    <h2>❌ Common Beginner Mistakes (Avoid These)</h2>
+    <ul>
+      <li>❌ Wrong template path</li>
+      <li>❌ Variable name mismatch (<code>students</code> vs <code>student</code>)</li>
+      <li>❌ Forgetting <code>{% endfor %}</code></li>
+      <li>❌ Writing ORM code inside template</li>
+    </ul>
+  </section>
+  <section class="content-section">
+    <h2>🚀 STEP 6: Delete Data Using Django ORM (Through Template)</h2>
+  
+    <h3>🎯 Goal of STEP 6</h3>
+    <p>By the end of this step, you will:</p>
+    <ul>
+      <li>Delete a student record from the database</li>
+      <li>Use Django ORM <code>.delete()</code></li>
+      <li>Use dynamic URLs with student ID</li>
+      <li>Trigger delete action directly from the template</li>
+    </ul>
+  
+    <div class="note">
+      This step covers <strong>D (Delete)</strong> in CRUD operations.
+    </div>
+  
+    <h3>🔁 DELETE Flow (Understand This First)</h3>
+    <pre><code>Template (Delete Link)
+          ↓
+  URL (with student ID)
+          ↓
+  View (views.py)
+          ↓
+  Django ORM (.delete())
+          ↓
+  Database
+          ↓
+  Redirect / Response
+  </code></pre>
+  
+    <!-- STEP 6.1 -->
+    <h2>✅ STEP 6.1: Write DELETE View</h2>
+    <p><strong>File:</strong> <code>students/views.py</code></p>
+    <pre><code>from django.shortcuts import redirect
+  from .models import Student
+  
+  def delete_student(request, id):
+      student = Student.objects.get(id=id)
+      student.delete()
+      return redirect('/students/list/')
+  </code></pre>
+  
+    <h3>🔍 Explanation (Line by Line)</h3>
+    <ul>
+      <li>
+        <code>Student.objects.get(id=id)</code><br>
+        ✔ Fetches a single record using primary key
+      </li>
+      <li>
+        <code>student.delete()</code><br>
+        ✔ Removes the row from the database
+      </li>
+      <li>
+        <code>redirect('/students/list/')</code><br>
+        ✔ Sends user back to the student list page<br>
+        📌 Redirect gives better UX than plain text
+      </li>
+    </ul>
+  
+    <!-- STEP 6.2 -->
+    <h2>✅ STEP 6.2: Add DELETE URL (Dynamic)</h2>
+    <p><strong>File:</strong> <code>students/urls.py</code></p>
+    <pre><code>from django.urls import path
+  from .views import student_list, delete_student
+  
+  urlpatterns = [
+      path('list/', student_list, name='student_list'),
+      path('delete/&lt;int:id&gt;/', delete_student, name='delete_student'),
+  ]
+  </code></pre>
+  
+    <div class="note">
+      <code>&lt;int:id&gt;</code><br>
+      ✔ Captures student ID from URL<br>
+      ✔ Passes it to the view function
+    </div>
+  
+    <!-- STEP 6.3 -->
+    <h2>✅ STEP 6.3: Add DELETE Link in Template</h2>
+    <p><strong>File:</strong> <code>students/templates/students/student_list.html</code></p>
+    <pre><code>&lt;!DOCTYPE html&gt;
+  &lt;html&gt;
+  &lt;head&gt;
+      &lt;title&gt;Student List&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  
+  &lt;h2&gt;Student Records&lt;/h2&gt;
+  
+  {% if students %}
+  &lt;table border="1" cellpadding="8"&gt;
+      &lt;tr&gt;
+          &lt;th&gt;Name&lt;/th&gt;
+          &lt;th&gt;Age&lt;/th&gt;
+          &lt;th&gt;Email&lt;/th&gt;
+          &lt;th&gt;Course&lt;/th&gt;
+          &lt;th&gt;Action&lt;/th&gt;
+      &lt;/tr&gt;
+  
+  {% for student in students %}
+      &lt;tr&gt;
+          &lt;td&gt;{{ student.name }}&lt;/td&gt;
+          &lt;td&gt;{{ student.age }}&lt;/td&gt;
+          &lt;td&gt;{{ student.email }}&lt;/td&gt;
+          &lt;td&gt;{{ student.course }}&lt;/td&gt;
+          &lt;td&gt;
+              &lt;a href="/students/delete/{{ student.id }}/"
+                 onclick="return confirm('Are you sure you want to delete this student?');"&gt;
+                 Delete
+              &lt;/a&gt;
+          &lt;/td&gt;
+      &lt;/tr&gt;
+  {% endfor %}
+  &lt;/table&gt;
+  {% else %}
+  &lt;p&gt;No student records found.&lt;/p&gt;
+  {% endif %}
+  
+  &lt;/body&gt;
+  &lt;/html&gt;
+  </code></pre>
+  
+    <h3>🔍 Template Explanation</h3>
+    <ul>
+      <li>
+        <code>{{ student.id }}</code><br>
+        ✔ Primary key of the student record
+      </li>
+      <li>
+        <code>/students/delete/{{ student.id }}/</code><br>
+        ✔ Dynamic delete URL for each row
+      </li>
+      <li>
+        <code>onclick="return confirm(...)"</code><br>
+        ✔ Shows browser confirmation popup before delete
+      </li>
+    </ul>
+  
+    <!-- STEP 6.4 -->
+    <h2>✅ STEP 6.4: Run Server &amp; Test</h2>
+    <pre><code>python manage.py runserver</code></pre>
+  
+    <p>Open in browser:</p>
+    <pre><code>http://127.0.0.1:8000/students/list/</code></pre>
+  
+    <div class="note">
+      👉 Click <strong>Delete</strong><br>
+      👉 Confirm popup<br>
+      👉 Record removed<br>
+      👉 Redirected back to list page<br>
+      🎉 DELETE operation completed successfully
+    </div>
+  
+    <!-- Mistakes -->
+    <h2>❌ Common Mistakes (Very Important)</h2>
+    <ul>
+      <li>❌ Forgetting <code>&lt;int:id&gt;</code> in URL</li>
+      <li>❌ Using wrong variable name (<code>pk</code> vs <code>id</code>)</li>
+      <li>❌ Not redirecting after delete</li>
+      <li>❌ Deleting records without confirmation</li>
+    </ul>
+  </section>
+  <section class="content-section">
+    <h2>🚀 STEP 7: Update Data Using Django ORM (Through Template + Form)</h2>
+  
+    <h3>🎯 Goal of STEP 7</h3>
+    <p>By the end of this step, you will:</p>
+    <ul>
+      <li>Edit existing student data</li>
+      <li>Use Django ORM <code>.get()</code> + <code>.save()</code></li>
+      <li>Use an HTML form for updates</li>
+      <li>Complete <strong>FULL CRUD</strong> (Create, Read, Update, Delete)</li>
+    </ul>
+  
+    <div class="note">
+      This step covers <strong>U (Update)</strong> in CRUD operations.
+    </div>
+  
+    <h3>🔁 UPDATE Flow (Understand First)</h3>
+    <pre><code>Student List Page
+        ↓
+  Edit Link (with ID)
+        ↓
+  Edit Form (pre-filled data)
+        ↓
+  Submit Form (POST)
+        ↓
+  Django ORM (.save())
+        ↓
+  Database Updated
+        ↓
+  Redirect to List Page
+  </code></pre>
+  
+    <!-- STEP 7.1 -->
+    <h2>✅ STEP 7.1: Create UPDATE View</h2>
+    <p><strong>File:</strong> <code>students/views.py</code></p>
+  
+    <pre><code>from django.shortcuts import render, redirect
+  from .models import Student
+  
+  def update_student(request, id):
+      student = Student.objects.get(id=id)
+  
+      if request.method == "POST":
+          student.name = request.POST.get('name')
+          student.age = request.POST.get('age')
+          student.email = request.POST.get('email')
+          student.course = request.POST.get('course')
+          student.save()
+  
+          return redirect('/students/list/')
+  
+      return render(request, 'students/update_student.html', {
+          'student': student
+      })
+  </code></pre>
+  
+    <h3>🔍 Explanation (Simple)</h3>
+    <ul>
+      <li>
+        <code>Student.objects.get(id=id)</code><br>
+        ✔ Fetches the existing student record
+      </li>
+      <li>
+        <code>if request.method == "POST"</code><br>
+        ✔ Checks whether the form is submitted
+      </li>
+      <li>
+        <code>student.save()</code><br>
+        ✔ Executes UPDATE query in database
+      </li>
+      <li>
+        <code>render(...)</code><br>
+        ✔ Displays form with pre-filled data
+      </li>
+    </ul>
+  
+    <!-- STEP 7.2 -->
+    <h2>✅ STEP 7.2: Add UPDATE URL (Dynamic)</h2>
+    <p><strong>File:</strong> <code>students/urls.py</code></p>
+  
+    <pre><code>from django.urls import path
+  from .views import student_list, delete_student, update_student
+  
+  urlpatterns = [
+      path('list/', student_list, name='student_list'),
+      path('delete/&lt;int:id&gt;/', delete_student, name='delete_student'),
+      path('update/&lt;int:id&gt;/', update_student, name='update_student'),
+  ]
+  </code></pre>
+  
+    <!-- STEP 7.3 -->
+    <h2>✅ STEP 7.3: Create UPDATE Template (Form)</h2>
+    <p><strong>File:</strong> <code>students/templates/students/update_student.html</code></p>
+  
+    <pre><code>&lt;!DOCTYPE html&gt;
+  &lt;html&gt;
+  &lt;head&gt;
+      &lt;title&gt;Update Student&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  
+  &lt;h2&gt;Update Student&lt;/h2&gt;
+  
+  &lt;form method="POST"&gt;
+      {% csrf_token %}
+  
+      &lt;label&gt;Name:&lt;/label&gt;&lt;br&gt;
+      &lt;input type="text" name="name" value="{{ student.name }}"&gt;&lt;br&gt;&lt;br&gt;
+  
+      &lt;label&gt;Age:&lt;/label&gt;&lt;br&gt;
+      &lt;input type="number" name="age" value="{{ student.age }}"&gt;&lt;br&gt;&lt;br&gt;
+  
+      &lt;label&gt;Email:&lt;/label&gt;&lt;br&gt;
+      &lt;input type="email" name="email" value="{{ student.email }}"&gt;&lt;br&gt;&lt;br&gt;
+  
+      &lt;label&gt;Course:&lt;/label&gt;&lt;br&gt;
+      &lt;input type="text" name="course" value="{{ student.course }}"&gt;&lt;br&gt;&lt;br&gt;
+  
+      &lt;button type="submit"&gt;Update Student&lt;/button&gt;
+  &lt;/form&gt;
+  
+  &lt;br&gt;
+  &lt;a href="/students/list/"&gt;⬅ Back to List&lt;/a&gt;
+  
+  &lt;/body&gt;
+  &lt;/html&gt;
+  </code></pre>
+  
+    <h3>🔍 Why CSRF Token?</h3>
+    <ul>
+      <li><code>{% csrf_token %}</code> is mandatory for POST requests</li>
+      <li>Protects against CSRF (Cross-Site Request Forgery) attacks</li>
+      <li>Django will reject POST requests without it</li>
+    </ul>
+  
+    <!-- STEP 7.4 -->
+    <h2>✅ STEP 7.4: Add UPDATE Link in List Template</h2>
+    <p><strong>File:</strong> <code>students/templates/students/student_list.html</code></p>
+  
+    <pre><code>&lt;td&gt;
+      &lt;a href="/students/update/{{ student.id }}/"&gt;Edit&lt;/a&gt; |
+      &lt;a href="/students/delete/{{ student.id }}/"
+         onclick="return confirm('Are you sure?');"&gt;
+         Delete
+      &lt;/a&gt;
+  &lt;/td&gt;
+  </code></pre>
+  
+    <!-- STEP 7.5 -->
+    <h2>✅ STEP 7.5: Run Server &amp; Test</h2>
+    <pre><code>python manage.py runserver</code></pre>
+  
+    <p>Open in browser:</p>
+    <pre><code>http://127.0.0.1:8000/students/list/</code></pre>
+  
+    <div class="note">
+      👉 Click <strong>Edit</strong><br>
+      👉 Modify student data<br>
+      👉 Submit form<br>
+      👉 Redirect back to list<br>
+      🎉 Student data updated successfully
+    </div>
+  </section>
+              
+  
+
+</body>
+</html>

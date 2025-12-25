@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CRUD Operations Using Django ORM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">CRUD Operations Using Django ORM</h1>
+    <p class="subtitle">
+      Perform Create, Read, Update, and Delete operations using Django ORM queries.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+  <h2>📘 CRUD Operations Using Django ORM</h2>
+
+  <p>
+    <strong>CRUD</strong> stands for <strong>Create, Read, Update, Delete</strong>.
+    These are the four basic operations performed on database data using
+    Django ORM.
+  </p>
+
+  <!-- ================= CREATE ================= -->
+
+  <h2>🟢 C — CREATE (Insert Data)</h2>
+
+  <h3>📌 Where to Write CREATE Code?</h3>
+  <ul>
+    <li>Django Shell (for testing & learning)</li>
+    <li><code>views.py</code> (real application logic)</li>
+  </ul>
+
+  <h3>🟢 CREATE Using Django Shell (Best for Learning)</h3>
+  <pre><code>python manage.py shell</code></pre>
+
+  <pre><code>from students.models import Student
+
+Student.objects.create(
+    name="Aman",
+    age=22,
+    email="aman@gmail.com",
+    course="Django"
+)</code></pre>
+
+  <ul>
+    <li>✔ One line = INSERT query</li>
+    <li>✔ Data saved in database</li>
+  </ul>
+
+  <h3>🟢 CREATE Using Views (Real Project Way)</h3>
+  <pre><code># students/views.py
+
+from django.http import HttpResponse
+from .models import Student
+
+def create_student(request):
+    Student.objects.create(
+        name="Rahul",
+        age=21,
+        email="rahul@gmail.com",
+        course="Flask"
+    )
+    return HttpResponse("Student Created Successfully")</code></pre>
+
+  <h4>🔹 Connect URL</h4>
+  <pre><code># students/urls.py
+
+from django.urls import path
+from .views import create_student
+
+urlpatterns = [
+    path('create/', create_student),
+]</code></pre>
+
+  <pre><code># ormdemo/urls.py
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('students/', include('students.urls')),
+]</code></pre>
+
+  <p><strong>Open in Browser:</strong></p>
+  <pre><code>http://127.0.0.1:8000/students/create/</code></pre>
+
+  <!-- ================= READ ================= -->
+
+  <h2>🔵 R — READ (Fetch Data)</h2>
+
+  <h3>🔵 READ All Students</h3>
+  <pre><code># students/views.py
+
+from django.http import HttpResponse
+from .models import Student
+
+def read_students(request):
+    students = Student.objects.all()
+    output = ""
+    for s in students:
+        output += f"{s.name} - {s.course}&lt;br&gt;"
+    return HttpResponse(output)</code></pre>
+
+  <pre><code># students/urls.py
+
+path('read/', read_students),</code></pre>
+
+  <p><strong>URL:</strong></p>
+  <pre><code>/students/read/</code></pre>
+
+  <h3>🔵 READ Single Student</h3>
+  <pre><code>def read_single_student(request):
+    student = Student.objects.get(id=1)
+    return HttpResponse(student.name)</code></pre>
+
+  <h3>🔵 READ with Filter</h3>
+  <pre><code>Student.objects.filter(course="Django")
+Student.objects.filter(age__gt=18)</code></pre>
+
+  <!-- ================= UPDATE ================= -->
+
+  <h2>🟡 U — UPDATE (Modify Data)</h2>
+
+  <h3>🟡 UPDATE Single Record</h3>
+  <pre><code># students/views.py
+
+def update_student(request):
+    student = Student.objects.get(id=1)
+    student.course = "FastAPI"
+    student.save()
+    return HttpResponse("Student Updated")</code></pre>
+
+  <h3>🟡 UPDATE Multiple Records</h3>
+  <pre><code>Student.objects.filter(course="Django")
+       .update(course="Django 5")</code></pre>
+
+  <ul>
+    <li>✔ No <code>save()</code> required</li>
+    <li>✔ Faster bulk update</li>
+  </ul>
+
+  <!-- ================= DELETE ================= -->
+
+  <h2>🔴 D — DELETE (Remove Data)</h2>
+
+  <h3>🔴 DELETE Single Record</h3>
+  <pre><code># students/views.py
+
+def delete_student(request):
+    student = Student.objects.get(id=1)
+    student.delete()
+    return HttpResponse("Student Deleted")</code></pre>
+
+  <h3>🔴 DELETE Multiple Records</h3>
+  <pre><code>Student.objects.filter(age__lt=18).delete()</code></pre>
+
+  <!-- ================= SUMMARY ================= -->
+
+  <h2>🔹 CRUD Summary (SQL vs Django ORM)</h2>
+  <table class="content-table">
+    <tr>
+      <th>SQL</th>
+      <th>Django ORM</th>
+    </tr>
+    <tr>
+      <td>INSERT</td>
+      <td>objects.create()</td>
+    </tr>
+    <tr>
+      <td>SELECT</td>
+      <td>objects.all()</td>
+    </tr>
+    <tr>
+      <td>WHERE</td>
+      <td>filter()</td>
+    </tr>
+    <tr>
+      <td>UPDATE</td>
+      <td>save()</td>
+    </tr>
+    <tr>
+      <td>DELETE</td>
+      <td>delete()</td>
+    </tr>
+  </table>
+
+  <h2>🔹 Best Practices (Important)</h2>
+  <ul>
+    <li><strong>Models</strong> → <code>models.py</code></li>
+    <li><strong>CRUD Logic</strong> → <code>views.py</code></li>
+    <li><strong>URLs</strong> → <code>urls.py</code></li>
+    <li><strong>Testing</strong> → Django shell</li>
+    <li><strong>UI</strong> → Templates (HTML)</li>
+  </ul>
+
+  <div class="note">
+    🎯 Mastering CRUD operations means you fully understand
+    <strong>Django ORM fundamentals</strong>.
+  </div>
+</section>
+
+
+<div class="content-navigation">
+  <a href="./content.html" class="btn secondary">⬅ Back to Contents</a>
+  <a href="./retrieve-data.html" class="btn primary">Next: Retrieve Data ➜</a>
+</div>
+
+</body>
+</html>

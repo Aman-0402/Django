@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Retrieve & Display Data in Django</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Retrieving & Displaying Database Data</h1>
+    <p class="subtitle">
+      Fetch data from the database and render it dynamically in Django templates.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+  <h2>📘 Retrieve Data from Database & Display in Template (Django ORM + DTL)</h2>
+
+  <p>
+    In this section, we continue <strong>exactly in the same project</strong>.
+    No new project, no shortcuts.  
+    You will clearly understand <strong>WHERE to write code</strong>,
+    <strong>WHY it is written</strong>, and <strong>HOW data flows</strong>
+    from database to browser.
+  </p>
+
+  <pre><code>django-admin startproject ormdemo
+cd ormdemo
+python manage.py startapp students</code></pre>
+
+  <div class="note">
+    ✔ Same project<br>
+    ✔ Same app<br>
+    ✔ Real-world Django workflow
+  </div>
+
+  <h3>🔹 Goal (What We Are Building)</h3>
+  <ul>
+    <li>Fetch data from <strong>Student</strong> table</li>
+    <li>Send it to an HTML template</li>
+    <li>Display it using Django Template Language (DTL)</li>
+  </ul>
+
+  <h3>🔹 Final Flow (Very Important)</h3>
+  <pre><code>Database (Student table)
+        ↓
+Django ORM (Model)
+        ↓
+View (views.py)
+        ↓
+Template (HTML)
+        ↓
+Browser</code></pre>
+
+  <!-- STEP 1 -->
+  <h2>✅ STEP 1: Confirm Model (Already Created)</h2>
+  <pre><code># students/models.py
+
+from django.db import models
+
+class Student(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    email = models.EmailField(unique=True)
+    course = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name</code></pre>
+
+  <p>Run migrations if not done:</p>
+  <pre><code>python manage.py makemigrations
+python manage.py migrate</code></pre>
+
+  <!-- STEP 2 -->
+  <h2>✅ STEP 2: Insert Some Data (Required to See Output)</h2>
+  <h3>Option A: Using Django Shell (Recommended)</h3>
+  <pre><code>python manage.py shell</code></pre>
+
+  <pre><code>from students.models import Student
+
+Student.objects.create(
+    name="Aman",
+    age=22,
+    email="aman@gmail.com",
+    course="Django"
+)
+
+Student.objects.create(
+    name="Rahul",
+    age=21,
+    email="rahul@gmail.com",
+    course="Flask"
+)
+
+Student.objects.create(
+    name="Neha",
+    age=23,
+    email="neha@gmail.com",
+    course="Django"
+)</code></pre>
+
+  <div class="note">
+    ✔ Database now contains student records
+  </div>
+
+  <!-- STEP 3 -->
+  <h2>✅ STEP 3: Create Template Folder (IMPORTANT)</h2>
+  <pre><code>students/
+└── templates/
+    └── students/
+        └── student_list.html</code></pre>
+
+  <div class="note">
+    📌 Why <code>students/templates/students/</code>?<br>
+    ✔ Django best practice<br>
+    ✔ Avoids template name conflicts
+  </div>
+
+  <!-- STEP 4 -->
+  <h2>✅ STEP 4: Write View to Retrieve Data</h2>
+  <pre><code># students/views.py
+
+from django.shortcuts import render
+from .models import Student
+
+def student_list(request):
+    students = Student.objects.all()   # ORM fetch
+    return render(
+        request,
+        'students/student_list.html',
+        {'students': students}
+    )</code></pre>
+
+  <ul>
+    <li><strong>Student.objects.all()</strong> → fetches all rows</li>
+    <li><strong>students</strong> → QuerySet</li>
+    <li>Sent to template using context dictionary</li>
+  </ul>
+
+  <!-- STEP 5 -->
+  <h2>✅ STEP 5: Create Template to Display Data</h2>
+  <pre><code>&lt;!-- students/templates/students/student_list.html --&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Student List&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h2&gt;Student Records&lt;/h2&gt;
+
+{% if students %}
+    &lt;table border="1" cellpadding="8"&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Name&lt;/th&gt;
+            &lt;th&gt;Age&lt;/th&gt;
+            &lt;th&gt;Email&lt;/th&gt;
+            &lt;th&gt;Course&lt;/th&gt;
+        &lt;/tr&gt;
+
+        {% for student in students %}
+        &lt;tr&gt;
+            &lt;td&gt;{{ student.name }}&lt;/td&gt;
+            &lt;td&gt;{{ student.age }}&lt;/td&gt;
+            &lt;td&gt;{{ student.email }}&lt;/td&gt;
+            &lt;td&gt;{{ student.course }}&lt;/td&gt;
+        &lt;/tr&gt;
+        {% endfor %}
+    &lt;/table&gt;
+{% else %}
+    &lt;p&gt;No students found.&lt;/p&gt;
+{% endif %}
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+  <h3>🔹 Template Language Explanation</h3>
+  <table class="content-table">
+    <tr>
+      <th>Code</th>
+      <th>Meaning</th>
+    </tr>
+    <tr>
+      <td>{{ student.name }}</td>
+      <td>Print column value</td>
+    </tr>
+    <tr>
+      <td>{% for student in students %}</td>
+      <td>Loop over QuerySet</td>
+    </tr>
+    <tr>
+      <td>{% if students %}</td>
+      <td>Check data exists</td>
+    </tr>
+  </table>
+
+  <!-- STEP 6 -->
+  <h2>✅ STEP 6: Connect URL</h2>
+  <pre><code># students/urls.py
+
+from django.urls import path
+from .views import student_list
+
+urlpatterns = [
+    path('list/', student_list, name='student_list'),
+]</code></pre>
+
+  <pre><code># ormdemo/urls.py
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('students/', include('students.urls')),
+]</code></pre>
+
+  <!-- STEP 7 -->
+  <h2>✅ STEP 7: Run Server & Test</h2>
+  <pre><code>python manage.py runserver</code></pre>
+
+  <p>Open in browser:</p>
+  <pre><code>http://127.0.0.1:8000/students/list/</code></pre>
+
+  <div class="note">
+    🎉 Data is fetched using ORM and displayed using DTL
+  </div>
+
+  <!-- Variations -->
+  <h2>🔹 Variations (Very Common in Real Projects)</h2>
+
+  <h3>🔵 Retrieve Filtered Data</h3>
+  <pre><code>students = Student.objects.filter(course="Django")</code></pre>
+
+  <h3>🔵 Retrieve Single Record</h3>
+  <pre><code>student = Student.objects.get(id=1)</code></pre>
+  <pre><code>&lt;p&gt;{{ student.name }}&lt;/p&gt;</code></pre>
+
+  <h3>🔵 Ordered Data</h3>
+  <pre><code>students = Student.objects.order_by('-age')</code></pre>
+
+  <!-- Mistakes -->
+  <h2>🔹 Common Mistakes (Exam + Project)</h2>
+  <ul>
+    <li>❌ Forgetting <code>templates/</code> folder</li>
+    <li>❌ Wrong template path</li>
+    <li>❌ Not passing context</li>
+    <li>❌ Using wrong variable name in template</li>
+  </ul>
+
+  <div class="note">
+    🎯 This is the <strong>most important Django ORM + Template integration flow</strong>
+    you must master.
+  </div>
+</section>
+
+
+<div class="content-navigation">
+  <a href="./content.html" class="btn secondary">⬅ Back to Contents</a>
+  <a href="./mini-project.html" class="btn primary">Next: Mini Project ➜</a>
+</div>
+
+</body>
+</html>

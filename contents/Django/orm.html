@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Django ORM – Introduction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Introduction to Django ORM</h1>
+    <p class="subtitle">
+      Understand how Django ORM maps Python classes to database tables and replaces raw SQL.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+  <h2>🔹 What is Django ORM?</h2>
+
+  <p>
+    <strong>Django ORM (Object Relational Mapper)</strong> allows you to interact
+    with your database using <strong>Python code instead of SQL</strong>.
+  </p>
+
+  <h3>🔁 Simple Mapping</h3>
+  <table class="content-table">
+    <tr>
+      <th>Database Concept</th>
+      <th>Django ORM</th>
+    </tr>
+    <tr>
+      <td>Table</td>
+      <td>Python Class (Model)</td>
+    </tr>
+    <tr>
+      <td>Row</td>
+      <td>Object (Instance)</td>
+    </tr>
+    <tr>
+      <td>Column</td>
+      <td>Class Attribute</td>
+    </tr>
+    <tr>
+      <td>SQL Query</td>
+      <td>Python Method</td>
+    </tr>
+  </table>
+
+  <div class="note">
+    📌 You write Python code — Django automatically generates and executes SQL.
+  </div>
+
+  <h3>🔹 Example (Simple Understanding)</h3>
+
+  <p><strong>SQL ❌ (Not Recommended)</strong></p>
+  <pre><code>SELECT * FROM student WHERE age > 18;</code></pre>
+
+  <p><strong>Django ORM ✅</strong></p>
+  <pre><code>Student.objects.filter(age__gt=18)</code></pre>
+
+  <ul>
+    <li>✔ Cleaner</li>
+    <li>✔ Safer</li>
+    <li>✔ Easier to read</li>
+  </ul>
+
+  <h3>🔹 Why Django ORM is Important?</h3>
+
+  <h4>✅ Key Benefits</h4>
+  <ul>
+    <li>No raw SQL required</li>
+    <li>Database independent (SQLite, MySQL, PostgreSQL)</li>
+    <li>Prevents SQL Injection</li>
+    <li>Readable & maintainable code</li>
+    <li>Faster development</li>
+  </ul>
+
+  <div class="note">
+    📌 The same Python ORM code works on any supported database.
+  </div>
+
+  <h3>🔹 How Django ORM Works (Flow)</h3>
+  <pre><code>Model (Python Class)
+        ↓
+Django ORM
+        ↓
+Database (SQL)</code></pre>
+
+  <div class="note">
+    📌 You never write SQL manually, but Django executes SQL internally.
+  </div>
+
+  <h2>🔹 Step-by-Step: Django ORM From Scratch</h2>
+
+  <h3>✅ Step 1: Create Project & App</h3>
+  <pre><code>django-admin startproject ormdemo
+cd ormdemo
+python manage.py startapp students</code></pre>
+
+  <h4>🔹 Register App</h4>
+  <pre><code># ormdemo/settings.py
+
+INSTALLED_APPS = [
+    'students',
+]</code></pre>
+
+  <div class="note">
+    📌 Without registering the app, Django will ignore the models.
+  </div>
+
+  <h3>✅ Step 2: Create Model (Database Table)</h3>
+  <pre><code># students/models.py
+
+from django.db import models
+
+class Student(models.Model):
+    name = models.CharField(max_length=100)
+    age = models.IntegerField()
+    email = models.EmailField(unique=True)
+    course = models.CharField(max_length=50)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name</code></pre>
+
+  <h4>🔹 What Django Creates Automatically</h4>
+  <table class="content-table">
+    <tr>
+      <th>Python</th>
+      <th>Database</th>
+    </tr>
+    <tr>
+      <td>Student</td>
+      <td>students_student table</td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td>VARCHAR</td>
+    </tr>
+    <tr>
+      <td>age</td>
+      <td>INTEGER</td>
+    </tr>
+    <tr>
+      <td>email</td>
+      <td>UNIQUE</td>
+    </tr>
+    <tr>
+      <td>is_active</td>
+      <td>BOOLEAN</td>
+    </tr>
+  </table>
+
+  <div class="note">
+    📌 Django also automatically creates:
+    <ul>
+      <li>id (Primary Key)</li>
+      <li>Indexes</li>
+    </ul>
+  </div>
+
+  <h3>✅ Step 3: Create Database Tables (Migrations)</h3>
+  <pre><code>python manage.py makemigrations
+python manage.py migrate</code></pre>
+
+  <h4>🔹 What Happens Internally</h4>
+  <ul>
+    <li>Django generates SQL</li>
+    <li>Applies it to the database</li>
+    <li>Tables are created automatically</li>
+  </ul>
+
+  <div class="note">
+    📌 No SQL writing required.
+  </div>
+
+  <h3>✅ Step 4: Register Model in Admin Panel</h3>
+  <pre><code># students/admin.py
+
+from django.contrib import admin
+from .models import Student
+
+admin.site.register(Student)</code></pre>
+
+  <h4>🔹 Create Admin User</h4>
+  <pre><code>python manage.py createsuperuser
+python manage.py runserver</code></pre>
+
+  <p>Visit:</p>
+  <pre><code>http://127.0.0.1:8000/admin/</code></pre>
+
+  <ul>
+    <li>✔ Add students</li>
+    <li>✔ Edit students</li>
+    <li>✔ Delete students</li>
+  </ul>
+
+  <div class="note">
+    🎯 Django ORM + Admin Panel = powerful, fast backend development.
+  </div>
+</section>
+
+<section class="content-section">
+  <h2>🔷 Django Model Fields</h2>
+
+  <p>
+    Django provides many built-in <strong>model fields</strong> to store different
+    types of data in the database. Below are the most commonly used fields
+    with <strong>real-world usage examples</strong>.
+  </p>
+
+  <!-- 1 -->
+  <h3>🔹 1. IntegerField</h3>
+  <pre><code>age = models.IntegerField()</code></pre>
+  <p><strong>✅ Use When:</strong></p>
+  <ul>
+    <li>Age</li>
+    <li>Quantity</li>
+    <li>Count</li>
+    <li>Marks</li>
+  </ul>
+  <div class="note">
+    📌 Stores whole numbers only.
+  </div>
+
+  <!-- 2 -->
+  <h3>🔹 2. BigIntegerField</h3>
+  <pre><code>phone = models.BigIntegerField()</code></pre>
+  <p><strong>✅ Use When:</strong></p>
+  <ul>
+    <li>Large numbers</li>
+    <li>Phone numbers</li>
+    <li>IDs beyond IntegerField range</li>
+  </ul>
+  <div class="note">
+    📌 Supports very large integers.
+  </div>
+
+  <!-- 3 -->
+  <h3>🔹 3. AutoField</h3>
+  <pre><code>id = models.AutoField(primary_key=True)</code></pre>
+  <p><strong>✅ Use When:</strong></p>
+  <ul>
+    <li>Auto-increment primary key</li>
+  </ul>
+  <div class="note">
+    📌 Django creates this automatically, so you usually don’t write it.
+  </div>
+
+  <!-- 4 -->
+  <h3>🔹 4. FloatField</h3>
+  <pre><code>percentage = models.FloatField()</code></pre>
+  <p><strong>✅ Use When:</strong></p>
+  <ul>
+    <li>Decimal values</li>
+    <li>Percentage</li>
+    <li>Ratings</li>
+  </ul>
+  <div class="note">
+    📌 Stores floating-point numbers.
+  </div>
+
+  <!-- 5 -->
+  <h3>🔹 5. CharField</h3>
+  <pre><code>name = models.CharField(max_length=100)</code></pre>
+  <p><strong>✅ Use When:</strong></p>
+  <ul>
+    <li>Short text</li>
+    <li>Names</li>
+    <li>Titles</li>
+    <li>Course names</li>
+  </ul>
+  <div class="note">
+    📌 <code>max_length</code> is mandatory.
+  </div>
+
+  <!-- 6 -->
+  <h3>🔹 6. TextField</h3>
+  <pre><code>description = models.TextField()</code></pre>
+  <p><strong>✅ Use When:</strong></p>
+  <ul>
+    <li>Long text</li>
+    <li>Description</li>
+    <li>Comments</li>
+    <li>Articles</li>
+  </ul>
+  <div class="note">
+    📌 Practically no length limit.
+  </div>
+
+  <!-- 7 -->
+  <h3>🔹 7. BooleanField</h3>
+  <pre><code>is_active = models.BooleanField(default=True)</code></pre>
+  <p><strong>✅ Use When:</strong></p>
+  <ul>
+    <li>True / False values</li>
+    <li>Status flags</li>
+    <li>Availability</li>
+  </ul>
+  <div class="note">
+    📌 Stored as BOOLEAN in the database.
+  </div>
+
+  <!-- 8 -->
+  <h3>🔹 8. EmailField</h3>
+  <pre><code>email = models.EmailField(unique=True)</code></pre>
+  <p><strong>✅ Use When:</strong></p>
+  <ul>
+    <li>Email addresses</li>
+  </ul>
+  <div class="note">
+    📌 Automatically validates email format.
+  </div>
+
+  <!-- 9 -->
+  <h3>🔹 9. URLField</h3>
+  <pre><code>website = models.URLField()</code></pre>
+  <p><strong>✅ Use When:</strong></p>
+  <ul>
+    <li>Website links</li>
+    <li>Profile URLs</li>
+  </ul>
+  <div class="note">
+    📌 Validates proper URL format.
+  </div>
+
+  <!-- 10 -->
+  <h3>🔹 10. BinaryField</h3>
+  <pre><code>data = models.BinaryField()</code></pre>
+  <p><strong>✅ Use When:</strong></p>
+  <ul>
+    <li>Raw binary data</li>
+    <li>Files (rare cases)</li>
+  </ul>
+  <div class="note">
+    📌 Not commonly used in regular Django applications.
+  </div>
+
+  <!-- Comparison -->
+  <h2>🔹 Field Comparison (Quick Revision)</h2>
+  <table class="content-table">
+    <tr>
+      <th>Field</th>
+      <th>Use</th>
+    </tr>
+    <tr>
+      <td>IntegerField</td>
+      <td>Whole numbers</td>
+    </tr>
+    <tr>
+      <td>BigIntegerField</td>
+      <td>Large numbers</td>
+    </tr>
+    <tr>
+      <td>AutoField</td>
+      <td>Auto ID</td>
+    </tr>
+    <tr>
+      <td>FloatField</td>
+      <td>Decimal values</td>
+    </tr>
+    <tr>
+      <td>CharField</td>
+      <td>Short text</td>
+    </tr>
+    <tr>
+      <td>TextField</td>
+      <td>Long text</td>
+    </tr>
+    <tr>
+      <td>BooleanField</td>
+      <td>True / False</td>
+    </tr>
+    <tr>
+      <td>EmailField</td>
+      <td>Email</td>
+    </tr>
+    <tr>
+      <td>URLField</td>
+      <td>Web links</td>
+    </tr>
+    <tr>
+      <td>BinaryField</td>
+      <td>Binary data</td>
+    </tr>
+  </table>
+
+  <div class="note">
+    🎯 Choosing the correct model field ensures
+    <strong>data accuracy, validation, and clean database design</strong>.
+  </div>
+</section>
+
+
+<div class="content-navigation">
+  <a href="./content.html" class="btn secondary">⬅ Back to Contents</a>
+  <a href="./models.html" class="btn primary">Next: Django Models ➜</a>
+</div>
+
+</body>
+</html>

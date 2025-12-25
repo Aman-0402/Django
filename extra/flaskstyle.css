@@ -38,12 +38,14 @@ body {
 }
 
 /* =====================
-   HEADER (MODERN + RESPONSIVE)
+   HEADER (CLEAN & COMPACT)
 ===================== */
 .content-header {
   background: linear-gradient(135deg, #020617, #020617);
   border-bottom: 1px solid var(--border);
-  min-height: 60vh;
+
+  /* 🔥 HERO MODE */
+  min-height: 100vh;          /* FULL SCREEN */
   display: flex;
   align-items: center;
 }
@@ -51,44 +53,76 @@ body {
 .header-inner {
   max-width: 1100px;
   margin: auto;
-  padding: 2.2rem 1.2rem;
+  padding: 2rem 1.2rem;
+
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
   gap: 1rem;
 }
 
-.title-group h1 {
-    margin: 0;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-  
-    /* 🔥 Responsive magic */
-    font-size: clamp(2.8rem, 10vw, 5.2rem);
-  
-    line-height: 1;
-    color: var(--accent);
-  }
-  
-
-.title-group p {
-  margin-top: 0.4rem;
-  color: var(--muted);
-  max-width: 520px;
-  font-size: 0.95rem;
+/* =====================
+   TITLE GROUP
+===================== */
+.title-group {
+  text-align: center;
+  margin: 0;
 }
 
+/* =====================
+   FLASK LOGO (RESPONSIVE + NO EXTRA SPACE)
+===================== */
+.flask-logo {
+  width: auto;
+  max-width:1500px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  line-height: 0;
+
+  animation: logoFloat 4s ease-in-out infinite;
+}
+
+/* Floating effect */
+@keyframes logoFloat {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+/* =====================
+   BADGE
+===================== */
 .badge {
   display: inline-block;
-  margin-top: 0.5rem;
+  margin-top: 0.45rem;
   padding: 0.25rem 0.7rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 36px;
   background: rgba(56, 189, 248, 0.15);
   color: #38bdf8;
 }
 
-/* Theme Toggle */
+/* =====================
+   HEADER TEXT
+===================== */
+.title-group p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  max-width: 1700px;
+  font-size: 50px;
+  line-height: 1.4;
+}
+
+/* =====================
+   THEME TOGGLE
+===================== */
 #themeToggle {
   background: var(--card);
   border: 1px solid var(--border);
@@ -129,7 +163,7 @@ body {
 }
 
 /* =====================
-   TOPIC LIST (SYLLABUS STYLE)
+   TOPIC LIST
 ===================== */
 .topic-link {
   display: flex;
@@ -230,7 +264,11 @@ th {
 @media (max-width: 768px) {
   .header-inner {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+  }
+
+  .flask-logo {
+    max-width: 180px;
   }
 
   #themeToggle {
@@ -239,10 +277,11 @@ th {
 }
 
 @media (max-width: 480px) {
-  .topic-text p {
-    display: none;
+  .flask-logo {
+    max-width: 140px;
   }
 
+  .topic-text p,
   .arrow {
     display: none;
   }

@@ -31,13 +31,8 @@
 <section class="content-section">
     <h2>🚀 Django Mini Projects Roadmap (Beginner → Advanced)</h2>
   
-    <!-- ===================== -->
-    <!-- Level 1 -->
-    <!-- ===================== -->
-  
-    <h3>🟢 Level 1 — Beginner Mini Projects</h3>
-  
-    <h4>1️⃣ Course Learning Portal (Best Fit for You)</h4>
+
+    <h3>1️⃣ Course Learning Portal (Best Fit for You)</h3>
   
     <p><strong>What You Build</strong></p>
     <ul>
@@ -62,157 +57,115 @@
     <a href="./Project/courselearnportal.html" class="btn primary" target="_blank">
       Click Here to View Project Code
     </a>
-  
+    &emsp;&emsp;
+    &emsp;&emsp;
     <a href="./Project/courseupgrade.html" class="btn primary" target="_blank">
       Upgrade Version
     </a>
 
-  
-    <h4>2️⃣ Personal Portfolio Website</h4>
-  
-    <p><strong>Pages</strong></p>
-    <ul>
-      <li>Home</li>
-      <li>Skills</li>
-      <li>Projects</li>
-      <li>Contact</li>
-    </ul>
-  
-    <p><strong>Django Topics Used</strong></p>
-    <ul>
-      <li>Template inheritance</li>
-      <li>Static files</li>
-      <li>URL mapping</li>
-      <li>Reusable components (navbar, footer)</li>
-    </ul>
-  
-    <a href="#" class="btn primary"  target="_blank">Click Here to View Project Code</a>
+  <br>
+  <br>
+  <hr>
 
-    <!-- ===================== -->
-    <!-- Level 2 -->
-    <!-- ===================== -->
-  
-    <h3>🟡 Level 2 — Intermediate Mini Projects</h3>
-    <p><em>(Forms, models, basic database, admin)</em></p>
-  
-    <h4>3️⃣ Student Dashboard (Mini Version)</h4>
-  
-    <p><strong>Features</strong></p>
+
+  <h2>🏆 Student Management System (Mini → Intermediate Level)</h2>
+
+<p><strong>📘 Project Description</strong></p>
+<p>
+  A web-based system built using Django where student data is fully
+  managed through Django ORM.
+</p>
+
+<p><strong>What You Build</strong></p>
+<ul>
+  <li>➕ Add new students</li>
+  <li>📄 View all students</li>
+  <li>✏ Update student details</li>
+  <li>❌ Delete students</li>
+  <li>🔍 Filter students by course</li>
+</ul>
+
+<p>
+  All data is stored, retrieved, and managed using <strong>Django ORM</strong>.
+</p>
+
+<p><strong>🗂️ Database Design</strong></p>
+<ul>
+  <li><strong>Student Table</strong></li>
+  <li><code>id</code> → AutoField (Primary Key)</li>
+  <li><code>name</code> → CharField</li>
+  <li><code>age</code> → IntegerField</li>
+  <li><code>email</code> → EmailField</li>
+  <li><code>course</code> → CharField</li>
+</ul>
+
+<p><strong>🧩 Project Modules (Step-by-Step Build)</strong></p>
+<ul>
+  <li>
+    <strong>1️⃣ Student Model</strong>
     <ul>
-      <li>Student profile page</li>
-      <li>Subject list</li>
-      <li>Marks display (static or database)</li>
+      <li>Create student table using Django ORM</li>
+      <li>Apply migrations</li>
     </ul>
-  
-    <p><strong>Concepts</strong></p>
+  </li>
+
+  <li>
+    <strong>2️⃣ Add Student</strong>
     <ul>
-      <li>Models</li>
-      <li>ORM</li>
-      <li>Dynamic templates</li>
-      <li>Admin panel</li>
+      <li>Create view to insert data</li>
+      <li>Use ORM <code>.create()</code></li>
     </ul>
-  
-    <a href="#" class="btn primary"  target="_blank">Click Here to View Project Code</a>
-  
-  
-    <h4>4️⃣ Blog Website</h4>
-  
-    <p><strong>Features</strong></p>
+  </li>
+
+  <li>
+    <strong>3️⃣ View Students</strong>
     <ul>
-      <li>Add posts (Admin)</li>
-      <li>View posts (User)</li>
-      <li>Categories</li>
+      <li>Fetch data using <code>.all()</code></li>
+      <li>Display records in an HTML table</li>
     </ul>
-  
-    <p><strong>Concepts</strong></p>
+  </li>
+
+  <li>
+    <strong>4️⃣ Update Student</strong>
     <ul>
-      <li>Models</li>
-      <li>ORM queries</li>
-      <li>Dynamic templates</li>
-      <li>Admin customization</li>
+      <li>Fetch student using <code>.get()</code></li>
+      <li>Modify data and call <code>.save()</code></li>
     </ul>
-  
-    <a href="#" class="btn primary"  target="_blank">Click Here to View Project Code</a>
-  
-    <!-- ===================== -->
-    <!-- Level 3 -->
-    <!-- ===================== -->
-  
-    <h3>🔵 Level 3 — Intermediate+ Mini Projects</h3>
-    <p><em>(Authentication, forms, CRUD)</em></p>
-  
-    <h4>5️⃣ Simple Quiz Application</h4>
-  
-    <p><strong>Features</strong></p>
+  </li>
+
+  <li>
+    <strong>5️⃣ Delete Student</strong>
     <ul>
-      <li>Quiz page</li>
-      <li>MCQs</li>
-      <li>Result page</li>
+      <li>Remove record using <code>.delete()</code></li>
     </ul>
-  
-    <p><strong>Concepts</strong></p>
+  </li>
+
+  <li>
+    <strong>6️⃣ Admin Panel</strong>
     <ul>
-      <li>Django Forms</li>
-      <li>GET / POST</li>
-      <li>Template logic (<code>if</code>, <code>for</code>)</li>
-      <li>Static JS interaction</li>
+      <li>Manage students visually using Django Admin</li>
     </ul>
-  
-    <a href="#" class="btn primary"  target="_blank">Click Here to View Project Code</a>
-  
-     
-  
-    <h4>6️⃣ Contact Management System</h4>
-  
-    <p><strong>Features</strong></p>
-    <ul>
-      <li>Add contact</li>
-      <li>View contact list</li>
-      <li>Delete contact</li>
-    </ul>
-  
-    <p><strong>Concepts</strong></p>
-    <ul>
-      <li>CRUD operations</li>
-      <li>ORM</li>
-      <li>Forms</li>
-      <li>URL parameters</li>
-    </ul>
-  
-    <a href="#" class="btn primary"  target="_blank">Click Here to View Project Code</a>
-  
-    <!-- ===================== -->
-    <!-- Level 4 -->
-    <!-- ===================== -->
-  
-    <h3>🔴 Level 4 — Capstone Mini Project (Highly Recommended)</h3>
-  
-    <h4>7️⃣ Django + Flask Learning Hub</h4>
-  
-    <p><strong>Modules</strong></p>
-    <ul>
-      <li>Django section</li>
-      <li>Flask section</li>
-      <li>Notes</li>
-      <li>Examples</li>
-      <li>Practice tasks</li>
-    </ul>
-  
-    <p><strong>Covers Everything You Learned</strong></p>
-    <ul>
-      <li>Multiple apps (<code>course</code>, <code>course1</code>)</li>
-      <li>Static assets</li>
-      <li>Template inheritance</li>
-      <li>Clean project structure</li>
-      <li>Real-world use case</li>
-    </ul>
-  
-    <div class="note">
-      💡 This project can become your <strong>GitHub showcase</strong>
-      and even <strong>teaching material</strong> later.
-    </div>
-  
-    <a href="#" class="btn primary"  target="_blank">Click Here to View Project Code</a>
+  </li>
+</ul>
+
+<div class="note">
+  👉 This mini project perfectly reinforces Django ORM, Models,
+  CRUD operations, Admin Panel usage, and real-world database handling.
+</div>
+
+<a href="./Project/student-management.html" class="btn primary" target="_blank">
+  Click Here to View Project Code
+</a>
+
+&emsp;&emsp;
+&emsp;&emsp;
+
+<a href="./Project/student-management-upgrade.html" class="btn primary" target="_blank">
+  Upgrade Version
+</a>
+
+
+    
   </section>
   
 
