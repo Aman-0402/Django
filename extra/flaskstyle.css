@@ -276,6 +276,11 @@ th {
   align-items: center;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
+  background: linear-gradient(
+    180deg,
+    rgba(56, 189, 248, 0.04),
+    rgba(56, 189, 248, 0.00) 60%
+  );
 }
 .fullscreen-header .header-inner {
   max-width: 900px;
@@ -295,4 +300,21 @@ th {
   color: var(--muted);
   max-width: 720px;
   line-height: 1.6;
+}
+/* =====================
+   FADE-IN ANIMATION
+===================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fullscreen-header .header-inner {
+  animation: fadeInUp 0.9s ease-out both;
 }

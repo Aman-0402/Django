@@ -39,8 +39,237 @@
   <main class="content-wrapper">
 
     <section class="content-card">
-      <!-- CONTENT WILL BE ADDED LATER -->
-    </section>
+
+        <h2>Python & Web Basics</h2>
+        <p>
+          Before learning Flask, it is essential to refresh the core Python concepts
+          that are commonly used in web development.
+        </p>
+      
+        <hr />
+      
+        <h3>📘 Topic 1: Python Refresher for Web Development</h3>
+      
+        <p>
+          Flask is written in Python. That means Python handles all backend logic
+          such as requests, responses, databases, and APIs.
+        </p>
+      
+        <!-- =====================
+             WHY PYTHON
+        ====================== -->
+        <h3>1️⃣ Why Python for Web Development?</h3>
+      
+        <p>Python is widely used in web development because it is:</p>
+      
+        <ul>
+          <li>Easy to read and write</li>
+          <li>Powerful for backend logic</li>
+          <li>Supported by frameworks like Flask and Django</li>
+          <li>Capable of handling databases, APIs, authentication, and more</li>
+        </ul>
+      
+        <p><strong>👉 Important:</strong> In Flask, Python handles backend logic, not design.</p>
+      
+        <!-- =====================
+             REQUIRED PYTHON
+        ====================== -->
+        <h3>2️⃣ Python Concepts You MUST Know for Flask</h3>
+        <p>
+          You do not need to learn complete Python. Only the following concepts are
+          essential for Flask development.
+        </p>
+      
+        <!-- VARIABLES -->
+        <h4>🔹 2.1 Variables & Data Types</h4>
+      
+        <pre><code>
+      name = "Aman"
+      age = 22
+      price = 99.50
+      is_active = True
+        </code></pre>
+      
+        <p><strong>Notes:</strong></p>
+        <ul>
+          <li>Variables store user data, form data, and database data</li>
+          <li>Python automatically detects the data type</li>
+        </ul>
+      
+        <!-- STRINGS -->
+        <h4>🔹 2.2 Strings (Very Important)</h4>
+      
+        <pre><code>
+      username = "admin"
+      message = f"Welcome {username}"
+      print(message)
+        </code></pre>
+      
+        <p><strong>Used in Flask for:</strong></p>
+        <ul>
+          <li>Messages</li>
+          <li>HTML responses</li>
+          <li>JSON responses</li>
+        </ul>
+      
+        <!-- LIST & DICT -->
+        <h4>🔹 2.3 Lists & Dictionaries (MOST USED)</h4>
+      
+        <p><strong>List Example:</strong></p>
+        <pre><code>
+      courses = ["Flask", "Django", "FastAPI"]
+        </code></pre>
+      
+        <p><strong>Dictionary Example:</strong></p>
+        <pre><code>
+      student = {
+          "name": "Aman",
+          "course": "Flask",
+          "active": True
+      }
+        </code></pre>
+      
+        <p><strong>Flask Usage:</strong></p>
+        <ul>
+          <li>Lists → Display multiple items in HTML</li>
+          <li>Dictionaries → Pass structured data to templates</li>
+        </ul>
+      
+        <!-- CONDITION -->
+        <h4>🔹 2.4 Conditional Statements (if–else)</h4>
+      
+        <pre><code>
+      age = 18
+      
+      if age >= 18:
+          print("Allowed")
+      else:
+          print("Not Allowed")
+        </code></pre>
+      
+        <p><strong>Flask Usage:</strong></p>
+        <ul>
+          <li>Login checks</li>
+          <li>User role validation</li>
+          <li>Form validation</li>
+        </ul>
+      
+        <!-- LOOPS -->
+        <h4>🔹 2.5 Loops</h4>
+      
+        <pre><code>
+      courses = ["Flask", "Django", "FastAPI"]
+      
+      for course in courses:
+          print(course)
+        </code></pre>
+      
+        <p><strong>Flask Usage:</strong></p>
+        <ul>
+          <li>Display database records</li>
+          <li>Create HTML tables and lists</li>
+        </ul>
+      
+        <!-- FUNCTIONS -->
+        <h4>🔹 2.6 Functions (VERY IMPORTANT)</h4>
+      
+        <pre><code>
+      def greet(name):
+          return f"Hello {name}"
+      
+      print(greet("Aman"))
+        </code></pre>
+      
+        <p><strong>Flask Reality:</strong></p>
+        <p>👉 Every Flask route is a Python function.</p>
+      
+        <!-- MODULES -->
+        <h4>🔹 2.7 Modules & Imports</h4>
+      
+        <pre><code>
+      import math
+      print(math.sqrt(16))
+        </code></pre>
+      
+        <p><strong>Custom Module Example:</strong></p>
+      
+        <pre><code>
+      # utils.py
+      def add(a, b):
+          return a + b
+        </code></pre>
+      
+        <pre><code>
+      # main.py
+      from utils import add
+      print(add(5, 3))
+        </code></pre>
+      
+        <p><strong>Flask Usage:</strong></p>
+        <ul>
+          <li>Code reuse</li>
+          <li>Clean project structure</li>
+        </ul>
+      
+        <!-- VENV -->
+        <h3>3️⃣ Python Virtual Environment (VERY IMPORTANT)</h3>
+      
+        <p>
+          A virtual environment isolates project dependencies so that each project
+          remains clean and conflict-free.
+        </p>
+      
+        <p><strong>Without virtual environment ❌</strong></p>
+        <ul>
+          <li>Version conflicts</li>
+          <li>Unstable projects</li>
+        </ul>
+      
+        <p><strong>With virtual environment ✅</strong></p>
+        <ul>
+          <li>Safe dependency management</li>
+          <li>Clean Flask projects</li>
+        </ul>
+      
+        <h4>Create Virtual Environment</h4>
+        <pre><code>
+      python -m venv venv
+        </code></pre>
+      
+        <h4>Activate (Windows)</h4>
+        <pre><code>
+      venv\Scripts\activate
+        </code></pre>
+      
+        <h4>Activate (Linux / Mac)</h4>
+        <pre><code>
+      source venv/bin/activate
+        </code></pre>
+      
+        <p>After activation, you will see <strong>(venv)</strong> in the terminal.</p>
+      
+        <!-- PIP -->
+        <h3>4️⃣ pip (Python Package Manager)</h3>
+      
+        <pre><code>
+      pip install flask
+      pip list
+      pip freeze > requirements.txt
+        </code></pre>
+      
+        <!-- NOTES -->
+        <h3>📝 Short Notes (For Your Notebook)</h3>
+      
+        <ul>
+          <li>Python is the backend language for Flask</li>
+          <li>Functions act as Flask routes</li>
+          <li>Lists and dictionaries handle data</li>
+          <li>Virtual environments isolate dependencies</li>
+          <li>pip installs Flask and other libraries</li>
+        </ul>
+      
+      </section>
+      
 
   </main>
 
@@ -49,8 +278,12 @@
   ====================== -->
   <footer class="content-footer">
 
-    <a href="../index.html" class="btn">
+    <a href="./content.html" class="btn">
       ← Back to Flask Roadmap
+    </a>
+    <a href="./flask-core.html" class="btn">
+     
+     Next: Flask Core Concepts
     </a>
 
     <a href="https://github.com/Aman-0402" target="_blank" class="btn">
