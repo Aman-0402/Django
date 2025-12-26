@@ -1,13 +1,7 @@
-/* =====================
-   GLOBAL SAFETY
-===================== */
 * {
   box-sizing: border-box;
 }
 
-/* =====================
-   THEME VARIABLES
-===================== */
 :root {
   --bg: #f9fafb;
   --card: #ffffff;
@@ -26,9 +20,6 @@ body.dark {
   --border: #1f2937;
 }
 
-/* =====================
-   BASE
-===================== */
 body {
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, sans-serif;
@@ -37,15 +28,10 @@ body {
   line-height: 1.6;
 }
 
-/* =====================
-   HEADER (CLEAN & COMPACT)
-===================== */
 .content-header {
   background: linear-gradient(135deg, #020617, #020617);
   border-bottom: 1px solid var(--border);
-
-  /* 🔥 HERO MODE */
-  min-height: 100vh;          /* FULL SCREEN */
+  min-height: 100vh;         
   display: flex;
   align-items: center;
 }
@@ -54,7 +40,6 @@ body {
   max-width: 1100px;
   margin: auto;
   padding: 2rem 1.2rem;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,29 +47,21 @@ body {
   gap: 1rem;
 }
 
-/* =====================
-   TITLE GROUP
-===================== */
 .title-group {
   text-align: center;
   margin: 0;
 }
 
-/* =====================
-   FLASK LOGO (RESPONSIVE + NO EXTRA SPACE)
-===================== */
 .flask-logo {
   width: auto;
-  max-width:1500px;
+  max-width: 1500px;
   height: auto;
   display: block;
   margin: 0 auto;
   line-height: 0;
-
   animation: logoFloat 4s ease-in-out infinite;
 }
 
-/* Floating effect */
 @keyframes logoFloat {
   0% {
     transform: translateY(0);
@@ -96,9 +73,7 @@ body {
     transform: translateY(0);
   }
 }
-/* =====================
-   BADGE
-===================== */
+
 .badge {
   display: inline-block;
   margin-top: 0.45rem;
@@ -109,9 +84,6 @@ body {
   color: #38bdf8;
 }
 
-/* =====================
-   HEADER TEXT
-===================== */
 .title-group p {
   margin: 0.35rem 0 0;
   color: var(--muted);
@@ -120,9 +92,6 @@ body {
   line-height: 1.4;
 }
 
-/* =====================
-   THEME TOGGLE
-===================== */
 #themeToggle {
   background: var(--card);
   border: 1px solid var(--border);
@@ -140,9 +109,6 @@ body {
   transform: rotate(20deg) scale(1.05);
 }
 
-/* =====================
-   CONTENT
-===================== */
 .content-wrapper {
   max-width: 900px;
   margin: 2rem auto;
@@ -162,9 +128,6 @@ body {
   color: var(--accent);
 }
 
-/* =====================
-   TOPIC LIST
-===================== */
 .topic-link {
   display: flex;
   align-items: center;
@@ -209,9 +172,6 @@ body {
   color: var(--muted);
 }
 
-/* =====================
-   TABLE
-===================== */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -228,9 +188,6 @@ th {
   background: var(--bg);
 }
 
-/* =====================
-   FOOTER
-===================== */
 .content-footer {
   display: flex;
   flex-wrap: wrap;
@@ -258,9 +215,6 @@ th {
   width: 18px;
 }
 
-/* =====================
-   RESPONSIVE
-===================== */
 @media (max-width: 768px) {
   .header-inner {
     flex-direction: column;
@@ -289,4 +243,56 @@ th {
   .content-card {
     padding: 1.2rem;
   }
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 1000;
+}
+
+.simple-header .header-inner {
+  max-width: 900px;
+  margin: auto;
+  text-align: left;
+}
+
+.simple-header h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  color: var(--text);
+}
+
+.simple-header p {
+  margin-top: 0.6rem;
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 700px;
+}
+.fullscreen-header {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.fullscreen-header .header-inner {
+  max-width: 900px;
+  margin: auto;
+  padding: 0 1rem;
+}
+.fullscreen-header h1 {
+  margin: 0;
+  font-size: clamp(2.4rem, 5vw, 3.2rem);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.fullscreen-header p {
+  margin-top: 0.8rem;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--muted);
+  max-width: 720px;
+  line-height: 1.6;
 }
