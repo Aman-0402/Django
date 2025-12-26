@@ -37,7 +37,1127 @@
   ====================== -->
   <main class="content-wrapper">
 
+    <section class="content-card">
 
+      <h2>Templates & Jinja2</h2>
+      <h3>📘 Topic 1: Jinja2 Template Engine (Basics)</h3>
+    
+      <p>
+        <strong>Jinja2</strong> is the template engine used by Flask to create
+        dynamic HTML pages by combining HTML with Python data.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT IS TEMPLATE ENGINE
+      ====================== -->
+      <h3>1️⃣ What is a Template Engine?</h3>
+    
+      <p>A template engine allows you to:</p>
+      <ul>
+        <li>Write normal HTML</li>
+        <li>Insert Python data into HTML</li>
+        <li>Generate dynamic web pages</li>
+      </ul>
+    
+      <p>
+        👉 Flask uses <strong>Jinja2</strong> as its default template engine.
+      </p>
+    
+      <!-- =====================
+           WHY JINJA2
+      ====================== -->
+      <h3>2️⃣ Why Jinja2 is Needed?</h3>
+    
+      <p><strong>Without Jinja2 ❌</strong></p>
+      <ul>
+        <li>Only static HTML pages are possible</li>
+      </ul>
+    
+      <p><strong>With Jinja2 ✅</strong></p>
+      <ul>
+        <li>Display dynamic data</li>
+        <li>Loop through data</li>
+        <li>Apply conditions</li>
+      </ul>
+    
+      <p><strong>Example Output:</strong></p>
+      <pre><code>
+    Hello Aman
+    Hello Rahul
+    Hello Priya
+      </code></pre>
+    
+      <p>
+        (All generated from a single HTML file)
+      </p>
+    
+      <!-- =====================
+           TEMPLATES FOLDER
+      ====================== -->
+      <h3>3️⃣ Templates Folder Rule</h3>
+    
+      <p>
+        Flask automatically looks for HTML files inside the
+        <strong>templates</strong> folder.
+      </p>
+    
+      <p><strong>Example Structure:</strong></p>
+      <pre><code>
+    flask_app/
+    │
+    ├── app.py
+    └── templates/
+        └── index.html
+      </code></pre>
+    
+      <!-- =====================
+           RENDER TEMPLATE
+      ====================== -->
+      <h3>4️⃣ Rendering a Template in Flask</h3>
+    
+      <p><strong>app.py</strong></p>
+      <pre><code>
+    from flask import Flask, render_template
+    
+    app = Flask(__name__)
+    
+    @app.route("/")
+    def home():
+        return render_template("index.html")
+      </code></pre>
+    
+      <!-- =====================
+           BASIC HTML TEMPLATE
+      ====================== -->
+      <h3>5️⃣ Basic HTML Template</h3>
+    
+      <p><strong>templates/index.html</strong></p>
+      <pre><code>
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+      &lt;title&gt;Flask Template&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+      &lt;h1&gt;Welcome to Flask&lt;/h1&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+      </code></pre>
+    
+      <!-- =====================
+           PASS DATA
+      ====================== -->
+      <h3>6️⃣ Passing Data from Flask to Template</h3>
+    
+      <p><strong>app.py</strong></p>
+      <pre><code>
+    @app.route("/user")
+    def user():
+        name = "Aman"
+        return render_template("user.html", username=name)
+      </code></pre>
+    
+      <p><strong>templates/user.html</strong></p>
+      <pre><code>
+    &lt;h1&gt;Hello {{ username }}&lt;/h1&gt;
+      </code></pre>
+    
+      <p>
+        👉 <code>{{ }}</code> is used to print dynamic data in HTML.
+      </p>
+    
+      <!-- =====================
+           JINJA FLOW
+      ====================== -->
+      <h3>7️⃣ How Jinja2 Works (Flow)</h3>
+    
+      <pre><code>
+    Browser → Request
+    Flask   → render_template()
+    Jinja2  → injects data
+    HTML    → returned to browser
+      </code></pre>
+    
+      <!-- =====================
+           JINJA SYNTAX
+      ====================== -->
+      <h3>8️⃣ Jinja2 Syntax Basics</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Syntax</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>{{ }}</code></td>
+            <td>Print variable</td>
+          </tr>
+          <tr>
+            <td><code>{% %}</code></td>
+            <td>Logic (if, for)</td>
+          </tr>
+          <tr>
+            <td><code>{# #}</code></td>
+            <td>Comment</td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <!-- =====================
+           COMMENT EXAMPLE
+      ====================== -->
+      <h3>9️⃣ Jinja2 Comment Example</h3>
+    
+      <pre><code>
+    {# This is a Jinja comment #}
+      </code></pre>
+    
+      <p>
+        (This comment is not visible in the browser)
+      </p>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Templates & Jinja2</h2>
+      <h3>📘 Topic 2: Template Variables & Expressions</h3>
+    
+      <p>
+        This topic explains how data flows from Flask (Python) to HTML templates
+        using Jinja2 variables, expressions, and filters.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           TEMPLATE VARIABLES
+      ====================== -->
+      <h3>1️⃣ What are Template Variables?</h3>
+    
+      <p>
+        Template variables are Python values sent from Flask and used inside HTML
+        templates.
+      </p>
+    
+      <p><strong>Example (Python):</strong></p>
+      <pre><code>
+    name = "Aman"
+      </code></pre>
+    
+      <p><strong>Used in template as:</strong></p>
+      <pre><code>
+    {{ name }}
+      </code></pre>
+    
+      <!-- =====================
+           MULTIPLE VARIABLES
+      ====================== -->
+      <h3>2️⃣ Passing Multiple Variables</h3>
+    
+      <p><strong>app.py</strong></p>
+      <pre><code>
+    @app.route("/profile")
+    def profile():
+        return render_template(
+            "profile.html",
+            name="Aman",
+            age=22,
+            course="Flask"
+        )
+      </code></pre>
+    
+      <p><strong>profile.html</strong></p>
+      <pre><code>
+    &lt;h2&gt;Name: {{ name }}&lt;/h2&gt;
+    &lt;p&gt;Age: {{ age }}&lt;/p&gt;
+    &lt;p&gt;Course: {{ course }}&lt;/p&gt;
+      </code></pre>
+    
+      <!-- =====================
+           EXPRESSIONS
+      ====================== -->
+      <h3>3️⃣ Using Expressions in Templates</h3>
+    
+      <p>
+        Jinja2 expressions allow simple calculations and operations directly
+        inside HTML.
+      </p>
+    
+      <p><strong>Example:</strong></p>
+      <pre><code>
+    &lt;p&gt;Next Year Age: {{ age + 1 }}&lt;/p&gt;
+      </code></pre>
+    
+      <!-- =====================
+           LIST DATA
+      ====================== -->
+      <h3>4️⃣ Using Python Data Types (List)</h3>
+    
+      <p><strong>app.py</strong></p>
+      <pre><code>
+    @app.route("/courses")
+    def courses():
+        course_list = ["Flask", "Django", "FastAPI"]
+        return render_template("courses.html", courses=course_list)
+      </code></pre>
+    
+      <p><strong>courses.html</strong></p>
+      <pre><code>
+    &lt;ul&gt;
+      {% for course in courses %}
+        &lt;li&gt;{{ course }}&lt;/li&gt;
+      {% endfor %}
+    &lt;/ul&gt;
+      </code></pre>
+    
+      <!-- =====================
+           DICTIONARY DATA
+      ====================== -->
+      <h3>5️⃣ Using Dictionary in Template</h3>
+    
+      <p><strong>app.py</strong></p>
+      <pre><code>
+    @app.route("/student")
+    def student():
+        data = {"name": "Aman", "course": "Flask"}
+        return render_template("student.html", student=data)
+      </code></pre>
+    
+      <p><strong>student.html</strong></p>
+      <pre><code>
+    &lt;p&gt;Name: {{ student.name }}&lt;/p&gt;
+    &lt;p&gt;Course: {{ student.course }}&lt;/p&gt;
+      </code></pre>
+    
+      <!-- =====================
+           FILTERS
+      ====================== -->
+      <h3>6️⃣ Jinja2 Filters (Simple)</h3>
+    
+      <p>
+        Filters are used to modify how data is displayed in templates.
+      </p>
+    
+      <pre><code>
+    &lt;p&gt;{{ name | upper }}&lt;/p&gt;
+    &lt;p&gt;{{ name | lower }}&lt;/p&gt;
+    &lt;p&gt;{{ name | length }}&lt;/p&gt;
+      </code></pre>
+    
+      <!-- =====================
+           COMMON FILTERS
+      ====================== -->
+      <h3>7️⃣ Commonly Used Filters</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Filter</th>
+            <th>Output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>upper</td><td>CAPITAL</td></tr>
+          <tr><td>lower</td><td>small</td></tr>
+          <tr><td>length</td><td>count</td></tr>
+          <tr><td>title</td><td>Title Case</td></tr>
+        </tbody>
+      </table>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Templates & Jinja2</h2>
+      <h3>📘 Topic 3: Control Statements (if, for loop)</h3>
+    
+      <p>
+        Control statements allow templates to make decisions and loop through data.
+        They help in building dynamic and intelligent HTML pages.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT ARE CONTROL STATEMENTS
+      ====================== -->
+      <h3>1️⃣ What are Control Statements?</h3>
+    
+      <p>Control statements allow:</p>
+      <ul>
+        <li>Applying conditions using <strong>if</strong></li>
+        <li>Looping through data using <strong>for</strong></li>
+        <li>Dynamic rendering of HTML content</li>
+      </ul>
+    
+      <p>
+        👉 Control statements are written using <code>{% %}</code>.
+      </p>
+    
+      <!-- =====================
+           IF STATEMENT
+      ====================== -->
+      <h3>2️⃣ if Statement in Jinja2</h3>
+    
+      <p><strong>Template Example:</strong></p>
+      <pre><code>
+    {% if is_logged_in %}
+      &lt;p&gt;Welcome User&lt;/p&gt;
+    {% else %}
+      &lt;p&gt;Please Login&lt;/p&gt;
+    {% endif %}
+      </code></pre>
+    
+      <p><strong>Flask Side (<code>app.py</code>):</strong></p>
+      <pre><code>
+    @app.route("/login-status")
+    def login_status():
+        return render_template("status.html", is_logged_in=True)
+      </code></pre>
+    
+      <!-- =====================
+           COMPARISON
+      ====================== -->
+      <h3>3️⃣ Comparison Operators Supported</h3>
+    
+      <p><strong>Example:</strong></p>
+      <pre><code>
+    {% if age &gt;= 18 %}
+      &lt;p&gt;Adult&lt;/p&gt;
+    {% endif %}
+      </code></pre>
+    
+      <p><strong>Supported operators:</strong></p>
+      <ul>
+        <li><code>==</code></li>
+        <li><code>!=</code></li>
+        <li><code>&gt;</code></li>
+        <li><code>&lt;</code></li>
+        <li><code>&gt;=</code></li>
+        <li><code>&lt;=</code></li>
+      </ul>
+    
+      <!-- =====================
+           FOR LOOP
+      ====================== -->
+      <h3>4️⃣ for Loop in Jinja2</h3>
+    
+      <p><strong>Template Example:</strong></p>
+      <pre><code>
+    &lt;ul&gt;
+    {% for item in items %}
+      &lt;li&gt;{{ item }}&lt;/li&gt;
+    {% endfor %}
+    &lt;/ul&gt;
+      </code></pre>
+    
+      <p><strong>Flask Side:</strong></p>
+      <pre><code>
+    @app.route("/items")
+    def items():
+        data = ["Python", "Flask", "Django"]
+        return render_template("items.html", items=data)
+      </code></pre>
+    
+      <!-- =====================
+           DICTIONARY LOOP
+      ====================== -->
+      <h3>5️⃣ Loop with Dictionary</h3>
+    
+      <pre><code>
+    {% for key, value in student.items() %}
+      &lt;p&gt;{{ key }} : {{ value }}&lt;/p&gt;
+    {% endfor %}
+      </code></pre>
+    
+      <!-- =====================
+           LOOP VARIABLES
+      ====================== -->
+      <h3>6️⃣ Loop Special Variables</h3>
+    
+      <pre><code>
+    {% for course in courses %}
+      {{ loop.index }} - {{ course }} &lt;br&gt;
+    {% endfor %}
+      </code></pre>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>loop.index</td><td>Starts from 1</td></tr>
+          <tr><td>loop.index0</td><td>Starts from 0</td></tr>
+          <tr><td>loop.first</td><td>True / False</td></tr>
+          <tr><td>loop.last</td><td>True / False</td></tr>
+        </tbody>
+      </table>
+    
+      <!-- =====================
+           NESTED CONTROL
+      ====================== -->
+      <h3>7️⃣ Nested if inside loop</h3>
+    
+      <pre><code>
+    {% for age in ages %}
+      {% if age &gt;= 18 %}
+        &lt;p&gt;{{ age }} Adult&lt;/p&gt;
+      {% endif %}
+    {% endfor %}
+      </code></pre>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Templates & Jinja2</h2>
+      <h3>📘 Topic 4: Template Inheritance (base.html)</h3>
+    
+      <p>
+        Template inheritance helps you avoid repeating the same HTML code
+        across multiple pages by using a common base layout.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           PROBLEM WITHOUT INHERITANCE
+      ====================== -->
+      <h3>1️⃣ Problem Without Template Inheritance ❌</h3>
+    
+      <p>If you do not use template inheritance:</p>
+      <ul>
+        <li>The same navbar must be copied into every page</li>
+        <li>The same footer is repeated everywhere</li>
+        <li>Updating the design becomes difficult</li>
+      </ul>
+    
+      <!-- =====================
+           SOLUTION
+      ====================== -->
+      <h3>2️⃣ Solution: Template Inheritance ✅</h3>
+    
+      <p>
+        The solution is to create one main layout and reuse it across all pages.
+      </p>
+    
+      <ul>
+        <li><code>base.html</code> → Common layout</li>
+        <li><code>home.html</code> → Page-specific content</li>
+        <li><code>about.html</code> → Page-specific content</li>
+      </ul>
+    
+      <!-- =====================
+           BASE.HTML
+      ====================== -->
+      <h3>3️⃣ What is <code>base.html</code>?</h3>
+    
+      <p>
+        <code>base.html</code> is the main layout file that usually contains:
+      </p>
+    
+      <ul>
+        <li>HTML structure</li>
+        <li>Header</li>
+        <li>Navbar</li>
+        <li>Footer</li>
+        <li>Content blocks</li>
+      </ul>
+    
+      <!-- =====================
+           CREATE BASE
+      ====================== -->
+      <h3>4️⃣ Create <code>base.html</code></h3>
+    
+      <p><strong>templates/base.html</strong></p>
+    
+      <pre><code>
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+      &lt;title&gt;{% block title %}Flask App{% endblock %}&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+    
+      &lt;header&gt;
+        &lt;h1&gt;My Flask Website&lt;/h1&gt;
+      &lt;/header&gt;
+    
+      &lt;main&gt;
+        {% block content %}
+        {% endblock %}
+      &lt;/main&gt;
+    
+      &lt;footer&gt;
+        &lt;p&gt;© 2025 Flask App&lt;/p&gt;
+      &lt;/footer&gt;
+    
+    &lt;/body&gt;
+    &lt;/html&gt;
+      </code></pre>
+    
+      <!-- =====================
+           CHILD TEMPLATE
+      ====================== -->
+      <h3>5️⃣ Create Child Template</h3>
+    
+      <p><strong>templates/home.html</strong></p>
+    
+      <pre><code>
+    {% extends "base.html" %}
+    
+    {% block title %}Home{% endblock %}
+    
+    {% block content %}
+      &lt;h2&gt;Welcome Home&lt;/h2&gt;
+      &lt;p&gt;This is home page content.&lt;/p&gt;
+    {% endblock %}
+      </code></pre>
+    
+      <!-- =====================
+           RENDER TEMPLATE
+      ====================== -->
+      <h3>6️⃣ Render Child Template in Flask</h3>
+    
+      <p><strong>app.py</strong></p>
+    
+      <pre><code>
+    @app.route("/")
+    def home():
+        return render_template("home.html")
+      </code></pre>
+    
+      <!-- =====================
+           FLOW
+      ====================== -->
+      <h3>7️⃣ How Inheritance Works (Simple Flow)</h3>
+    
+      <pre><code>
+    base.html loads
+       ↓
+    child.html extends base
+       ↓
+    block content replaced
+       ↓
+    final HTML sent to browser
+      </code></pre>
+    
+      <!-- =====================
+           RULES
+      ====================== -->
+      <h3>8️⃣ Rules You MUST Remember 🔥</h3>
+    
+      <ul>
+        <li><code>{% extends %}</code> must be the first line in the child template</li>
+        <li><code>{% block %}</code> names must match exactly</li>
+        <li>You can create multiple blocks in one base template</li>
+      </ul>
+    
+      <!-- =====================
+           COMMON BLOCKS
+      ====================== -->
+      <h3>9️⃣ Common Blocks Used</h3>
+    
+      <pre><code>
+    {% block title %}{% endblock %}
+    {% block content %}{% endblock %}
+    {% block scripts %}{% endblock %}
+      </code></pre>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Templates & Jinja2</h2>
+      <h3>📘 Topic 5: Include & Macros</h3>
+    
+      <p>
+        Include and Macros help you reuse template parts and keep your HTML clean,
+        readable, and maintainable in large Flask applications.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHY INCLUDE & MACROS
+      ====================== -->
+      <h3>1️⃣ Why Include & Macros?</h3>
+    
+      <p><strong>Problems without them ❌</strong></p>
+      <ul>
+        <li>Repeated navbar and footer code</li>
+        <li>Very large and messy HTML files</li>
+      </ul>
+    
+      <p><strong>Solution ✅</strong></p>
+      <ul>
+        <li><strong>include</strong> → Reuse template files</li>
+        <li><strong>macros</strong> → Reuse template logic (like functions)</li>
+      </ul>
+    
+      <!-- =====================
+           INCLUDE TAG
+      ====================== -->
+      <h3>2️⃣ <code>{% include %}</code> – Reuse HTML Files</h3>
+    
+      <p>Use <code>include</code> when you want to reuse:</p>
+      <ul>
+        <li>Navbar</li>
+        <li>Footer</li>
+        <li>Sidebar</li>
+      </ul>
+    
+      <!-- =====================
+           NAVBAR TEMPLATE
+      ====================== -->
+      <h3>3️⃣ Create Navbar Template</h3>
+    
+      <p><strong>templates/navbar.html</strong></p>
+      <pre><code>
+    &lt;nav&gt;
+      &lt;a href="/"&gt;Home&lt;/a&gt; |
+      &lt;a href="/about"&gt;About&lt;/a&gt; |
+      &lt;a href="/contact"&gt;Contact&lt;/a&gt;
+    &lt;/nav&gt;
+      </code></pre>
+    
+      <!-- =====================
+           INCLUDE NAVBAR
+      ====================== -->
+      <h3>4️⃣ Include Navbar in <code>base.html</code></h3>
+    
+      <p><strong>templates/base.html</strong></p>
+      <pre><code>
+    &lt;body&gt;
+    
+      {% include "navbar.html" %}
+    
+      &lt;main&gt;
+        {% block content %}{% endblock %}
+      &lt;/main&gt;
+    
+    &lt;/body&gt;
+      </code></pre>
+    
+      <p>
+        👉 The navbar will now appear on every page.
+      </p>
+    
+      <!-- =====================
+           FOOTER INCLUDE
+      ====================== -->
+      <h3>5️⃣ Include Footer Example</h3>
+    
+      <p><strong>templates/footer.html</strong></p>
+      <pre><code>
+    &lt;footer&gt;
+      &lt;p&gt;© 2025 Flask App&lt;/p&gt;
+    &lt;/footer&gt;
+      </code></pre>
+    
+      <p><strong>Include it using:</strong></p>
+      <pre><code>
+    {% include "footer.html" %}
+      </code></pre>
+    
+      <!-- =====================
+           MACROS
+      ====================== -->
+      <h3>6️⃣ What are Macros? (Template Functions)</h3>
+    
+      <p>
+        Macros are like functions inside templates and are used to reuse
+        UI logic.
+      </p>
+    
+      <p><strong>Used for:</strong></p>
+      <ul>
+        <li>Buttons</li>
+        <li>Cards</li>
+        <li>Repeated UI components</li>
+      </ul>
+    
+      <!-- =====================
+           CREATE MACRO
+      ====================== -->
+      <h3>7️⃣ Create a Macro File</h3>
+    
+      <p><strong>templates/macros.html</strong></p>
+      <pre><code>
+    {% macro button(text) %}
+      &lt;button&gt;{{ text }}&lt;/button&gt;
+    {% endmacro %}
+      </code></pre>
+    
+      <!-- =====================
+           USE MACRO
+      ====================== -->
+      <h3>8️⃣ Use Macro in Another Template</h3>
+    
+      <pre><code>
+    {% from "macros.html" import button %}
+    
+    {{ button("Login") }}
+    {{ button("Register") }}
+      </code></pre>
+    
+      <!-- =====================
+           MACRO WITH PARAMS
+      ====================== -->
+      <h3>9️⃣ Macro with Parameters</h3>
+    
+      <pre><code>
+    {% macro card(title, desc) %}
+      &lt;div class="card"&gt;
+        &lt;h3&gt;{{ title }}&lt;/h3&gt;
+        &lt;p&gt;{{ desc }}&lt;/p&gt;
+      &lt;/div&gt;
+    {% endmacro %}
+      </code></pre>
+    
+      <p><strong>Usage:</strong></p>
+      <pre><code>
+    {{ card("Flask", "Python Web Framework") }}
+      </code></pre>
+    
+      <!-- =====================
+           INCLUDE VS MACRO
+      ====================== -->
+      <h3>🔥 Include vs Macros (Quick Comparison)</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Include</th>
+            <th>Macro</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Reuse HTML file</td><td>Reuse logic</td></tr>
+          <tr><td>Static content</td><td>Dynamic content</td></tr>
+          <tr><td>Navbar / Footer</td><td>Buttons / Cards</td></tr>
+        </tbody>
+      </table>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Templates & Jinja2</h2>
+      <h3>📘 Topic 6: Static Files (CSS, JS, Images)</h3>
+    
+      <p>
+        Static files are resources that do not change dynamically, such as CSS,
+        JavaScript, and images. Flask serves these files from a dedicated folder.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT ARE STATIC FILES
+      ====================== -->
+      <h3>1️⃣ What are Static Files?</h3>
+    
+      <p>Static files include:</p>
+      <ul>
+        <li><strong>CSS</strong> → Styling and layout</li>
+        <li><strong>JavaScript</strong> → Interactivity and behavior</li>
+        <li><strong>Images</strong> → Logos, banners, icons</li>
+      </ul>
+    
+      <p>
+        👉 Flask serves static files from the <strong>static</strong> folder.
+      </p>
+    
+      <!-- =====================
+           STATIC FOLDER RULE
+      ====================== -->
+      <h3>2️⃣ Static Folder Rule (IMPORTANT)</h3>
+    
+      <p>
+        Flask automatically looks for static files inside the
+        <strong>static/</strong> directory.
+      </p>
+    
+      <p><strong>Recommended Structure:</strong></p>
+    
+      <pre><code>
+    flask_app/
+    │
+    ├── app.py
+    ├── static/
+    │   ├── css/
+    │   │   └── style.css
+    │   ├── js/
+    │   │   └── script.js
+    │   └── images/
+    │       └── logo.png
+    └── templates/
+        └── base.html
+      </code></pre>
+    
+      <!-- =====================
+           LINK CSS
+      ====================== -->
+      <h3>3️⃣ Linking CSS File (Correct Way)</h3>
+    
+      <p><strong>base.html</strong></p>
+    
+      <pre><code>
+    &lt;link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}"&gt;
+      </code></pre>
+    
+      <p><strong>❌ Wrong Way:</strong></p>
+      <pre><code>
+    &lt;link rel="stylesheet" href="/static/css/style.css"&gt;
+      </code></pre>
+    
+      <p>
+        👉 Always use <code>url_for()</code> because it is safe and professional.
+      </p>
+    
+      <!-- =====================
+           SAMPLE CSS
+      ====================== -->
+      <h3>4️⃣ Sample CSS File</h3>
+    
+      <p><strong>static/css/style.css</strong></p>
+    
+      <pre><code>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+      </code></pre>
+    
+      <!-- =====================
+           LINK JS
+      ====================== -->
+      <h3>5️⃣ Linking JavaScript File</h3>
+    
+      <p><strong>base.html</strong></p>
+    
+      <pre><code>
+    &lt;script src="{{ url_for('static', filename='js/script.js') }}"&gt;&lt;/script&gt;
+      </code></pre>
+    
+      <p><strong>static/js/script.js</strong></p>
+    
+      <pre><code>
+    console.log("Flask JS Loaded");
+      </code></pre>
+    
+      <!-- =====================
+           IMAGES
+      ====================== -->
+      <h3>6️⃣ Using Images in Template</h3>
+    
+      <pre><code>
+    &lt;img src="{{ url_for('static', filename='images/logo.png') }}"
+         alt="Logo"&gt;
+      </code></pre>
+    
+      <!-- =====================
+           WHY URL_FOR
+      ====================== -->
+      <h3>7️⃣ Why <code>url_for()</code> is IMPORTANT 🔥</h3>
+    
+      <ul>
+        <li>✔ Works in all environments (local, server, production)</li>
+        <li>✔ Prevents broken links</li>
+        <li>✔ Recommended Flask best practice</li>
+      </ul>
+    
+      <!-- =====================
+           STATIC WITH INHERITANCE
+      ====================== -->
+      <h3>8️⃣ Static Files with Template Inheritance</h3>
+    
+      <p>
+        Static files are usually linked inside <code>base.html</code>.
+      </p>
+    
+      <pre><code>
+    &lt;head&gt;
+      &lt;link rel="stylesheet"
+            href="{{ url_for('static', filename='css/style.css') }}"&gt;
+    &lt;/head&gt;
+    
+    &lt;body&gt;
+      {% block content %}{% endblock %}
+      &lt;script src="{{ url_for('static', filename='js/script.js') }}"&gt;&lt;/script&gt;
+    &lt;/body&gt;
+      </code></pre>
+    
+      <!-- =====================
+           SHORT NOTES
+      ====================== -->
+      <h3>📝 Short Notes (Notebook Ready)</h3>
+    
+      <ul>
+        <li><code>static/</code> folder holds CSS, JS, and images</li>
+        <li>Flask automatically detects the static folder</li>
+        <li>Always use <code>url_for('static', filename=...)</code></li>
+        <li>Link CSS inside <code>&lt;head&gt;</code></li>
+        <li>Link JavaScript before <code>&lt;/body&gt;</code></li>
+      </ul>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Templates & Jinja2</h2>
+      <h3>📘 Topic 7: URL Generation (url_for)</h3>
+    
+      <p>
+        <code>url_for()</code> is used to generate safe and dynamic URLs in Flask.
+        It helps avoid broken links and makes applications easier to maintain.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           PROBLEM
+      ====================== -->
+      <h3>1️⃣ Problem with Hardcoded URLs ❌</h3>
+    
+      <pre><code>
+    &lt;a href="/about"&gt;About&lt;/a&gt;
+      </code></pre>
+    
+      <p><strong>Why this is bad?</strong></p>
+      <ul>
+        <li>Breaks if the route path changes</li>
+        <li>May break during deployment</li>
+        <li>Hard to maintain in large projects</li>
+      </ul>
+    
+      <!-- =====================
+           SOLUTION
+      ====================== -->
+      <h3>2️⃣ Solution: <code>url_for()</code> ✅</h3>
+    
+      <pre><code>
+    &lt;a href="{{ url_for('about') }}"&gt;About&lt;/a&gt;
+      </code></pre>
+    
+      <p>
+        👉 Flask automatically generates the correct URL.
+      </p>
+    
+      <!-- =====================
+           HOW IT WORKS
+      ====================== -->
+      <h3>3️⃣ How <code>url_for()</code> Works</h3>
+    
+      <p><strong>Flask Route:</strong></p>
+      <pre><code>
+    @app.route("/about")
+    def about():
+        return render_template("about.html")
+      </code></pre>
+    
+      <p><strong>Template:</strong></p>
+      <pre><code>
+    &lt;a href="{{ url_for('about') }}"&gt;About&lt;/a&gt;
+      </code></pre>
+    
+      <ul>
+        <li><code>about</code> → Function name</li>
+        <li>Flask maps it automatically to <code>/about</code></li>
+      </ul>
+    
+      <!-- =====================
+           WITH PARAMETERS
+      ====================== -->
+      <h3>4️⃣ <code>url_for()</code> with Parameters</h3>
+    
+      <p><strong>Route with parameter:</strong></p>
+      <pre><code>
+    @app.route("/user/&lt;name&gt;")
+    def user(name):
+        return render_template("user.html", name=name)
+      </code></pre>
+    
+      <p><strong>Template:</strong></p>
+      <pre><code>
+    &lt;a href="{{ url_for('user', name='Aman') }}"&gt;Profile&lt;/a&gt;
+      </code></pre>
+    
+      <p><strong>Generated URL:</strong></p>
+      <pre><code>
+    /user/Aman
+      </code></pre>
+    
+      <!-- =====================
+           STATIC FILES
+      ====================== -->
+      <h3>5️⃣ <code>url_for()</code> for Static Files (Revision)</h3>
+    
+      <pre><code>
+    &lt;link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}"&gt;
+      </code></pre>
+    
+      <!-- =====================
+           PYTHON SIDE
+      ====================== -->
+      <h3>6️⃣ <code>url_for()</code> Inside Python Code</h3>
+    
+      <pre><code>
+    from flask import redirect, url_for
+    
+    @app.route("/go-home")
+    def go_home():
+        return redirect(url_for("home"))
+      </code></pre>
+    
+      <!-- =====================
+           BENEFITS
+      ====================== -->
+      <h3>7️⃣ Benefits of Using <code>url_for()</code></h3>
+    
+      <ul>
+        <li>No broken links</li>
+        <li>Clean and maintainable navigation</li>
+        <li>Safe for deployment</li>
+        <li>Professional Flask code</li>
+      </ul>
+    
+      <!-- =====================
+           COMMON MISTAKES
+      ====================== -->
+      <h3>8️⃣ Common Mistakes ❌</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Mistake</th>
+            <th>Fix</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Using route URL directly</td>
+            <td>Use function name in <code>url_for()</code></td>
+          </tr>
+          <tr>
+            <td>Hardcoding links</td>
+            <td>Use <code>url_for()</code></td>
+          </tr>
+          <tr>
+            <td>Wrong parameter name</td>
+            <td>Match route parameter exactly</td>
+          </tr>
+        </tbody>
+      </table>
+    
+    </section>
+            
       
 
   </main>
@@ -50,9 +1170,8 @@
     <a href="./content.html" class="btn">
       ← Back to Flask Roadmap
     </a>
-    <a href="./templates-static.html" class="btn">
-     
-     Next: Flask Core Concepts
+    <a href="./forms-user-input.html" class="btn">
+      Forms & User Input →
     </a>
 
     <a href="https://github.com/Aman-0402" target="_blank" class="btn">
