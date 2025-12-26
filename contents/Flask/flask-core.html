@@ -37,7 +37,1100 @@
   ====================== -->
   <main class="content-wrapper">
 
+    <section class="content-card">
 
+      <h2>Flask Core (Beginner)</h2>
+      <h3>📘 Topic 1: What is Flask & Why Flask</h3>
+    
+      <p>
+        This topic explains what Flask is, why it is used, and where it fits in
+        real-world projects.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT IS FLASK
+      ====================== -->
+      <h3>1️⃣ What is Flask?</h3>
+    
+      <p>
+        <strong>Flask</strong> is a lightweight Python web framework used to build:
+      </p>
+    
+      <ul>
+        <li>Web applications</li>
+        <li>REST APIs</li>
+        <li>Backend services</li>
+      </ul>
+    
+      <p><strong>Simple Meaning:</strong></p>
+      <p>
+        Flask helps Python receive requests from clients and send responses back.
+      </p>
+    
+      <!-- =====================
+           MICROFRAMEWORK
+      ====================== -->
+      <h3>2️⃣ Why Flask is Called a Microframework?</h3>
+    
+      <p>
+        Flask is called a <strong>microframework</strong> because it provides only
+        the core features and leaves the rest to the developer.
+      </p>
+    
+      <ul>
+        <li>No built-in database</li>
+        <li>No built-in authentication system</li>
+        <li>No forced project structure</li>
+      </ul>
+    
+      <p>
+        👉 You add only what your project actually needs.
+      </p>
+    
+      <!-- =====================
+           DEFAULT FEATURES
+      ====================== -->
+      <h3>3️⃣ What Flask Gives You by Default</h3>
+    
+      <ul>
+        <li>URL routing</li>
+        <li>Request handling</li>
+        <li>Response handling</li>
+        <li>Jinja2 templating engine</li>
+        <li>Built-in development server</li>
+      </ul>
+    
+      <!-- =====================
+           FLASK VS DJANGO
+      ====================== -->
+      <h3>4️⃣ Flask vs Django (Quick View)</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Flask</th>
+            <th>Django</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Lightweight</td><td>Heavy</td></tr>
+          <tr><td>Flexible</td><td>Opinionated</td></tr>
+          <tr><td>Best for APIs</td><td>Best for large applications</td></tr>
+          <tr><td>Beginner friendly</td><td>Steeper learning curve</td></tr>
+        </tbody>
+      </table>
+    
+      <p><strong>👉 Conclusion:</strong> Flask gives you more control.</p>
+    
+      <!-- =====================
+           WHEN TO USE
+      ====================== -->
+      <h3>5️⃣ When Should You Use Flask?</h3>
+    
+      <p>Use Flask when:</p>
+      <ul>
+        <li>You want to build REST APIs</li>
+        <li>You want full control over your application</li>
+        <li>You prefer a simple and flexible structure</li>
+        <li>You are building microservices</li>
+      </ul>
+    
+      <!-- =====================
+           COMPANIES
+      ====================== -->
+      <h3>6️⃣ Companies Using Flask</h3>
+    
+      <ul>
+        <li>Netflix</li>
+        <li>Reddit</li>
+        <li>Airbnb</li>
+        <li>Uber</li>
+      </ul>
+    
+      <!-- =====================
+           FLOW
+      ====================== -->
+      <h3>7️⃣ How Flask Works (Flow)</h3>
+    
+      <pre><code>
+    Browser
+       ↓
+    Flask Route
+       ↓
+    Python Logic
+       ↓
+    Response
+      </code></pre>
+    
+      <!-- =====================
+           MINIMAL CODE
+      ====================== -->
+      <h3>8️⃣ Minimal Flask Code (Preview)</h3>
+    
+      <pre><code>
+    from flask import Flask
+    
+    app = Flask(__name__)
+    
+    @app.route("/")
+    def home():
+        return "Hello Flask"
+      </code></pre>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Flask Core (Beginner)</h2>
+      <h3>📘 Topic 2: Installing Flask</h3>
+    
+      <p>
+        In this topic, we will install Flask properly using a virtual environment
+        and pip. This is the correct and professional way to start any Flask project.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           PREREQUISITES
+      ====================== -->
+      <h3>1️⃣ Prerequisites</h3>
+    
+      <p>Before installing Flask, make sure the following are ready:</p>
+      <ul>
+        <li>Python is installed</li>
+        <li>Virtual environment is created</li>
+        <li>Virtual environment (venv) is activated</li>
+      </ul>
+    
+      <p><strong>Check Python version:</strong></p>
+      <pre><code>
+    python --version
+      </code></pre>
+    
+      <!-- =====================
+           ACTIVATE VENV
+      ====================== -->
+      <h3>2️⃣ Activate Virtual Environment</h3>
+    
+      <p>Navigate to your project folder:</p>
+      <pre><code>
+    cd flask_app
+      </code></pre>
+    
+      <h4>🔹 Windows</h4>
+      <pre><code>
+    venv\Scripts\activate
+      </code></pre>
+    
+      <h4>🔹 Linux / Mac</h4>
+      <pre><code>
+    source venv/bin/activate
+      </code></pre>
+    
+      <p>
+        After activation, you should see <strong>(venv)</strong> in the terminal.
+      </p>
+    
+      <!-- =====================
+           INSTALL FLASK
+      ====================== -->
+      <h3>3️⃣ Install Flask Using pip</h3>
+    
+      <pre><code>
+    pip install flask
+      </code></pre>
+    
+      <!-- =====================
+           VERIFY INSTALL
+      ====================== -->
+      <h3>4️⃣ Verify Flask Installation</h3>
+    
+      <h4>🔹 Method 1: Using pip</h4>
+      <pre><code>
+    pip list
+      </code></pre>
+    
+      <p>You should see packages like:</p>
+      <ul>
+        <li>Flask</li>
+        <li>Werkzeug</li>
+        <li>Jinja2</li>
+      </ul>
+    
+      <h4>🔹 Method 2: Using Python Shell</h4>
+      <pre><code>
+    python
+      </code></pre>
+    
+      <pre><code>
+    import flask
+    print(flask.__version__)
+      </code></pre>
+    
+      <!-- =====================
+           FLASK PACKAGES
+      ====================== -->
+      <h3>5️⃣ What Gets Installed with Flask?</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Package</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Flask</td><td>Main framework</td></tr>
+          <tr><td>Werkzeug</td><td>Request handling & routing</td></tr>
+          <tr><td>Jinja2</td><td>Template engine</td></tr>
+          <tr><td>MarkupSafe</td><td>HTML safety</td></tr>
+          <tr><td>Click</td><td>Command-line interface</td></tr>
+        </tbody>
+      </table>
+    
+      <p>
+        👉 These packages are Flask’s internal dependencies and are installed
+        automatically.
+      </p>
+    
+      <!-- =====================
+           SAVE DEPENDENCIES
+      ====================== -->
+      <h3>6️⃣ Save Dependencies (Best Practice)</h3>
+    
+      <pre><code>
+    pip freeze &gt; requirements.txt
+      </code></pre>
+    
+      <p>
+        This ensures your project can be easily shared, deployed, or reproduced
+        on another system.
+      </p>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Flask Core (Beginner)</h2>
+      <h3>📘 Topic 3: Flask Project Structure</h3>
+    
+      <p>
+        Understanding the project structure early helps you write clean code,
+        avoid confusion, and follow professional development standards.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHY STRUCTURE
+      ====================== -->
+      <h3>1️⃣ Why Project Structure Matters?</h3>
+    
+      <p>A good project structure helps you to:</p>
+      <ul>
+        <li>Organize your code properly</li>
+        <li>Scale projects easily</li>
+        <li>Debug issues faster</li>
+        <li>Follow professional coding standards</li>
+      </ul>
+    
+      <!-- =====================
+           BASIC STRUCTURE
+      ====================== -->
+      <h3>2️⃣ Basic Flask Project Structure (Beginner)</h3>
+    
+      <pre><code>
+    flask_app/
+    │
+    ├── venv/
+    │
+    ├── app.py
+    ├── requirements.txt
+      </code></pre>
+    
+      <p><strong>Explanation:</strong></p>
+      <ul>
+        <li><strong>venv/</strong> → Virtual environment</li>
+        <li><strong>app.py</strong> → Main Flask application file</li>
+        <li><strong>requirements.txt</strong> → List of project dependencies</li>
+      </ul>
+    
+      <p>
+        👉 This structure is perfect for beginners and learning Flask basics.
+      </p>
+    
+      <!-- =====================
+           BETTER STRUCTURE
+      ====================== -->
+      <h3>3️⃣ Slightly Better Structure (Recommended)</h3>
+    
+      <pre><code>
+    flask_app/
+    │
+    ├── venv/
+    ├── app.py
+    ├── templates/
+    │   └── index.html
+    ├── static/
+    │   ├── css/
+    │   └── js/
+    └── requirements.txt
+      </code></pre>
+    
+      <!-- =====================
+           FOLDER PURPOSE
+      ====================== -->
+      <h3>4️⃣ Folder Purpose (IMPORTANT)</h3>
+    
+      <h4>🔹 app.py</h4>
+      <ul>
+        <li>Entry point of the Flask application</li>
+        <li>Contains routes and backend logic</li>
+      </ul>
+    
+      <h4>🔹 templates/</h4>
+      <ul>
+        <li>Stores HTML files</li>
+        <li>Used by Flask to render dynamic pages</li>
+        <li>Uses the Jinja2 template engine</li>
+      </ul>
+    
+      <h4>🔹 static/</h4>
+      <ul>
+        <li>CSS files</li>
+        <li>JavaScript files</li>
+        <li>Images</li>
+      </ul>
+    
+      <p>
+        👉 Flask automatically recognizes the <strong>static</strong> folder.
+      </p>
+    
+      <!-- =====================
+           TEMPLATE VS STATIC
+      ====================== -->
+      <h3>5️⃣ Why Templates & Static Are Separate?</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Folder</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>templates</td>
+            <td>Dynamic HTML rendered by Flask</td>
+          </tr>
+          <tr>
+            <td>static</td>
+            <td>CSS, JavaScript, and images</td>
+          </tr>
+        </tbody>
+      </table>
+    
+      <p>
+        This separation keeps the project clean, readable, and professional.
+      </p>
+    
+      <!-- =====================
+           NAMING RULES
+      ====================== -->
+      <h3>6️⃣ Naming Rules (Best Practices)</h3>
+    
+      <ul>
+        <li>Use lowercase names</li>
+        <li>Use <code>app.py</code> or <code>main.py</code> for the main file</li>
+        <li>Avoid spaces in folder and file names</li>
+      </ul>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Flask Core (Beginner)</h2>
+      <h3>📘 Topic 4: Creating First Flask App</h3>
+    
+      <p>
+        This is the <strong>Hello World</strong> program of Flask.
+        It helps you understand how a basic Flask application works.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           CREATE APP FILE
+      ====================== -->
+      <h3>1️⃣ Create <code>app.py</code></h3>
+    
+      <p>Inside your project folder, create the following file:</p>
+    
+      <pre><code>
+    flask_app/
+    │
+    ├── app.py
+      </code></pre>
+    
+      <!-- =====================
+           FIRST CODE
+      ====================== -->
+      <h3>2️⃣ First Flask Code (Write Exactly)</h3>
+    
+      <pre><code>
+    from flask import Flask
+    
+    app = Flask(__name__)
+    
+    @app.route("/")
+    def home():
+        return "Hello Flask"
+      </code></pre>
+    
+      <!-- =====================
+           EXPLANATION
+      ====================== -->
+      <h3>3️⃣ Line-by-Line Explanation</h3>
+    
+      <h4><code>from flask import Flask</code></h4>
+      <ul>
+        <li>Imports the Flask class from the flask package</li>
+      </ul>
+    
+      <h4><code>app = Flask(__name__)</code></h4>
+      <ul>
+        <li>Creates the Flask application instance</li>
+        <li><code>__name__</code> helps Flask locate files and resources</li>
+      </ul>
+    
+      <h4><code>@app.route("/")</code></h4>
+      <ul>
+        <li>Defines a URL route</li>
+        <li><code>/</code> represents the home page</li>
+      </ul>
+    
+      <h4>
+        <code>
+    def home():
+        return "Hello Flask"
+        </code>
+      </h4>
+      <ul>
+        <li>The function handles the request</li>
+        <li>Returns a response to the browser</li>
+      </ul>
+    
+      <!-- =====================
+           FLOW
+      ====================== -->
+      <h3>4️⃣ How Flask Knows What to Show?</h3>
+    
+      <pre><code>
+    Browser  →  /
+    Flask    →  calls home()
+    home()   →  returns text
+    Browser  →  displays text
+      </code></pre>
+    
+      <!-- =====================
+           IMPORTANT RULE
+      ====================== -->
+      <h3>5️⃣ Important Rule 🔥</h3>
+    
+      <p>
+        Every Flask route <strong>must return something</strong>.
+      </p>
+    
+      <ul>
+        <li>✔ String</li>
+        <li>✔ HTML</li>
+        <li>✔ JSON</li>
+      </ul>
+    
+      <!-- =====================
+           COMMON ERRORS
+      ====================== -->
+      <h3>6️⃣ Common Beginner Errors ❌</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Error</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Page not loading</td>
+            <td>Flask server not running</td>
+          </tr>
+          <tr>
+            <td>404 error</td>
+            <td>Route not defined</td>
+          </tr>
+          <tr>
+            <td>Nothing showing</td>
+            <td>Function returned nothing</td>
+          </tr>
+        </tbody>
+      </table>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Flask Core (Beginner)</h2>
+      <h3>📘 Topic 5: Flask Development Server</h3>
+    
+      <p>
+        Flask includes a built-in development server that allows you to run
+        and test your application locally while learning and building features.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT IS DEV SERVER
+      ====================== -->
+      <h3>1️⃣ What is Flask Development Server?</h3>
+    
+      <ul>
+        <li>Runs your Flask application locally</li>
+        <li>Used only for development and learning</li>
+        <li>Not recommended for production use</li>
+      </ul>
+    
+      <!-- =====================
+           METHOD 1
+      ====================== -->
+      <h3>2️⃣ How to Run Flask App (Method 1 – Recommended)</h3>
+    
+      <h4>Step 1: Activate Virtual Environment</h4>
+      <pre><code>
+    venv\Scripts\activate
+      </code></pre>
+    
+      <h4>Step 2: Run Flask App</h4>
+      <pre><code>
+    python app.py
+      </code></pre>
+    
+      <p><strong>Output:</strong></p>
+      <pre><code>
+    Running on http://127.0.0.1:5000/
+      </code></pre>
+    
+      <p><strong>Open in browser:</strong></p>
+      <pre><code>
+    http://127.0.0.1:5000/
+      </code></pre>
+    
+      <!-- =====================
+           METHOD 2
+      ====================== -->
+      <h3>3️⃣ Method 2: Using Flask Command</h3>
+    
+      <h4>Set Flask App</h4>
+      <pre><code>
+    set FLASK_APP=app.py
+      </code></pre>
+    
+      <h4>Run Server</h4>
+      <pre><code>
+    flask run
+      </code></pre>
+    
+      <!-- =====================
+           DEBUG MODE
+      ====================== -->
+      <h3>4️⃣ Enable Debug Mode (IMPORTANT)</h3>
+    
+      <p>Modify your <code>app.py</code> file as shown below:</p>
+    
+      <pre><code>
+    if __name__ == "__main__":
+        app.run(debug=True)
+      </code></pre>
+    
+      <p><strong>Why Debug Mode?</strong></p>
+      <ul>
+        <li>Auto reload when code changes</li>
+        <li>Detailed error messages</li>
+        <li>Faster development experience</li>
+      </ul>
+    
+      <!-- =====================
+           AUTO RELOAD
+      ====================== -->
+      <h3>5️⃣ What Happens When You Change Code?</h3>
+    
+      <ol>
+        <li>Save the file</li>
+        <li>Flask reloads automatically</li>
+        <li>Refresh the browser</li>
+      </ol>
+    
+      <p>
+        👉 No manual restart is required when debug mode is enabled.
+      </p>
+    
+      <!-- =====================
+           STOP SERVER
+      ====================== -->
+      <h3>6️⃣ Stop the Server</h3>
+    
+      <pre><code>
+    CTRL + C
+      </code></pre>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Flask Core (Beginner)</h2>
+      <h3>📘 Topic 6: Routing & URL Rules</h3>
+    
+      <p>
+        Routing decides which Python function runs for a specific URL.
+        It is one of the most important concepts in Flask.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT IS ROUTING
+      ====================== -->
+      <h3>1️⃣ What is Routing?</h3>
+    
+      <p>
+        <strong>Routing</strong> means mapping a URL to a Python function.
+      </p>
+    
+      <p><strong>Example:</strong></p>
+      <ul>
+        <li><code>/</code> → <code>home()</code></li>
+        <li><code>/about</code> → <code>about()</code></li>
+      </ul>
+    
+      <!-- =====================
+           BASIC ROUTE
+      ====================== -->
+      <h3>2️⃣ Basic Route Example</h3>
+    
+      <pre><code>
+    from flask import Flask
+    
+    app = Flask(__name__)
+    
+    @app.route("/")
+    def home():
+        return "Home Page"
+    
+    @app.route("/about")
+    def about():
+        return "About Page"
+      </code></pre>
+    
+      <p><strong>Browser URLs:</strong></p>
+      <ul>
+        <li><code>http://127.0.0.1:5000/</code></li>
+        <li><code>http://127.0.0.1:5000/about</code></li>
+      </ul>
+    
+      <!-- =====================
+           INTERNAL FLOW
+      ====================== -->
+      <h3>3️⃣ How Routing Works Internally</h3>
+    
+      <pre><code>
+    Browser requests /about
+    Flask finds @app.route("/about")
+    Flask calls about()
+    Returns response
+      </code></pre>
+    
+      <!-- =====================
+           DYNAMIC ROUTES
+      ====================== -->
+      <h3>4️⃣ Dynamic Routes (Very Important)</h3>
+    
+      <p>
+        Dynamic routes allow values to be passed directly through the URL.
+      </p>
+    
+      <pre><code>
+    @app.route("/user/&lt;name&gt;")
+    def user(name):
+        return f"Hello {name}"
+      </code></pre>
+    
+      <p><strong>Browser:</strong></p>
+      <pre><code>
+    /user/Aman
+      </code></pre>
+    
+      <p><strong>Output:</strong></p>
+      <pre><code>
+    Hello Aman
+      </code></pre>
+    
+      <!-- =====================
+           DYNAMIC TYPES
+      ====================== -->
+      <h3>5️⃣ Dynamic Route with Data Type</h3>
+    
+      <pre><code>
+    @app.route("/age/&lt;int:age&gt;")
+    def show_age(age):
+        return f"Your age is {age}"
+      </code></pre>
+    
+      <p><strong>Supported Types:</strong></p>
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>string</td><td>Default text</td></tr>
+          <tr><td>int</td><td>Integer</td></tr>
+          <tr><td>float</td><td>Decimal</td></tr>
+          <tr><td>path</td><td>Full path</td></tr>
+        </tbody>
+      </table>
+    
+      <!-- =====================
+           MULTIPLE URLS
+      ====================== -->
+      <h3>6️⃣ Multiple URLs for One Function</h3>
+    
+      <pre><code>
+    @app.route("/")
+    @app.route("/home")
+    def home():
+        return "Home Page"
+      </code></pre>
+    
+      <p><strong>Both URLs work:</strong></p>
+      <ul>
+        <li><code>/</code></li>
+        <li><code>/home</code></li>
+      </ul>
+    
+      <!-- =====================
+           TRAILING SLASH
+      ====================== -->
+      <h3>7️⃣ URL Trailing Slash Rule</h3>
+    
+      <pre><code>
+    @app.route("/contact/")
+    def contact():
+        return "Contact Page"
+      </code></pre>
+    
+      <ul>
+        <li>✔ <code>/contact/</code> works</li>
+        <li>❌ <code>/contact</code> redirects automatically</li>
+      </ul>
+    
+      <!-- =====================
+           BEST PRACTICES
+      ====================== -->
+      <h3>8️⃣ Best Practices for Routes</h3>
+    
+      <ul>
+        <li>Use lowercase letters</li>
+        <li>Use hyphens instead of underscores</li>
+        <li>Keep URLs meaningful and readable</li>
+      </ul>
+    
+      <p><strong>Examples:</strong></p>
+      <ul>
+        <li><code>/user-profile</code></li>
+        <li><code>/course-details</code></li>
+      </ul>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Flask Core (Beginner)</h2>
+      <h3>📘 Topic 7: HTTP Methods (GET & POST)</h3>
+    
+      <p>
+        HTTP methods tell Flask what kind of action the user wants to perform.
+        The two most important methods you will use in Flask are <strong>GET</strong>
+        and <strong>POST</strong>.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT ARE METHODS
+      ====================== -->
+      <h3>1️⃣ What are HTTP Methods?</h3>
+    
+      <p>
+        HTTP methods define how data is sent between the browser and the server.
+      </p>
+    
+      <p><strong>The two most important methods:</strong></p>
+      <ul>
+        <li>GET</li>
+        <li>POST</li>
+      </ul>
+    
+      <!-- =====================
+           GET METHOD
+      ====================== -->
+      <h3>2️⃣ GET Method</h3>
+    
+      <h4>🔹 What is GET?</h4>
+      <ul>
+        <li>Used to fetch data</li>
+        <li>Data is visible in the URL</li>
+        <li>Default method used by the browser</li>
+      </ul>
+    
+      <p><strong>Example URLs:</strong></p>
+      <ul>
+        <li><code>/login</code></li>
+        <li><code>/search?q=python</code></li>
+      </ul>
+    
+      <h4>🔹 Flask GET Example</h4>
+      <pre><code>
+    @app.route("/hello")
+    def hello():
+        return "Hello from GET request"
+      </code></pre>
+    
+      <p>
+        ✔ Browser sends GET requests automatically  
+        ✔ Commonly used for pages and reading data
+      </p>
+    
+      <!-- =====================
+           POST METHOD
+      ====================== -->
+      <h3>3️⃣ POST Method</h3>
+    
+      <h4>🔹 What is POST?</h4>
+      <ul>
+        <li>Used to send data to the server</li>
+        <li>Data is hidden inside the request body</li>
+        <li>More secure than GET</li>
+      </ul>
+    
+      <p><strong>Used for:</strong></p>
+      <ul>
+        <li>Login</li>
+        <li>Registration</li>
+        <li>Form submissions</li>
+      </ul>
+    
+      <!-- =====================
+           ALLOW POST
+      ====================== -->
+      <h3>4️⃣ Allowing POST in Flask Route</h3>
+    
+      <p>
+        By default, Flask routes allow only GET requests.
+        To allow POST, specify the <code>methods</code> parameter.
+      </p>
+    
+      <pre><code>
+    @app.route("/login", methods=["GET", "POST"])
+    def login():
+        return "Login Page"
+      </code></pre>
+    
+      <!-- =====================
+           HANDLE BOTH
+      ====================== -->
+      <h3>5️⃣ Handling GET vs POST Together</h3>
+    
+      <pre><code>
+    from flask import Flask, request
+    
+    app = Flask(__name__)
+    
+    @app.route("/login", methods=["GET", "POST"])
+    def login():
+        if request.method == "POST":
+            return "Form Submitted"
+        return "Login Form"
+      </code></pre>
+    
+      <!-- =====================
+           HTML FORM
+      ====================== -->
+      <h3>6️⃣ HTML Form Example (POST)</h3>
+    
+      <pre><code>
+    &lt;form method="post"&gt;
+      &lt;input type="text" name="username"&gt;
+      &lt;input type="submit"&gt;
+    &lt;/form&gt;
+      </code></pre>
+    
+      <!-- =====================
+           FORM DATA
+      ====================== -->
+      <h3>7️⃣ Accessing Form Data in Flask</h3>
+    
+      <pre><code>
+    from flask import request
+    
+    username = request.form.get("username")
+      </code></pre>
+    
+      <!-- =====================
+           GET VS POST
+      ====================== -->
+      <h3>8️⃣ GET vs POST (Quick Comparison)</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>GET</th>
+            <th>POST</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Fetch data</td><td>Send data</td></tr>
+          <tr><td>Data visible in URL</td><td>Data hidden in body</td></tr>
+          <tr><td>Less secure</td><td>More secure</td></tr>
+          <tr><td>Page loading</td><td>Form submission</td></tr>
+        </tbody>
+      </table>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Flask Core (Beginner)</h2>
+      <h3>📘 Topic 8: Returning Responses (Text, HTML, JSON)</h3>
+    
+      <p>
+        Flask can return different types of responses depending on the project
+        requirements. Every Flask route must return a response.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHY RESPONSES
+      ====================== -->
+      <h3>1️⃣ Why Responses Matter?</h3>
+    
+      <p>
+        Whenever a user visits a URL, Flask processes the request and sends
+        something back to the browser.
+      </p>
+    
+      <p>
+        That returned output is called a <strong>response</strong>.
+      </p>
+    
+      <!-- =====================
+           TEXT RESPONSE
+      ====================== -->
+      <h3>2️⃣ Returning Plain Text</h3>
+    
+      <p>Plain text responses are simple and mostly used for testing.</p>
+    
+      <pre><code>
+    @app.route("/text")
+    def text():
+        return "Hello Flask"
+      </code></pre>
+    
+      <ul>
+        <li>✔ Simple</li>
+        <li>✔ Useful for quick testing</li>
+      </ul>
+    
+      <!-- =====================
+           HTML RESPONSE
+      ====================== -->
+      <h3>3️⃣ Returning HTML Content</h3>
+    
+      <h4>🔹 Option 1: Direct HTML (Not Recommended)</h4>
+    
+      <pre><code>
+    @app.route("/html")
+    def html():
+        return "&lt;h1&gt;Hello Flask&lt;/h1&gt;"
+      </code></pre>
+    
+      <p>
+        ❌ Hard to manage  
+        ❌ Not reusable  
+      </p>
+    
+      <h4>🔹 Option 2: HTML Template (Recommended)</h4>
+    
+      <pre><code>
+    from flask import render_template
+    
+    @app.route("/")
+    def home():
+        return render_template("index.html")
+      </code></pre>
+    
+      <ul>
+        <li>✔ Clean code</li>
+        <li>✔ Professional structure</li>
+        <li>✔ Reusable templates</li>
+      </ul>
+    
+      <!-- =====================
+           SAMPLE HTML
+      ====================== -->
+      <h3>4️⃣ Sample <code>index.html</code></h3>
+    
+      <pre><code>
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+      &lt;title&gt;Flask Page&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+      &lt;h1&gt;Welcome to Flask&lt;/h1&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;
+      </code></pre>
+    
+      <!-- =====================
+           JSON RESPONSE
+      ====================== -->
+      <h3>5️⃣ Returning JSON (API Response)</h3>
+    
+      <p>
+        Flask APIs usually return responses in <strong>JSON</strong> format.
+      </p>
+    
+      <pre><code>
+    from flask import jsonify
+    
+    @app.route("/api")
+    def api():
+        return jsonify({
+            "name": "Aman",
+            "course": "Flask"
+        })
+      </code></pre>
+    
+      <p><strong>Browser Output:</strong></p>
+    
+      <pre><code>
+    {
+      "name": "Aman",
+      "course": "Flask"
+    }
+      </code></pre>
+    
+    </section>
+                                
       
 
   </main>
@@ -51,7 +1144,6 @@
       ← Back to Flask Roadmap
     </a>
     <a href="./templates-static.html" class="btn">
-     
      Next: Flask Core Concepts
     </a>
 

@@ -10,14 +10,12 @@
   --accent: #000000;
   --border: #e5e7eb;
 
-  /* =====================
-     CODE BLOCK VARIABLES
-  ===================== */
-  --code-bg: #f3f4f6;
-  --code-text: #111827;
+  /* Code block (Dark even in Light Mode) */
+  --code-bg: #0f172a;
+  --code-text: #e5e7eb;
 
   --inline-code-bg: #e5e7eb;
-  --inline-code-text: #1f2937;
+  --inline-code-text: #111827;
 }
 
 body.dark {
@@ -28,15 +26,15 @@ body.dark {
   --accent: #38bdf8;
   --border: #1f2937;
 
-  /* =====================
-     CODE BLOCK VARIABLES
-  ===================== */
+  /* Code block (Darker for Dark Mode) */
   --code-bg: #020617;
   --code-text: #e5e7eb;
 
   --inline-code-bg: #1e293b;
   --inline-code-text: #38bdf8;
 }
+
+
 
 body {
   margin: 0;
