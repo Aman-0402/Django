@@ -29,7 +29,7 @@
   <main class="content-wrapper">
     <section class="content-card">
 
-      <h2>Forms & User Input</h2>
+       
       <h3>📘 Topic 1: HTML Forms with Flask</h3>
     
       <p>
@@ -187,7 +187,7 @@
     </section>
     <section class="content-card">
 
-      <h2>Forms & User Input</h2>
+       
       <h3>📘 Topic 2: Handling GET vs POST</h3>
     
       <p>
@@ -330,7 +330,587 @@
       </ul>
     
     </section>
-        
+    <section class="content-card">
+
+       
+      <h3>📘 Topic 3: Request Object</h3>
+    
+      <p>
+        The <strong>request</strong> object in Flask holds all the data sent by the
+        client (browser). It is essential for handling forms, query parameters,
+        and HTTP details.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT IS REQUEST
+      ====================== -->
+      <h3>1️⃣ What is the Request Object?</h3>
+    
+      <p>The <code>request</code> object contains:</p>
+      <ul>
+        <li>Form data</li>
+        <li>URL parameters</li>
+        <li>HTTP method (GET / POST)</li>
+        <li>Request headers</li>
+        <li>Uploaded files</li>
+      </ul>
+    
+      <p><strong>Import it using:</strong></p>
+      <pre><code>
+    from flask import request
+      </code></pre>
+    
+      <!-- =====================
+           REQUEST PROPERTIES
+      ====================== -->
+      <h3>2️⃣ Commonly Used Request Properties</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Used For</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>request.method</td><td>GET or POST</td></tr>
+          <tr><td>request.args</td><td>GET data</td></tr>
+          <tr><td>request.form</td><td>POST data</td></tr>
+          <tr><td>request.headers</td><td>Request headers</td></tr>
+          <tr><td>request.files</td><td>Uploaded files</td></tr>
+        </tbody>
+      </table>
+    
+      <!-- =====================
+           GET DATA
+      ====================== -->
+      <h3>3️⃣ Accessing GET Data (<code>request.args</code>)</h3>
+    
+      <p><strong>URL:</strong></p>
+      <pre><code>
+    /search?query=flask
+      </code></pre>
+    
+      <p><strong>Flask Code:</strong></p>
+      <pre><code>
+    @app.route("/search")
+    def search():
+        query = request.args.get("query")
+        return f"You searched for {query}"
+      </code></pre>
+    
+      <!-- =====================
+           POST DATA
+      ====================== -->
+      <h3>4️⃣ Accessing POST Data (<code>request.form</code>)</h3>
+    
+      <p><strong>HTML Form:</strong></p>
+      <pre><code>
+    &lt;form method="post"&gt;
+      &lt;input type="text" name="username"&gt;
+      &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+      </code></pre>
+    
+      <p><strong>Flask Code:</strong></p>
+      <pre><code>
+    @app.route("/submit", methods=["GET", "POST"])
+    def submit():
+        if request.method == "POST":
+            username = request.form.get("username")
+            return f"Hello {username}"
+        return render_template("form.html")
+      </code></pre>
+    
+      <!-- =====================
+           ARGS VS FORM
+      ====================== -->
+      <h3>5️⃣ Difference Between <code>request.args</code> & <code>request.form</code></h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>request.args</th>
+            <th>request.form</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>GET data</td><td>POST data</td></tr>
+          <tr><td>URL query string</td><td>Request body</td></tr>
+          <tr><td>Less secure</td><td>More secure</td></tr>
+        </tbody>
+      </table>
+    
+      <!-- =====================
+           MULTIPLE FIELDS
+      ====================== -->
+      <h3>6️⃣ Accessing Multiple Form Fields</h3>
+    
+      <pre><code>
+    username = request.form.get("username")
+    password = request.form.get("password")
+      </code></pre>
+    
+      <!-- =====================
+           GET VS BRACKETS
+      ====================== -->
+      <h3>7️⃣ Why <code>.get()</code> is Better Than <code>[ ]</code> 🔥</h3>
+    
+      <pre><code>
+    request.form.get("email")   # Safe
+    request.form["email"]       # Error if missing
+      </code></pre>
+    
+      <ul>
+        <li>✔ Prevents application crashes</li>
+        <li>✔ Handles missing fields safely</li>
+        <li>✔ Professional Flask practice</li>
+      </ul>
+    
+    </section>
+    <section class="content-card">
+
+       
+      <h3>📘 Topic 4: Form Validation Basics</h3>
+    
+      <p>
+        Form validation ensures that users submit correct, complete, and safe data
+        before it is processed by your Flask application.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHY VALIDATION
+      ====================== -->
+      <h3>1️⃣ Why Form Validation is Important?</h3>
+    
+      <p><strong>Without validation ❌</strong></p>
+      <ul>
+        <li>Empty input values</li>
+        <li>Invalid or incorrect data</li>
+        <li>Security vulnerabilities</li>
+      </ul>
+    
+      <p><strong>With validation ✅</strong></p>
+      <ul>
+        <li>Clean and reliable data</li>
+        <li>Better user experience</li>
+        <li>Safer backend processing</li>
+      </ul>
+    
+      <!-- =====================
+           TYPES OF VALIDATION
+      ====================== -->
+      <h3>2️⃣ Types of Form Validation</h3>
+    
+      <ul>
+        <li><strong>Client-side validation</strong> (HTML)</li>
+        <li><strong>Server-side validation</strong> (Flask – mandatory)</li>
+      </ul>
+    
+      <p>
+        👉 Never rely only on client-side validation.
+      </p>
+    
+      <!-- =====================
+           CLIENT SIDE
+      ====================== -->
+      <h3>3️⃣ Client-Side Validation (HTML)</h3>
+    
+      <pre><code>
+    &lt;form method="post"&gt;
+      &lt;input type="text" name="username" required&gt;
+      &lt;input type="email" name="email" required&gt;
+      &lt;button type="submit"&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+      </code></pre>
+    
+      <ul>
+        <li>✔ Browser prevents empty submission</li>
+        <li>❌ Can be bypassed easily</li>
+      </ul>
+    
+      <!-- =====================
+           SERVER SIDE
+      ====================== -->
+      <h3>4️⃣ Server-Side Validation (Flask)</h3>
+    
+      <p><strong>Basic Empty Check:</strong></p>
+    
+      <pre><code>
+    from flask import request, render_template
+    
+    @app.route("/register", methods=["GET", "POST"])
+    def register():
+        if request.method == "POST":
+            username = request.form.get("username")
+            email = request.form.get("email")
+    
+            if not username or not email:
+                return "All fields are required"
+    
+            return "Registration Successful"
+    
+        return render_template("register.html")
+      </code></pre>
+    
+      <!-- =====================
+           LENGTH & FORMAT
+      ====================== -->
+      <h3>5️⃣ Validating Length & Format</h3>
+    
+      <pre><code>
+    if len(username) &lt; 3:
+        return "Username too short"
+    
+    if "@" not in email:
+        return "Invalid email"
+      </code></pre>
+    
+      <!-- =====================
+           SHOW ERROR
+      ====================== -->
+      <h3>6️⃣ Displaying Validation Message in Template</h3>
+    
+      <p><strong>Flask:</strong></p>
+      <pre><code>
+    return render_template("register.html", error="Invalid input")
+      </code></pre>
+    
+      <p><strong>HTML:</strong></p>
+      <pre><code>
+    {% if error %}
+      &lt;p style="color:red;"&gt;{{ error }}&lt;/p&gt;
+    {% endif %}
+      </code></pre>
+    
+      <!-- =====================
+           COMMON FIELDS
+      ====================== -->
+      <h3>7️⃣ Common Fields to Validate</h3>
+    
+      <ul>
+        <li>Empty values</li>
+        <li>Email format</li>
+        <li>Password length</li>
+        <li>Username length</li>
+      </ul>
+    
+      <!-- =====================
+           BEST PRACTICE
+      ====================== -->
+      <h3>8️⃣ Best Practice 🔥</h3>
+    
+      <ul>
+        <li>✔ Always validate on the server</li>
+        <li>✔ Show user-friendly error messages</li>
+        <li>✔ Never trust browser-only validation</li>
+      </ul>
+    
+    </section>
+    <section class="content-card">
+
+       
+      <h3>📘 Topic 5: Flash Messages</h3>
+    
+      <p>
+        Flash messages are short messages shown once after a user action.
+        They are commonly used to display success, error, or informational feedback.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT ARE FLASH MESSAGES
+      ====================== -->
+      <h3>1️⃣ What are Flash Messages?</h3>
+    
+      <p>Flash messages are used to show:</p>
+      <ul>
+        <li>✅ Success messages</li>
+        <li>❌ Error messages</li>
+        <li>ℹ️ Informational messages</li>
+      </ul>
+    
+      <p><strong>Examples:</strong></p>
+      <ul>
+        <li>“Login successful”</li>
+        <li>“Invalid password”</li>
+        <li>“Form submitted”</li>
+      </ul>
+    
+      <!-- =====================
+           WHY FLASH
+      ====================== -->
+      <h3>2️⃣ Why Flash Messages are Needed?</h3>
+    
+      <p><strong>Without flash ❌</strong></p>
+      <ul>
+        <li>No feedback to the user</li>
+      </ul>
+    
+      <p><strong>With flash ✅</strong></p>
+      <ul>
+        <li>Better user experience</li>
+        <li>More professional applications</li>
+      </ul>
+    
+      <!-- =====================
+           SECRET KEY
+      ====================== -->
+      <h3>3️⃣ Requirement: Secret Key 🔑</h3>
+    
+      <p>
+        Flask requires a secret key to store flash messages securely in sessions.
+      </p>
+    
+      <p><strong>app.py</strong></p>
+      <pre><code>
+    from flask import Flask
+    
+    app = Flask(__name__)
+    app.secret_key = "mysecretkey"
+      </code></pre>
+    
+      <p>
+        👉 The secret key is required for sessions and flash messages.
+      </p>
+    
+      <!-- =====================
+           FLASH BACKEND
+      ====================== -->
+      <h3>4️⃣ Flashing a Message (Backend)</h3>
+    
+      <pre><code>
+    from flask import flash, request, render_template
+    
+    @app.route("/login", methods=["GET", "POST"])
+    def login():
+        if request.method == "POST":
+            flash("Login Successful")
+        return render_template("login.html")
+      </code></pre>
+    
+      <!-- =====================
+           DISPLAY FLASH
+      ====================== -->
+      <h3>5️⃣ Display Flash Message in Template</h3>
+    
+      <p><strong>templates/login.html</strong></p>
+    
+      <pre><code>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for msg in messages %}
+          &lt;p style="color:green;"&gt;{{ msg }}&lt;/p&gt;
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+      </code></pre>
+    
+      <!-- =====================
+           CATEGORIES
+      ====================== -->
+      <h3>6️⃣ Flash Messages with Categories (Best Practice)</h3>
+    
+      <p><strong>Backend:</strong></p>
+      <pre><code>
+    flash("Login successful", "success")
+    flash("Invalid password", "error")
+      </code></pre>
+    
+      <p><strong>Template:</strong></p>
+      <pre><code>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, msg in messages %}
+        &lt;p class="{{ category }}"&gt;{{ msg }}&lt;/p&gt;
+      {% endfor %}
+    {% endwith %}
+      </code></pre>
+    
+      <!-- =====================
+           CSS STYLING
+      ====================== -->
+      <h3>7️⃣ Example CSS Styling</h3>
+    
+      <pre><code>
+    .success { color: green; }
+    .error { color: red; }
+      </code></pre>
+    
+      <!-- =====================
+           IMPORTANT RULE
+      ====================== -->
+      <h3>8️⃣ Important Rule 🔥</h3>
+    
+      <p>
+        Flash messages appear <strong>only once</strong> — after a redirect or page reload.
+      </p>
+    
+    </section>
+    <section class="content-card">
+
+       
+      <h3>📘 Topic 6: Redirects & URL Building</h3>
+    
+      <p>
+        Redirects send the user to another page after an action such as
+        form submission, login, logout, or data updates.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT IS REDIRECT
+      ====================== -->
+      <h3>1️⃣ What is a Redirect?</h3>
+    
+      <p>
+        A redirect tells the browser:
+        <strong>“Go to another URL.”</strong>
+      </p>
+    
+      <p><strong>Common use cases:</strong></p>
+      <ul>
+        <li>After form submission</li>
+        <li>Login / Logout</li>
+        <li>After updating data</li>
+      </ul>
+    
+      <!-- =====================
+           WHY REDIRECT
+      ====================== -->
+      <h3>2️⃣ Why Redirect is Important?</h3>
+    
+      <p><strong>Without redirect ❌</strong></p>
+      <ul>
+        <li>Form resubmits on page refresh</li>
+        <li>Duplicate data issues</li>
+      </ul>
+    
+      <p><strong>With redirect ✅</strong></p>
+      <ul>
+        <li>Clean user experience</li>
+        <li>Prevents double submission</li>
+      </ul>
+    
+      <!-- =====================
+           REDIRECT TOOLS
+      ====================== -->
+      <h3>3️⃣ Redirect in Flask</h3>
+    
+      <p>Flask provides the following helpers:</p>
+      <ul>
+        <li><code>redirect()</code></li>
+        <li><code>url_for()</code></li>
+      </ul>
+    
+      <p><strong>Import them using:</strong></p>
+      <pre><code>
+    from flask import redirect, url_for
+      </code></pre>
+    
+      <!-- =====================
+           BASIC REDIRECT
+      ====================== -->
+      <h3>4️⃣ Basic Redirect Example</h3>
+    
+      <pre><code>
+    @app.route("/go-home")
+    def go_home():
+        return redirect(url_for("home"))
+      </code></pre>
+    
+      <p>
+        👉 Redirects the user to the <code>/</code> route.
+      </p>
+    
+      <!-- =====================
+           REDIRECT AFTER POST
+      ====================== -->
+      <h3>5️⃣ Redirect After Form Submit (Best Practice)</h3>
+    
+      <p><strong>Flask Route:</strong></p>
+      <pre><code>
+    from flask import request, redirect, url_for, flash
+    
+    @app.route("/login", methods=["GET", "POST"])
+    def login():
+        if request.method == "POST":
+            flash("Login successful", "success")
+            return redirect(url_for("dashboard"))
+        return render_template("login.html")
+      </code></pre>
+    
+      <p><strong>Dashboard Route:</strong></p>
+      <pre><code>
+    @app.route("/dashboard")
+    def dashboard():
+        return "Welcome Dashboard"
+      </code></pre>
+    
+      <!-- =====================
+           PRG PATTERN
+      ====================== -->
+      <h3>6️⃣ Post–Redirect–Get (PRG) Pattern 🔥</h3>
+    
+      <p><strong>What is PRG?</strong></p>
+      <pre><code>
+    POST (Form Submit)
+         ↓
+    REDIRECT
+         ↓
+    GET (New Page)
+      </code></pre>
+    
+      <p><strong>Benefits:</strong></p>
+      <ul>
+        <li>✔ Prevents duplicate form submission</li>
+        <li>✔ Industry-standard pattern</li>
+        <li>✔ Clean navigation flow</li>
+      </ul>
+    
+      <!-- =====================
+           REDIRECT WITH PARAMS
+      ====================== -->
+      <h3>7️⃣ Redirect with Parameters</h3>
+    
+      <p><strong>Route:</strong></p>
+      <pre><code>
+    @app.route("/profile/&lt;name&gt;")
+    def profile(name):
+        return f"Hello {name}"
+      </code></pre>
+    
+      <p><strong>Redirect:</strong></p>
+      <pre><code>
+    return redirect(url_for("profile", name="Aman"))
+      </code></pre>
+    
+      <!-- =====================
+           REDIRECT VS RENDER
+      ====================== -->
+      <h3>8️⃣ Redirect vs <code>render_template</code></h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>redirect</th>
+            <th>render_template</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Changes URL</td><td>Keeps same URL</td></tr>
+          <tr><td>Safe on reload</td><td>Reload resubmits form</td></tr>
+          <tr><td>Used after POST</td><td>Used for GET pages</td></tr>
+        </tbody>
+      </table>
+    
+    </section>
+                
 
       
 
@@ -342,9 +922,9 @@
     <a href="./content.html" class="btn">
       ← Back to Flask Roadmap
     </a>
-    <a href="./templates-static.html" class="btn">
+    <a href="./database-orm.html" class="btn">
      
-     Next: Flask Core Concepts
+     Next: Database & ORM
     </a>
 
     <a href="https://github.com/Aman-0402" target="_blank" class="btn">

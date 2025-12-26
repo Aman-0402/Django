@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Flask Mini Project</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Global Flask Theme -->
+  <link rel="stylesheet" href="../../../extra/flaskstyle.css">
+  <script defer src="../../../extra/flaskscript.js"></script>
+</head>
+
+<body class="dark">
+
+  <!-- =====================
+       FIXED THEME TOGGLE
+  ====================== -->
+  <button id="themeToggle" class="theme-toggle" title="Toggle theme">
+    🌗
+  </button>
+
+  <!-- =====================
+       SIMPLE HEADER
+  ====================== -->
+  <header class="fullscreen-header">
+    <div class="header-inner">
+      <h1>Course Learning Portal</h1>
+      <p>
+        Build a professional, scalable course platform using Flask,
+        databases, and clean architecture.
+      </p>
+    </div>
+  </header>
+  
+  <main class="content-wrapper">
+
+    <section class="content-card">
+        <h2>🎯 What We Are Building</h2>
+        <ul>
+          <li>Users can see a list of courses</li>
+          <li>Users can open course detail pages</li>
+          <li>Admin can add and edit courses</li>
+          <li>Backend uses Flask with database</li>
+          <li>Clean and scalable project structure</li>
+        </ul>
+      </section>
+  
+      <!-- Tech Stack -->
+      <section class="content-card">
+        <h2>🧱 Tech Stack (Intermediate Level)</h2>
+        <ul>
+          <li>Flask</li>
+          <li>Flask Blueprints</li>
+          <li>Flask-SQLAlchemy</li>
+          <li>Jinja2 Templates</li>
+          <li>SQLite (for now)</li>
+          <li>Basic Admin Logic (no Flask-Admin yet)</li>
+        </ul>
+      </section>
+  
+      <!-- Step 1 Intro -->
+      <section class="content-card">
+        <h2>✅ STEP 1: Project Initialization & Environment Setup</h2>
+        <p>
+          By the end of this step, you will have:
+        </p>
+        <ul>
+          <li>A clean project folder</li>
+          <li>A virtual environment</li>
+          <li>Flask installed</li>
+          <li>A running Flask application</li>
+        </ul>
+      </section>
+  
+      <!-- Step 1.1 -->
+      <section class="content-card">
+        <h2>📁 Step 1.1: Create Project Folder</h2>
+        <p>Choose any workspace (Desktop or <code>E:\FlaskProjects</code>)</p>
+  
+        <pre><code>mkdir course_learning_portal
+  cd course_learning_portal</code></pre>
+  
+        <p><strong>Why this name?</strong></p>
+        <ul>
+          <li>Professional</li>
+          <li>Resume-friendly</li>
+          <li>Scalable for upgrades</li>
+        </ul>
+      </section>
+  
+      <!-- Step 1.2 -->
+      <section class="content-card">
+        <h2>🐍 Step 1.2: Create Virtual Environment</h2>
+  
+        <pre><code>python -m venv venv</code></pre>
+  
+        <p><strong>Activate it (Windows):</strong></p>
+        <pre><code>venv\Scripts\activate</code></pre>
+  
+        <p><strong>Activate it (Linux / Mac):</strong></p>
+        <pre><code>source venv/bin/activate</code></pre>
+  
+        <p>
+          After activation, you should see <code>(venv)</code> in your terminal.
+        </p>
+      </section>
+  
+      <!-- Step 1.3 -->
+      <section class="content-card">
+        <h2>📦 Step 1.3: Install Flask</h2>
+  
+        <pre><code>pip install flask</code></pre>
+  
+        <p>Verify installation:</p>
+        <pre><code>pip show flask</code></pre>
+      </section>
+  
+      <!-- Step 1.4 -->
+      <section class="content-card">
+        <h2>📄 Step 1.4: Create Entry File</h2>
+  
+        <p>Create a file named <code>app.py</code>:</p>
+  
+        <pre><code>from flask import Flask
+  
+  app = Flask(__name__)
+  
+  @app.route("/")
+  def home():
+      return "Course Learning Portal - Flask App Running"
+  
+  if __name__ == "__main__":
+      app.run(debug=True)</code></pre>
+      </section>
+  
+      <!-- Step 1.5 -->
+      <section class="content-card">
+        <h2>▶ Step 1.5: Run the App</h2>
+  
+        <pre><code>python app.py</code></pre>
+  
+        <p>Open in browser:</p>
+        <pre><code>http://127.0.0.1:5000/</code></pre>
+  
+        <p>
+          ✅ If you see <strong>Course Learning Portal - Flask App Running</strong>,
+          your setup is successful.
+        </p>
+      </section>
+      
+
+  </main>
+
+  <!-- =====================
+       FOOTER
+  ====================== -->
+  <footer class="content-footer">
+
+    <a href="../content.html" class="btn">
+      ← Back to Flask Roadmap
+    </a>
+    <a href="https://github.com/Aman-0402" target="_blank" class="btn">
+      <img src="../../../assets/GitHub.png" alt="GitHub" />
+      GitHub
+    </a>
+
+    <button id="scrollTop" class="btn">
+      ↑ Top
+    </button>
+
+  </footer>
+
+</body>
+</html>

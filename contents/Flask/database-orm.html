@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Python & Web Basics – Flask</title>
+  <title>Database & ORMk</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Global Flask Theme -->
@@ -24,9 +24,9 @@
   ====================== -->
   <header class="content-header fullscreen-header">
     <div class="header-inner">
-      <h1></h1>
+      <h1>Database & ORM</h1>
       <p>
-        
+        Working with databases using Flask and ORM tools like SQLAlchemy.
       </p>
     </div>
   </header>
@@ -37,8 +37,1302 @@
   ====================== -->
   <main class="content-wrapper">
 
+    <section class="content-card">
 
-      
+        
+      <h3>📘 Topic 1: Introduction to Databases</h3>
+    
+      <p>
+        Databases are used to store, manage, and retrieve data permanently.
+        Every real-world Flask application depends on a database.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHY DATABASE
+      ====================== -->
+      <h3>1️⃣ Why Do We Need a Database?</h3>
+    
+      <p><strong>Without a database ❌</strong></p>
+      <ul>
+        <li>Data is lost when the server restarts</li>
+        <li>Cannot store users, posts, or records</li>
+      </ul>
+    
+      <p><strong>With a database ✅</strong></p>
+      <ul>
+        <li>Data is stored permanently</li>
+        <li>Fast searching and retrieval</li>
+        <li>Used in all real-world applications</li>
+      </ul>
+    
+      <p><strong>Examples of data stored:</strong></p>
+      <ul>
+        <li>Users</li>
+        <li>Login credentials</li>
+        <li>Products</li>
+        <li>Orders</li>
+        <li>Blog posts</li>
+      </ul>
+    
+      <!-- =====================
+           WHAT IS DATABASE
+      ====================== -->
+      <h3>2️⃣ What is a Database?</h3>
+    
+      <p>
+        A database is a structured collection of data stored electronically
+        so it can be accessed, managed, and updated easily.
+      </p>
+    
+      <p><strong>Simple Example (Table):</strong></p>
+    
+      <pre><code>
+    id   name    email
+    1    Aman    aman@gmail.com
+    2    Rahul   rahul@gmail.com
+      </code></pre>
+    
+      <!-- =====================
+           FLASK BIG PICTURE
+      ====================== -->
+      <h3>3️⃣ Database in Flask (Big Picture)</h3>
+    
+      <pre><code>
+    User
+     ↓
+    Flask App
+     ↓
+    Database
+     ↓
+    Flask App
+     ↓
+    User
+      </code></pre>
+    
+      <p>
+        👉 Flask does not store data itself. It communicates with a database
+        to save and retrieve data.
+      </p>
+    
+      <!-- =====================
+           DATABASE TYPES
+      ====================== -->
+      <h3>4️⃣ Types of Databases</h3>
+    
+      <h4>🔹 SQL (Relational Databases)</h4>
+      <ul>
+        <li>Data stored in tables</li>
+        <li>Fixed schema</li>
+        <li>Uses SQL language</li>
+      </ul>
+    
+      <p><strong>Examples:</strong></p>
+      <ul>
+        <li>SQLite</li>
+        <li>MySQL</li>
+        <li>PostgreSQL</li>
+      </ul>
+    
+      <h4>🔹 NoSQL (Non-Relational Databases)</h4>
+      <ul>
+        <li>Data stored as documents (JSON-like)</li>
+        <li>Flexible schema</li>
+      </ul>
+    
+      <p><strong>Examples:</strong></p>
+      <ul>
+        <li>MongoDB</li>
+        <li>Firebase</li>
+      </ul>
+    
+      <p>
+        👉 Flask works with both SQL and NoSQL databases,
+        but we start with <strong>SQL</strong>.
+      </p>
+    
+      <!-- =====================
+           WHAT IS SQL
+      ====================== -->
+      <h3>5️⃣ What is SQL?</h3>
+    
+      <p>
+        SQL stands for <strong>Structured Query Language</strong>.
+        It is used to communicate with relational databases.
+      </p>
+    
+      <p><strong>SQL is used to:</strong></p>
+      <ul>
+        <li>Create tables</li>
+        <li>Insert data</li>
+        <li>Read data</li>
+        <li>Update data</li>
+        <li>Delete data</li>
+      </ul>
+    
+      <p><strong>Example:</strong></p>
+      <pre><code>
+    SELECT * FROM users;
+      </code></pre>
+    
+      <!-- =====================
+           TABLE CONCEPT
+      ====================== -->
+      <h3>6️⃣ Database Tables – Core Concept</h3>
+    
+      <p>
+        A database table is similar to an Excel sheet:
+      </p>
+    
+      <ul>
+        <li><strong>Rows</strong> → Records</li>
+        <li><strong>Columns</strong> → Fields</li>
+      </ul>
+    
+      <p><strong>Example: users table</strong></p>
+    
+      <pre><code>
+    id
+    name
+    email
+    password
+      </code></pre>
+    
+      <!-- =====================
+           ORM PREVIEW
+      ====================== -->
+      <h3>7️⃣ What is ORM? (Preview)</h3>
+    
+      <p>
+        ORM stands for <strong>Object Relational Mapper</strong>.
+      </p>
+    
+      <p>
+        ORM allows us to use Python classes instead of writing raw SQL queries.
+      </p>
+    
+      <p><strong>Example (ORM):</strong></p>
+      <pre><code>
+    User.query.all()
+      </code></pre>
+    
+      <p><strong>Instead of raw SQL:</strong></p>
+      <pre><code>
+    SELECT * FROM users;
+      </code></pre>
+    
+      <p>
+        👉 Flask commonly uses <strong>SQLAlchemy ORM</strong>.
+      </p>
+    
+      <!-- =====================
+           WHY ORM
+      ====================== -->
+      <h3>8️⃣ Why Use ORM?</h3>
+    
+      <p><strong>Without ORM ❌</strong></p>
+      <ul>
+        <li>Raw SQL everywhere</li>
+        <li>Error-prone queries</li>
+      </ul>
+    
+      <p><strong>With ORM ✅</strong></p>
+      <ul>
+        <li>Pythonic and readable code</li>
+        <li>Cleaner and safer database operations</li>
+        <li>Faster development</li>
+      </ul>
+    
+    </section>
+    
+    <section class="content-card">
+
+        
+      <h3>📘 Topic 2: SQLite with Flask</h3>
+    
+      <p>
+        SQLite is the easiest database to start with Flask.
+        It is lightweight, simple, and perfect for learning database concepts.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT IS SQLITE
+      ====================== -->
+      <h3>1️⃣ What is SQLite?</h3>
+    
+      <p>SQLite is a:</p>
+      <ul>
+        <li>Lightweight SQL database</li>
+        <li>File-based database</li>
+        <li>Zero-configuration database</li>
+      </ul>
+    
+      <p>
+        👉 The entire database is stored as a single <code>.db</code> file.
+      </p>
+    
+      <!-- =====================
+           WHY SQLITE
+      ====================== -->
+      <h3>2️⃣ Why SQLite for Beginners?</h3>
+    
+      <ul>
+        <li>✔ No installation required</li>
+        <li>✔ Easy to use</li>
+        <li>✔ Perfect for learning and small applications</li>
+        <li>✔ Fully supported by Flask and SQLAlchemy</li>
+      </ul>
+    
+      <p>
+        ❌ Not ideal for large production applications.
+      </p>
+    
+      <!-- =====================
+           SQLITE IN FLASK
+      ====================== -->
+      <h3>3️⃣ Where SQLite Fits in Flask?</h3>
+    
+      <pre><code>
+    User
+     ↓
+    Flask App
+     ↓
+    SQLite (.db file)
+      </code></pre>
+    
+      <p><strong>Example database file:</strong></p>
+      <pre><code>
+    database.db
+      </code></pre>
+    
+      <!-- =====================
+           SQLITE USAGE WAYS
+      ====================== -->
+      <h3>4️⃣ Two Ways to Use SQLite in Flask</h3>
+    
+      <ul>
+        <li>Raw SQLite (<code>sqlite3</code>) ❌ (Not recommended)</li>
+        <li>Flask-SQLAlchemy (ORM) ✅ (Recommended)</li>
+      </ul>
+    
+      <p>
+        👉 We will use ORM, but first it is important to understand the basics.
+      </p>
+    
+      <!-- =====================
+           RAW SQLITE
+      ====================== -->
+      <h3>5️⃣ SQLite Without ORM (Just for Understanding)</h3>
+    
+      <p><strong>Basic Python Example:</strong></p>
+    
+      <pre><code>
+    import sqlite3
+    
+    conn = sqlite3.connect("test.db")
+    cursor = conn.cursor()
+    
+    cursor.execute("CREATE TABLE users (id INTEGER, name TEXT)")
+    conn.commit()
+    conn.close()
+      </code></pre>
+    
+      <p>
+        ⚠️ We will <strong>not</strong> use this method further in the course.
+      </p>
+    
+      <!-- =====================
+           SQLITE WITH ORM
+      ====================== -->
+      <h3>6️⃣ Using SQLite with Flask (Recommended Way)</h3>
+    
+      <p>
+        We connect SQLite to Flask using <strong>Flask-SQLAlchemy</strong>.
+      </p>
+    
+      <p><strong>Database URI format:</strong></p>
+      <pre><code>
+    sqlite:///database.db
+      </code></pre>
+    
+      <p><strong>Meaning:</strong></p>
+      <ul>
+        <li><code>sqlite</code> → Database type</li>
+        <li><code>///</code> → Current project directory</li>
+        <li><code>database.db</code> → Database file name</li>
+      </ul>
+    
+      <!-- =====================
+           DB FILE LOCATION
+      ====================== -->
+      <h3>7️⃣ Where Will the Database File Be Created?</h3>
+    
+      <p><strong>If your project is:</strong></p>
+    
+      <pre><code>
+    flask_app/
+    │
+    ├── app.py
+      </code></pre>
+    
+      <p><strong>The SQLite database file will be:</strong></p>
+    
+      <pre><code>
+    flask_app/database.db
+      </code></pre>
+    
+      <!-- =====================
+           SQLITE VS MYSQL
+      ====================== -->
+      <h3>8️⃣ Why We Use SQLite Before MySQL / PostgreSQL?</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>SQLite</th>
+            <th>MySQL / PostgreSQL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Easy setup</td><td>Needs server setup</td></tr>
+          <tr><td>File-based</td><td>Server-based</td></tr>
+          <tr><td>Learning & practice</td><td>Production use</td></tr>
+        </tbody>
+      </table>
+    
+      <p>
+        👉 The concepts remain the same — only the database engine changes.
+      </p>
+    
+      <!-- =====================
+           NEXT STEPS
+      ====================== -->
+      <h3>9️⃣ What We’ll Do Next 🔥</h3>
+    
+      <p>In upcoming topics, we will:</p>
+      <ul>
+        <li>Install Flask-SQLAlchemy</li>
+        <li>Define database models</li>
+        <li>Perform CRUD operations</li>
+        <li>Use database migrations</li>
+      </ul>
+    
+    </section>
+    <section class="content-card">
+
+        
+      <h3>📘 Topic 3: Flask-SQLAlchemy</h3>
+    
+      <p>
+        Flask-SQLAlchemy is the ORM that connects Flask applications with databases
+        using Python classes instead of raw SQL queries.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT IS FLASK-SQLALCHEMY
+      ====================== -->
+      <h3>1️⃣ What is Flask-SQLAlchemy?</h3>
+    
+      <p>Flask-SQLAlchemy is:</p>
+      <ul>
+        <li>A Flask extension</li>
+        <li>Built on top of SQLAlchemy</li>
+        <li>Used to work with databases using Python code</li>
+      </ul>
+    
+      <p>
+        👉 No need to write raw SQL queries.
+      </p>
+    
+      <!-- =====================
+           WHY ORM
+      ====================== -->
+      <h3>2️⃣ Why Use Flask-SQLAlchemy?</h3>
+    
+      <p><strong>Without ORM ❌</strong></p>
+      <ul>
+        <li>Manual SQL queries everywhere</li>
+        <li>Hard to maintain and debug</li>
+      </ul>
+    
+      <p><strong>With ORM ✅</strong></p>
+      <ul>
+        <li>Tables → Python classes</li>
+        <li>Rows → Python objects</li>
+        <li>Cleaner, safer, and readable code</li>
+      </ul>
+    
+      <!-- =====================
+           INSTALLATION
+      ====================== -->
+      <h3>3️⃣ Install Flask-SQLAlchemy</h3>
+    
+      <p><strong>Activate virtual environment:</strong></p>
+      <pre><code>
+    venv\Scripts\activate
+      </code></pre>
+    
+      <p><strong>Install package:</strong></p>
+      <pre><code>
+    pip install flask-sqlalchemy
+      </code></pre>
+    
+      <!-- =====================
+           UPDATE REQUIREMENTS
+      ====================== -->
+      <h3>4️⃣ Update <code>requirements.txt</code></h3>
+    
+      <pre><code>
+    pip freeze &gt; requirements.txt
+      </code></pre>
+    
+      <!-- =====================
+           BASIC SETUP
+      ====================== -->
+      <h3>5️⃣ Basic Setup in Flask App</h3>
+    
+      <p><strong>app.py</strong></p>
+    
+      <pre><code>
+    from flask import Flask
+    from flask_sqlalchemy import SQLAlchemy
+    
+    app = Flask(__name__)
+    
+    # Database configuration
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    
+    db = SQLAlchemy(app)
+      </code></pre>
+    
+      <!-- =====================
+           LINE EXPLANATION
+      ====================== -->
+      <h3>6️⃣ What Does Each Line Mean?</h3>
+    
+      <p><strong>SQLALCHEMY_DATABASE_URI</strong></p>
+      <ul>
+        <li>Tells Flask which database to use</li>
+      </ul>
+    
+      <pre><code>
+    sqlite:///database.db
+      </code></pre>
+    
+      <ul>
+        <li>Creates a <code>database.db</code> file</li>
+        <li>Uses SQLite in the current project folder</li>
+      </ul>
+    
+      <p><strong>db = SQLAlchemy(app)</strong></p>
+      <ul>
+        <li>Connects Flask application with the database</li>
+      </ul>
+    
+      <!-- =====================
+           ORM MAPPING
+      ====================== -->
+      <h3>7️⃣ ORM Mapping Concept (Very Important)</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>ORM Concept</th>
+            <th>Database</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Class</td><td>Table</td></tr>
+          <tr><td>Attribute</td><td>Column</td></tr>
+          <tr><td>Object</td><td>Row</td></tr>
+        </tbody>
+      </table>
+    
+      <!-- =====================
+           AFTER SETUP
+      ====================== -->
+      <h3>8️⃣ What Happens After Setup?</h3>
+    
+      <p>Once Flask-SQLAlchemy is configured:</p>
+      <ul>
+        <li>You can define database models</li>
+        <li>Flask can create tables</li>
+        <li>You can insert, read, update, and delete data</li>
+      </ul>
+    
+      <p>
+        👉 Models come next 🔥
+      </p>
+    
+      <!-- =====================
+           COMMON MISTAKES
+      ====================== -->
+      <h3>9️⃣ Common Beginner Mistakes ❌</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Mistake</th>
+            <th>Fix</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Database file not created</td><td>Run the app at least once</td></tr>
+          <tr><td>Wrong database URI</td><td>Use <code>sqlite:///database.db</code></td></tr>
+          <tr><td>Virtual environment not active</td><td>Activate venv before install</td></tr>
+        </tbody>
+      </table>
+    
+    </section>
+    <section class="content-card">
+
+        
+      <h3>📘 Topic 4: Models & Tables</h3>
+    
+      <p>
+        Models define the structure of your database tables using Python classes.
+        They are the foundation of working with databases using Flask-SQLAlchemy.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT IS A MODEL
+      ====================== -->
+      <h3>1️⃣ What is a Model?</h3>
+    
+      <p>
+        A model is a Python class that represents a database table.
+      </p>
+    
+      <p><strong>Simple Mapping:</strong></p>
+      <ul>
+        <li>Python Class → Database Table</li>
+        <li>Class Variable → Table Column</li>
+      </ul>
+    
+      <!-- =====================
+           WHERE TO WRITE MODELS
+      ====================== -->
+      <h3>2️⃣ Where Do We Write Models?</h3>
+    
+      <p>
+        For small and learning projects, models are usually written inside:
+      </p>
+    
+      <pre><code>
+    app.py
+      </code></pre>
+    
+      <p>
+        👉 In larger projects, models are moved to a separate
+        <code>models.py</code> file.
+      </p>
+    
+      <!-- =====================
+           FIRST MODEL
+      ====================== -->
+      <h3>3️⃣ Creating Your First Model</h3>
+    
+      <p><strong>Example: User Table</strong></p>
+    
+      <pre><code>
+    from flask import Flask
+    from flask_sqlalchemy import SQLAlchemy
+    
+    app = Flask(__name__)
+    
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    
+    db = SQLAlchemy(app)
+    
+    class User(db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+        name = db.Column(db.String(100))
+        email = db.Column(db.String(120))
+      </code></pre>
+    
+      <!-- =====================
+           LINE BY LINE
+      ====================== -->
+      <h3>4️⃣ Understanding Each Line (IMPORTANT)</h3>
+    
+      <p><strong><code>class User(db.Model):</code></strong></p>
+      <ul>
+        <li>Defines a table named <code>user</code> (auto-generated)</li>
+      </ul>
+    
+      <p><strong><code>id = db.Column(db.Integer, primary_key=True)</code></strong></p>
+      <ul>
+        <li>Primary key column</li>
+        <li>Auto-incremented unique ID</li>
+      </ul>
+    
+      <p><strong><code>name = db.Column(db.String(100))</code></strong></p>
+      <ul>
+        <li>Text column</li>
+        <li>Maximum length of 100 characters</li>
+      </ul>
+    
+      <p><strong><code>email = db.Column(db.String(120))</code></strong></p>
+      <ul>
+        <li>Email column</li>
+      </ul>
+    
+      <!-- =====================
+           COLUMN TYPES
+      ====================== -->
+      <h3>5️⃣ Common Column Types</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Integer</td><td>Numbers</td></tr>
+          <tr><td>String(n)</td><td>Text</td></tr>
+          <tr><td>Boolean</td><td>True / False</td></tr>
+          <tr><td>Float</td><td>Decimal values</td></tr>
+          <tr><td>DateTime</td><td>Date & time</td></tr>
+        </tbody>
+      </table>
+    
+      <!-- =====================
+           CREATE TABLES
+      ====================== -->
+      <h3>6️⃣ Creating Database Tables</h3>
+    
+      <p>
+        After defining models, create tables by running the following once.
+      </p>
+    
+      <p><strong>Step 1: Open Python shell</strong></p>
+      <pre><code>
+    python
+      </code></pre>
+    
+      <p><strong>Step 2: Create tables</strong></p>
+      <pre><code>
+    from app import db
+    db.create_all()
+      </code></pre>
+    
+      <ul>
+        <li>✔ Creates <code>database.db</code></li>
+        <li>✔ Creates table <code>user</code></li>
+      </ul>
+    
+      <!-- =====================
+           CHECK TABLE
+      ====================== -->
+      <h3>7️⃣ How to Check Table Exists?</h3>
+    
+      <ul>
+        <li>Check if <code>database.db</code> file exists</li>
+        <li>Open it using <strong>DB Browser for SQLite</strong></li>
+      </ul>
+    
+      <!-- =====================
+           CONSTRAINTS
+      ====================== -->
+      <h3>8️⃣ Adding Constraints (Optional but Good)</h3>
+    
+      <pre><code>
+    email = db.Column(db.String(120), unique=True, nullable=False)
+      </code></pre>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>unique</td><td>No duplicate values allowed</td></tr>
+          <tr><td>nullable=False</td><td>Cannot be empty</td></tr>
+        </tbody>
+      </table>
+    
+      <!-- =====================
+           BEST PRACTICE
+      ====================== -->
+      <h3>9️⃣ Best Practice 🔥</h3>
+    
+      <ul>
+        <li>✔ Always define a primary key</li>
+        <li>✔ Use proper data types</li>
+        <li>✔ Use meaningful and clear column names</li>
+      </ul>
+    
+    </section>
+    <section class="content-card">
+
+        
+      <h3>📘 Topic 5: CRUD Operations (Create, Read, Update, Delete)</h3>
+    
+      <p>
+        CRUD represents the four basic operations performed on database data.
+        Every real-world application (login systems, blogs, dashboards) relies on CRUD.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT IS CRUD
+      ====================== -->
+      <h3>1️⃣ What is CRUD?</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Operation</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Create</td><td>Insert data</td></tr>
+          <tr><td>Read</td><td>Fetch data</td></tr>
+          <tr><td>Update</td><td>Modify data</td></tr>
+          <tr><td>Delete</td><td>Remove data</td></tr>
+        </tbody>
+      </table>
+    
+      <p>
+        👉 Every real application (login, blog, dashboard) uses CRUD operations.
+      </p>
+    
+      <!-- =====================
+           MODEL RECAP
+      ====================== -->
+      <h3>2️⃣ Our Model (Recap)</h3>
+    
+      <pre><code>
+    class User(db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+        name = db.Column(db.String(100))
+        email = db.Column(db.String(120))
+      </code></pre>
+    
+      <!-- =====================
+           CREATE
+      ====================== -->
+      <h3>3️⃣ CREATE – Insert Data</h3>
+    
+      <p><strong>Create a new user:</strong></p>
+    
+      <pre><code>
+    @app.route("/add-user")
+    def add_user():
+        user = User(name="Aman", email="aman@gmail.com")
+        db.session.add(user)
+        db.session.commit()
+        return "User Added"
+      </code></pre>
+    
+      <p><strong>Important Steps:</strong></p>
+      <ul>
+        <li>Create object</li>
+        <li><code>db.session.add()</code></li>
+        <li><code>db.session.commit()</code></li>
+      </ul>
+    
+      <!-- =====================
+           READ
+      ====================== -->
+      <h3>4️⃣ READ – Fetch Data</h3>
+    
+      <p><strong>Fetch all users:</strong></p>
+    
+      <pre><code>
+    @app.route("/users")
+    def users():
+        users = User.query.all()
+        return str(users)
+      </code></pre>
+    
+      <p><strong>Fetch a single user by ID:</strong></p>
+    
+      <pre><code>
+    @app.route("/user/&lt;int:id&gt;")
+    def get_user(id):
+        user = User.query.get(id)
+        return user.name
+      </code></pre>
+    
+      <!-- =====================
+           UPDATE
+      ====================== -->
+      <h3>5️⃣ UPDATE – Modify Data</h3>
+    
+      <pre><code>
+    @app.route("/update-user/&lt;int:id&gt;")
+    def update_user(id):
+        user = User.query.get(id)
+        user.name = "Updated Name"
+        db.session.commit()
+        return "User Updated"
+      </code></pre>
+    
+      <!-- =====================
+           DELETE
+      ====================== -->
+      <h3>6️⃣ DELETE – Remove Data</h3>
+    
+      <pre><code>
+    @app.route("/delete-user/&lt;int:id&gt;")
+    def delete_user(id):
+        user = User.query.get(id)
+        db.session.delete(user)
+        db.session.commit()
+        return "User Deleted"
+      </code></pre>
+    
+      <!-- =====================
+           ORM METHODS
+      ====================== -->
+      <h3>7️⃣ Important ORM Methods</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>add()</td><td>Insert record</td></tr>
+          <tr><td>commit()</td><td>Save changes</td></tr>
+          <tr><td>query.all()</td><td>Fetch all records</td></tr>
+          <tr><td>query.get()</td><td>Fetch by ID</td></tr>
+          <tr><td>delete()</td><td>Remove record</td></tr>
+        </tbody>
+      </table>
+    
+      <!-- =====================
+           COMMON MISTAKES
+      ====================== -->
+      <h3>8️⃣ Common Beginner Mistakes ❌</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Mistake</th>
+            <th>Fix</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Forgot to commit</td><td>Always commit after changes</td></tr>
+          <tr><td>NoneType error</td><td>Check if record exists</td></tr>
+          <tr><td>Deleting wrong data</td><td>Use ID carefully</td></tr>
+        </tbody>
+      </table>
+    
+      <!-- =====================
+           BEST PRACTICE
+      ====================== -->
+      <h3>9️⃣ Best Practice 🔥</h3>
+    
+      <ul>
+        <li>✔ Always commit after insert/update/delete</li>
+        <li>✔ Check if record exists before modifying</li>
+        <li>✔ Use IDs for update and delete operations</li>
+      </ul>
+    
+    </section>
+    <section class="content-card">
+
+        
+      <h3>📘 Topic 6: Database Relationships</h3>
+    
+      <p>
+        Database relationships connect tables so data can be linked properly.
+        Relationships help model real-world data accurately in Flask applications.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHY RELATIONSHIPS
+      ====================== -->
+      <h3>1️⃣ Why Do We Need Relationships?</h3>
+    
+      <p><strong>Without relationships ❌</strong></p>
+      <ul>
+        <li>Data duplication</li>
+        <li>No logical connection between tables</li>
+      </ul>
+    
+      <p><strong>With relationships ✅</strong></p>
+      <ul>
+        <li>Clean database design</li>
+        <li>Real-world data structure</li>
+      </ul>
+    
+      <p><strong>Examples:</strong></p>
+      <ul>
+        <li>One User → many Posts</li>
+        <li>One Course → many Students</li>
+      </ul>
+    
+      <!-- =====================
+           RELATIONSHIP TYPES
+      ====================== -->
+      <h3>2️⃣ Types of Relationships (Flask ORM)</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Relationship</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>One-to-One</td><td>One record ↔ one record</td></tr>
+          <tr><td>One-to-Many</td><td>One ↔ many</td></tr>
+          <tr><td>Many-to-Many</td><td>Many ↔ many</td></tr>
+        </tbody>
+      </table>
+    
+      <p>
+        👉 We start with <strong>One-to-Many</strong> because it is the most commonly used.
+      </p>
+    
+      <!-- =====================
+           ONE TO MANY
+      ====================== -->
+      <h3>3️⃣ One-to-Many (Most Used)</h3>
+    
+      <p><strong>Example:</strong></p>
+      <pre><code>
+    One User ──────&gt; Many Posts
+      </code></pre>
+    
+      <!-- =====================
+           PARENT MODEL
+      ====================== -->
+      <h3>4️⃣ Create Parent Model (User)</h3>
+    
+      <pre><code>
+    class User(db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+        name = db.Column(db.String(100))
+        posts = db.relationship("Post", backref="user")
+      </code></pre>
+    
+      <!-- =====================
+           CHILD MODEL
+      ====================== -->
+      <h3>5️⃣ Create Child Model (Post)</h3>
+    
+      <pre><code>
+    class Post(db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+        title = db.Column(db.String(200))
+        user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+      </code></pre>
+    
+      <!-- =====================
+           FOREIGN KEY
+      ====================== -->
+      <h3>6️⃣ Understanding Foreign Key 🔑</h3>
+    
+      <pre><code>
+    db.ForeignKey("user.id")
+      </code></pre>
+    
+      <p><strong>Meaning:</strong></p>
+      <ul>
+        <li>Connects <code>Post</code> to <code>User</code></li>
+        <li><code>user.id</code> is the primary key of User table</li>
+      </ul>
+    
+      <!-- =====================
+           HOW IT WORKS
+      ====================== -->
+      <h3>7️⃣ How Relationship Works in Code</h3>
+    
+      <p><strong>Create User:</strong></p>
+      <pre><code>
+    user = User(name="Aman")
+    db.session.add(user)
+    db.session.commit()
+      </code></pre>
+    
+      <p><strong>Create Post for User:</strong></p>
+      <pre><code>
+    post = Post(title="My First Post", user_id=user.id)
+    db.session.add(post)
+    db.session.commit()
+      </code></pre>
+    
+      <!-- =====================
+           ACCESS RELATED DATA
+      ====================== -->
+      <h3>8️⃣ Access Related Data</h3>
+    
+      <p><strong>Get all posts of a user:</strong></p>
+      <pre><code>
+    user = User.query.get(1)
+    user.posts
+      </code></pre>
+    
+      <p><strong>Get user from post:</strong></p>
+      <pre><code>
+    post = Post.query.get(1)
+    post.user.name
+      </code></pre>
+    
+      <!-- =====================
+           RELATIONSHIP OPTIONS
+      ====================== -->
+      <h3>9️⃣ Relationship Options (Optional)</h3>
+    
+      <pre><code>
+    db.relationship("Post", backref="user", lazy=True)
+      </code></pre>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>backref</td><td>Access parent object from child</td></tr>
+          <tr><td>lazy</td><td>Controls when related data is loaded</td></tr>
+        </tbody>
+      </table>
+    
+    </section>
+    <section class="content-card">
+
+        
+      <h3>📘 Topic 7: Flask-Migrate (Migrations)</h3>
+    
+      <p>
+        Flask-Migrate helps you safely change your database structure over time
+        <strong>without deleting existing data</strong>.
+        It is an essential tool for real-world Flask applications.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT IS MIGRATION
+      ====================== -->
+      <h3>1️⃣ What is a Migration?</h3>
+    
+      <p>
+        A migration is a controlled way to update the database structure.
+      </p>
+    
+      <p><strong>Migrations allow you to:</strong></p>
+      <ul>
+        <li>Add new columns</li>
+        <li>Modify existing tables</li>
+        <li>Update database schema</li>
+      </ul>
+    
+      <p>
+        👉 All <strong>without losing existing data</strong>.
+      </p>
+    
+      <!-- =====================
+           WHY MIGRATIONS
+      ====================== -->
+      <h3>2️⃣ Why Migrations Are Needed?</h3>
+    
+      <p><strong>Without migrations ❌</strong></p>
+      <ul>
+        <li>You must delete the database</li>
+        <li>All data is lost</li>
+      </ul>
+    
+      <p><strong>With migrations ✅</strong></p>
+      <ul>
+        <li>Update tables safely</li>
+        <li>Track database changes</li>
+        <li>Industry-standard workflow</li>
+      </ul>
+    
+      <!-- =====================
+           ALEMBIC
+      ====================== -->
+      <h3>3️⃣ Flask-Migrate Uses Alembic</h3>
+    
+      <ul>
+        <li><strong>Flask-Migrate</strong> → Flask extension</li>
+        <li><strong>Alembic</strong> → Migration engine</li>
+      </ul>
+    
+      <p>
+        👉 You do <strong>not</strong> use Alembic directly.
+        Flask-Migrate handles it for you.
+      </p>
+    
+      <!-- =====================
+           INSTALLATION
+      ====================== -->
+      <h3>4️⃣ Install Flask-Migrate</h3>
+    
+      <p><strong>Activate virtual environment:</strong></p>
+      <pre><code>
+    venv\Scripts\activate
+      </code></pre>
+    
+      <p><strong>Install package:</strong></p>
+      <pre><code>
+    pip install flask-migrate
+      </code></pre>
+    
+      <p><strong>Update dependencies:</strong></p>
+      <pre><code>
+    pip freeze &gt; requirements.txt
+      </code></pre>
+    
+      <!-- =====================
+           SETUP
+      ====================== -->
+      <h3>5️⃣ Setup Flask-Migrate in App</h3>
+    
+      <p><strong>app.py</strong></p>
+      <pre><code>
+    from flask import Flask
+    from flask_sqlalchemy import SQLAlchemy
+    from flask_migrate import Migrate
+    
+    app = Flask(__name__)
+    
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    
+    db = SQLAlchemy(app)
+    migrate = Migrate(app, db)
+      </code></pre>
+    
+      <p>
+        👉 Flask is now ready to manage database schema changes.
+      </p>
+    
+      <!-- =====================
+           INIT MIGRATIONS
+      ====================== -->
+      <h3>6️⃣ Initialize Migration Folder (ONE TIME)</h3>
+    
+      <pre><code>
+    flask db init
+      </code></pre>
+    
+      <p><strong>This creates:</strong></p>
+      <pre><code>
+    migrations/
+      </code></pre>
+    
+      <p>
+        The <code>migrations</code> folder tracks database versions and changes.
+      </p>
+    
+      <!-- =====================
+           CREATE MIGRATION
+      ====================== -->
+      <h3>7️⃣ Create a Migration</h3>
+    
+      <p>
+        After changing a model, run:
+      </p>
+    
+      <pre><code>
+    flask db migrate -m "initial tables"
+      </code></pre>
+    
+      <ul>
+        <li>Detects model changes</li>
+        <li>Creates migration script</li>
+      </ul>
+    
+      <!-- =====================
+           APPLY MIGRATION
+      ====================== -->
+      <h3>8️⃣ Apply Migration to Database</h3>
+    
+      <pre><code>
+    flask db upgrade
+      </code></pre>
+    
+      <ul>
+        <li>✔ Database updated</li>
+        <li>✔ Existing data preserved</li>
+      </ul>
+    
+      <!-- =====================
+           EXAMPLE
+      ====================== -->
+      <h3>9️⃣ Example: Add New Column Safely</h3>
+    
+      <p><strong>Update Model:</strong></p>
+      <pre><code>
+    class User(db.Model):
+        id = db.Column(db.Integer, primary_key=True)
+        name = db.Column(db.String(100))
+        email = db.Column(db.String(120))
+        age = db.Column(db.Integer)   # NEW COLUMN
+      </code></pre>
+    
+      <p><strong>Run migration commands:</strong></p>
+      <pre><code>
+    flask db migrate -m "add age column"
+    flask db upgrade
+      </code></pre>
+    
+      <p>
+        👉 The <code>age</code> column is added without deleting existing data.
+      </p>
+    
+      <!-- =====================
+           COMMAND SUMMARY
+      ====================== -->
+      <h3>🔁 Migration Command Summary</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Command</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>flask db init</td><td>Initialize migrations</td></tr>
+          <tr><td>flask db migrate</td><td>Create migration</td></tr>
+          <tr><td>flask db upgrade</td><td>Apply migration</td></tr>
+          <tr><td>flask db downgrade</td><td>Rollback changes</td></tr>
+        </tbody>
+      </table>
+    
+      <!-- =====================
+           IMPORTANT RULES
+      ====================== -->
+      <h3>🔥 Important Rules (Remember This)</h3>
+    
+      <ul>
+        <li>✔ Run <code>migrate</code> after every model change</li>
+        <li>✔ Run <code>upgrade</code> to apply changes</li>
+        <li>❌ Never delete the database in production</li>
+      </ul>
+    
+    </section>
+                        
 
   </main>
 
@@ -50,9 +1344,9 @@
     <a href="./content.html" class="btn">
       ← Back to Flask Roadmap
     </a>
-    <a href="./templates-static.html" class="btn">
+    <a href="./application-structure.html" class="btn">
      
-     Next: Flask Core Concepts
+     Next: Application Structure
     </a>
 
     <a href="https://github.com/Aman-0402" target="_blank" class="btn">
