@@ -12,39 +12,331 @@
 
 <body class="dark">
 
-  <!-- =====================
-       FIXED THEME TOGGLE
-  ====================== -->
   <button id="themeToggle" class="theme-toggle" title="Toggle theme">
     🌗
   </button>
 
-  <!-- =====================
-       SIMPLE HEADER
-  ====================== -->
   <header class="content-header fullscreen-header">
     <div class="header-inner">
-      <h1></h1>
+      <h1>Forms & User Input</h1>
       <p>
-        
+        Handling forms, user input, validations, and POST requests.
       </p>
     </div>
   </header>
   
 
-  <!-- =====================
-       MAIN CONTENT
-  ====================== -->
   <main class="content-wrapper">
+    <section class="content-card">
 
+      <h2>Forms & User Input</h2>
+      <h3>📘 Topic 1: HTML Forms with Flask</h3>
+    
+      <p>
+        Forms are the primary way users send data to a Flask application.
+        They are used for login, registration, contact forms, and searches.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           WHAT IS A FORM
+      ====================== -->
+      <h3>1️⃣ What is an HTML Form?</h3>
+    
+      <p>
+        An HTML form collects user input and sends it to the server for processing.
+      </p>
+    
+      <p><strong>Common uses:</strong></p>
+      <ul>
+        <li>Login</li>
+        <li>Registration</li>
+        <li>Contact forms</li>
+        <li>Search boxes</li>
+      </ul>
+    
+      <!-- =====================
+           FORM STRUCTURE
+      ====================== -->
+      <h3>2️⃣ Basic HTML Form Structure</h3>
+    
+      <pre><code>
+    &lt;form method="post"&gt;
+      &lt;input type="text" name="username"&gt;
+      &lt;input type="submit" value="Submit"&gt;
+    &lt;/form&gt;
+      </code></pre>
+    
+      <p><strong>Important Attributes:</strong></p>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            <th>Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>method</td><td>GET or POST</td></tr>
+          <tr><td>action</td><td>URL to send data</td></tr>
+          <tr><td>name</td><td>Key used to access form data</td></tr>
+        </tbody>
+      </table>
+    
+      <!-- =====================
+           DATA FLOW
+      ====================== -->
+      <h3>3️⃣ Where Does Form Data Go?</h3>
+    
+      <pre><code>
+    User fills form
+         ↓
+    Browser sends request
+         ↓
+    Flask route receives data
+         ↓
+    Flask processes input
+      </code></pre>
+    
+      <!-- =====================
+           LOGIN FORM
+      ====================== -->
+      <h3>4️⃣ Create a Simple Form Page</h3>
+    
+      <p><strong>templates/login.html</strong></p>
+    
+      <pre><code>
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;body&gt;
+    
+    &lt;h2&gt;Login Form&lt;/h2&gt;
+    
+    &lt;form method="post"&gt;
+      &lt;input type="text" name="username" placeholder="Username"&gt;
+      &lt;br&gt;&lt;br&gt;
+      &lt;input type="password" name="password" placeholder="Password"&gt;
+      &lt;br&gt;&lt;br&gt;
+      &lt;button type="submit"&gt;Login&lt;/button&gt;
+    &lt;/form&gt;
+    
+    &lt;/body&gt;
+    &lt;/html&gt;
+      </code></pre>
+    
+      <!-- =====================
+           FLASK ROUTE
+      ====================== -->
+      <h3>5️⃣ Create Flask Route for Form</h3>
+    
+      <p><strong>app.py</strong></p>
+    
+      <pre><code>
+    from flask import Flask, render_template, request
+    
+    app = Flask(__name__)
+    
+    @app.route("/login", methods=["GET", "POST"])
+    def login():
+        if request.method == "POST":
+            return "Form Submitted"
+        return render_template("login.html")
+      </code></pre>
+    
+      <!-- =====================
+           IMPORTANT RULE
+      ====================== -->
+      <h3>6️⃣ Important Rule 🔥</h3>
+    
+      <p>
+        If a form uses <strong>POST</strong>, the Flask route must allow POST.
+      </p>
+    
+      <ul>
+        <li>❌ Missing POST → Error</li>
+        <li>✔ Use <code>methods=["GET", "POST"]</code></li>
+      </ul>
+    
+      <!-- =====================
+           ACTION ATTRIBUTE
+      ====================== -->
+      <h3>7️⃣ Form Action Attribute (Optional)</h3>
+    
+      <pre><code>
+    &lt;form method="post" action="/login"&gt;
+      </code></pre>
+    
+      <p>
+        If the <code>action</code> attribute is omitted, the form submits
+        to the same URL.
+      </p>
+    
+      <!-- =====================
+           INPUT TYPES
+      ====================== -->
+      <h3>8️⃣ Common Input Types</h3>
+    
+      <pre><code>
+    &lt;input type="text" name="name"&gt;
+    &lt;input type="email" name="email"&gt;
+    &lt;input type="password" name="password"&gt;
+    &lt;input type="submit"&gt;
+      </code></pre>
+    
+    </section>
+    <section class="content-card">
+
+      <h2>Forms & User Input</h2>
+      <h3>📘 Topic 2: Handling GET vs POST</h3>
+    
+      <p>
+        Understanding the difference between <strong>GET</strong> and
+        <strong>POST</strong> is mandatory for proper form handling in Flask.
+      </p>
+    
+      <hr />
+    
+      <!-- =====================
+           GET METHOD
+      ====================== -->
+      <h3>1️⃣ What is GET?</h3>
+    
+      <p>GET is used to:</p>
+      <ul>
+        <li>Fetch data</li>
+        <li>Load pages</li>
+        <li>Pass data through the URL</li>
+      </ul>
+    
+      <p><strong>Example URL:</strong></p>
+      <pre><code>
+    /search?q=flask
+      </code></pre>
+    
+      <ul>
+        <li>✔ Data visible in URL</li>
+        <li>✔ Bookmarkable</li>
+      </ul>
+    
+      <!-- =====================
+           POST METHOD
+      ====================== -->
+      <h3>2️⃣ What is POST?</h3>
+    
+      <p>POST is used to:</p>
+      <ul>
+        <li>Send data securely</li>
+        <li>Submit forms</li>
+        <li>Modify server data</li>
+      </ul>
+    
+      <ul>
+        <li>✔ Data hidden in request body</li>
+        <li>✔ Not bookmarkable</li>
+      </ul>
+    
+      <!-- =====================
+           COMPARISON
+      ====================== -->
+      <h3>3️⃣ GET vs POST (Simple Comparison)</h3>
+    
+      <table>
+        <thead>
+          <tr>
+            <th>GET</th>
+            <th>POST</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Data in URL</td><td>Data in request body</td></tr>
+          <tr><td>Less secure</td><td>More secure</td></tr>
+          <tr><td>Default method</td><td>Explicit method</td></tr>
+          <tr><td>Fetch data</td><td>Send data</td></tr>
+        </tbody>
+      </table>
+    
+      <!-- =====================
+           SAME ROUTE
+      ====================== -->
+      <h3>4️⃣ Handling GET & POST in the Same Route</h3>
+    
+      <p><strong>app.py</strong></p>
+    
+      <pre><code>
+    from flask import Flask, render_template, request
+    
+    app = Flask(__name__)
+    
+    @app.route("/login", methods=["GET", "POST"])
+    def login():
+        if request.method == "POST":
+            return "Login Submitted"
+        return render_template("login.html")
+      </code></pre>
+    
+      <!-- =====================
+           GET FORM
+      ====================== -->
+      <h3>5️⃣ Form with GET Method</h3>
+    
+      <pre><code>
+    &lt;form method="get"&gt;
+      &lt;input type="text" name="query"&gt;
+      &lt;button type="submit"&gt;Search&lt;/button&gt;
+    &lt;/form&gt;
+      </code></pre>
+    
+      <p><strong>URL after submit:</strong></p>
+      <pre><code>
+    /login?query=python
+      </code></pre>
+    
+      <!-- =====================
+           WHEN TO USE GET
+      ====================== -->
+      <h3>6️⃣ When to Use GET?</h3>
+    
+      <ul>
+        <li>Search functionality</li>
+        <li>Filters</li>
+        <li>Pagination</li>
+      </ul>
+    
+      <!-- =====================
+           WHEN TO USE POST
+      ====================== -->
+      <h3>7️⃣ When to Use POST?</h3>
+    
+      <ul>
+        <li>Login</li>
+        <li>Registration</li>
+        <li>Payments</li>
+        <li>Sensitive data handling</li>
+      </ul>
+    
+      <!-- =====================
+           IMPORTANT RULE
+      ====================== -->
+      <h3>8️⃣ Important Flask Rule 🔥</h3>
+    
+      <p>
+        The Flask route must explicitly allow the HTTP method used by the form.
+      </p>
+    
+      <ul>
+        <li>❌ Using POST without allowing POST → <strong>405 Error</strong></li>
+        <li>✔ Use <code>methods=["GET", "POST"]</code></li>
+      </ul>
+    
+    </section>
+        
 
       
 
   </main>
 
-  <!-- =====================
-       FOOTER
-  ====================== -->
+
   <footer class="content-footer">
 
     <a href="./content.html" class="btn">
