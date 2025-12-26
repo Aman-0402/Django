@@ -269,6 +269,834 @@
         </ul>
       
       </section>
+
+      <section class="content-card">
+
+        <h2>Topic 2: How the Web Works (HTTP, Request & Response)</h2>
+        <p>
+          Before learning Flask, it is important to understand what actually happens
+          behind the scenes when you open a website.
+        </p>
+      
+        <hr />
+      
+        <!-- =====================
+             WHAT IS THE WEB
+        ====================== -->
+        <h3>1️⃣ What is the Web?</h3>
+      
+        <p>The web works on the <strong>Client–Server model</strong>.</p>
+      
+        <p><strong>Simple Meaning:</strong></p>
+        <ul>
+          <li><strong>Client</strong> → Browser (Chrome, Edge, Mobile)</li>
+          <li><strong>Server</strong> → Flask App (Python)</li>
+          <li><strong>Internet</strong> → Communication medium</li>
+        </ul>
+      
+        <!-- =====================
+             CLIENT SERVER
+        ====================== -->
+        <h3>2️⃣ Client–Server Architecture</h3>
+      
+        <p><strong>Real-Life Example 🍔</strong></p>
+        <ul>
+          <li>You → Client (orders food)</li>
+          <li>Restaurant → Server (prepares food)</li>
+          <li>Waiter → Internet (delivers food)</li>
+        </ul>
+      
+        <p><strong>Same in Web:</strong></p>
+      
+        <pre><code>
+      Browser  →  Request  →  Server (Flask)
+      Browser  ←  Response ←  Server
+        </code></pre>
+      
+        <!-- =====================
+             HTTP
+        ====================== -->
+        <h3>3️⃣ What is HTTP?</h3>
+      
+        <p>
+          <strong>HTTP</strong> stands for <strong>HyperText Transfer Protocol</strong>.
+          It is a set of rules that allows browsers and servers to communicate.
+        </p>
+      
+        <!-- =====================
+             REQUEST
+        ====================== -->
+        <h3>4️⃣ HTTP Request</h3>
+      
+        <p>
+          When you open a website, the browser sends an HTTP request to the server.
+        </p>
+      
+        <p><strong>A request contains:</strong></p>
+        <ul>
+          <li>URL</li>
+          <li>Method (GET / POST)</li>
+          <li>Headers</li>
+          <li>Data (optional)</li>
+        </ul>
+      
+        <p><strong>Example:</strong></p>
+        <pre><code>
+      GET /home HTTP/1.1
+        </code></pre>
+      
+        <!-- =====================
+             RESPONSE
+        ====================== -->
+        <h3>5️⃣ HTTP Response</h3>
+      
+        <p>
+          The server processes the request and sends an HTTP response back to the
+          browser.
+        </p>
+      
+        <p><strong>A response contains:</strong></p>
+        <ul>
+          <li>Status Code (200, 404, etc.)</li>
+          <li>Headers</li>
+          <li>Body (HTML / JSON / Text)</li>
+        </ul>
+      
+        <p><strong>Example:</strong></p>
+        <pre><code>
+      200 OK
+      &lt;h1&gt;Welcome&lt;/h1&gt;
+        </code></pre>
+      
+        <!-- =====================
+             METHODS
+        ====================== -->
+        <h3>6️⃣ HTTP Methods (IMPORTANT)</h3>
+      
+        <h4>🔹 GET</h4>
+        <ul>
+          <li>Used to fetch data</li>
+          <li>Examples: Open website, search page</li>
+        </ul>
+      
+        <h4>🔹 POST</h4>
+        <ul>
+          <li>Used to send data to the server</li>
+          <li>Examples: Login form, registration form</li>
+        </ul>
+      
+        <!-- =====================
+             STATUS CODES
+        ====================== -->
+        <h3>7️⃣ Common HTTP Status Codes</h3>
+      
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Meaning</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>200</td><td>Success</td></tr>
+            <tr><td>201</td><td>Created</td></tr>
+            <tr><td>400</td><td>Bad Request</td></tr>
+            <tr><td>401</td><td>Unauthorized</td></tr>
+            <tr><td>403</td><td>Forbidden</td></tr>
+            <tr><td>404</td><td>Page Not Found</td></tr>
+            <tr><td>500</td><td>Server Error</td></tr>
+          </tbody>
+        </table>
+      
+        <!-- =====================
+             FLOW
+        ====================== -->
+        <h3>8️⃣ Request–Response Cycle (Flask Flow)</h3>
+      
+        <pre><code>
+      Browser
+         ↓
+      HTTP Request
+         ↓
+      Flask Route (Python Function)
+         ↓
+      Processing Logic
+         ↓
+      HTTP Response
+         ↓
+      Browser shows result
+        </code></pre>
+      
+        <p>
+          👉 Flask receives the request, processes the logic, and returns a response.
+        </p>
+      
+        <!-- =====================
+             FLASK PREVIEW
+        ====================== -->
+        <h3>9️⃣ Simple Flask Preview (Concept Only)</h3>
+      
+        <pre><code>
+      from flask import Flask
+      
+      app = Flask(__name__)
+      
+      @app.route("/")
+      def home():
+          return "Hello Flask"
+        </code></pre>
+      
+        <p><strong>What happens here?</strong></p>
+        <ul>
+          <li>Browser requests <code>/</code></li>
+          <li>Flask calls <code>home()</code></li>
+          <li>Flask returns <code>"Hello Flask"</code></li>
+        </ul>
+      
+        <!-- =====================
+             SHORT NOTES
+        ====================== -->
+        <h3>📝 Short Notes (Copy This)</h3>
+      
+        <ul>
+          <li>The web uses the Client–Server model</li>
+          <li>Browser sends an HTTP request</li>
+          <li>Server returns an HTTP response</li>
+          <li>Flask handles requests using routes</li>
+          <li>GET is used to fetch data</li>
+          <li>POST is used to send data</li>
+        </ul>
+      
+      </section>
+
+      <section class="content-card">
+
+        <h2>Topic 3: Client–Server Architecture (Frontend vs Backend)</h2>
+        <p>
+          This topic removes all confusion about where Flask works and clearly
+          separates frontend and backend responsibilities.
+        </p>
+      
+        <hr />
+      
+        <!-- =====================
+             CLIENT
+        ====================== -->
+        <h3>1️⃣ What is Client?</h3>
+      
+        <p>
+          The <strong>Client</strong> is also called the <strong>Frontend</strong>.
+          It is the part of the application that users directly interact with.
+        </p>
+      
+        <p><strong>Examples:</strong></p>
+        <ul>
+          <li>Web Browser (Chrome, Edge)</li>
+          <li>Mobile Applications</li>
+          <li>API tools like Postman</li>
+        </ul>
+      
+        <p><strong>Client Responsibilities:</strong></p>
+        <ul>
+          <li>Display UI using HTML and CSS</li>
+          <li>Collect user input</li>
+          <li>Send requests to the server</li>
+        </ul>
+      
+        <!-- =====================
+             SERVER
+        ====================== -->
+        <h3>2️⃣ What is Server?</h3>
+      
+        <p>
+          The <strong>Server</strong> is also known as the <strong>Backend</strong>.
+          It handles logic, security, and data processing.
+        </p>
+      
+        <p><strong>Examples:</strong></p>
+        <ul>
+          <li>Flask Application</li>
+          <li>Django Application</li>
+          <li>Node.js Application</li>
+        </ul>
+      
+        <p><strong>Server Responsibilities:</strong></p>
+        <ul>
+          <li>Process business logic</li>
+          <li>Handle database operations</li>
+          <li>Authenticate users</li>
+          <li>Send responses back to the client</li>
+        </ul>
+      
+        <!-- =====================
+             FRONTEND VS BACKEND
+        ====================== -->
+        <h3>3️⃣ Frontend vs Backend</h3>
+      
+        <table>
+          <thead>
+            <tr>
+              <th>Frontend</th>
+              <th>Backend</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>HTML</td><td>Python</td></tr>
+            <tr><td>CSS</td><td>Flask</td></tr>
+            <tr><td>JavaScript</td><td>Database</td></tr>
+            <tr><td>Runs in browser</td><td>Runs on server</td></tr>
+          </tbody>
+        </table>
+      
+        <p><strong>👉 Important:</strong> Flask is a <strong>Backend Framework</strong>.</p>
+      
+        <!-- =====================
+             FLASK POSITION
+        ====================== -->
+        <h3>4️⃣ Where Flask Stands?</h3>
+      
+        <pre><code>
+      Browser (HTML / CSS / JS)
+              ↓
+           Flask (Python)
+              ↓
+           Database
+        </code></pre>
+      
+        <p><strong>Flask Responsibilities:</strong></p>
+        <ul>
+          <li>Receive HTTP requests</li>
+          <li>Apply application logic</li>
+          <li>Communicate with the database</li>
+          <li>Return HTTP responses</li>
+        </ul>
+      
+        <!-- =====================
+             LOGIN FLOW
+        ====================== -->
+        <h3>5️⃣ Example: Login Page Flow</h3>
+      
+        <ol>
+          <li>User enters email and password</li>
+          <li>Browser sends a POST request</li>
+          <li>Flask verifies credentials</li>
+          <li>Flask returns success or error</li>
+        </ol>
+      
+        <!-- =====================
+             SIMPLE FLASK
+        ====================== -->
+        <h3>6️⃣ Simple Flask Backend Example</h3>
+      
+        <pre><code>
+      from flask import Flask
+      
+      app = Flask(__name__)
+      
+      @app.route("/login")
+      def login():
+          return "Login Page"
+        </code></pre>
+      
+        <p>
+          👉 The browser displays the response, but Flask handled the backend logic.
+        </p>
+      
+        <!-- =====================
+             FULL FLOW
+        ====================== -->
+        <h3>7️⃣ Full Web App Flow (Real World)</h3>
+      
+        <pre><code>
+      User clicks button
+           ↓
+      Browser sends request
+           ↓
+      Flask route executes
+           ↓
+      Business logic
+           ↓
+      Database query
+           ↓
+      Flask returns response
+           ↓
+      Browser updates UI
+        </code></pre>
+      
+        <!-- =====================
+             BACKEND TYPES
+        ====================== -->
+        <h3>8️⃣ Backend Types You’ll Build with Flask</h3>
+      
+        <ul>
+          <li>Websites (HTML-based responses)</li>
+          <li>REST APIs (JSON responses)</li>
+          <li>Admin dashboards</li>
+          <li>Microservices</li>
+        </ul>
+      
+      </section>
+      <section class="content-card">
+
+        <h2>Topic 4: REST Basics (API Fundamentals)</h2>
+        <p>
+          Almost all modern Flask applications use REST APIs. Understanding REST
+          is essential before building real-world Flask projects.
+        </p>
+      
+        <hr />
+      
+        <!-- =====================
+             WHAT IS API
+        ====================== -->
+        <h3>1️⃣ What is an API?</h3>
+      
+        <p>
+          <strong>API</strong> stands for <strong>Application Programming Interface</strong>.
+          It allows two software programs to communicate with each other.
+        </p>
+      
+        <p><strong>Simple Meaning:</strong></p>
+        <ul>
+          <li>Frontend ↔ Backend</li>
+          <li>Mobile App ↔ Flask Server</li>
+          <li>React ↔ Flask API</li>
+        </ul>
+      
+        <!-- =====================
+             WHAT IS REST
+        ====================== -->
+        <h3>2️⃣ What is REST?</h3>
+      
+        <p>
+          <strong>REST</strong> stands for <strong>Representational State Transfer</strong>.
+          It is a set of guidelines used to design clean and structured APIs.
+        </p>
+      
+        <!-- =====================
+             WHY REST
+        ====================== -->
+        <h3>3️⃣ Why REST is Important?</h3>
+      
+        <p><strong>Without REST ❌</strong></p>
+        <ul>
+          <li>Messy URLs</li>
+          <li>Hard-to-maintain logic</li>
+        </ul>
+      
+        <p><strong>With REST ✅</strong></p>
+        <ul>
+          <li>Clean URL structure</li>
+          <li>Easy to maintain</li>
+          <li>Scalable applications</li>
+        </ul>
+      
+        <!-- =====================
+             HTTP METHODS
+        ====================== -->
+        <h3>4️⃣ REST Uses HTTP Methods</h3>
+      
+        <table>
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>GET</td><td>Read data</td></tr>
+            <tr><td>POST</td><td>Create data</td></tr>
+            <tr><td>PUT</td><td>Update data</td></tr>
+            <tr><td>DELETE</td><td>Delete data</td></tr>
+          </tbody>
+        </table>
+      
+        <p>
+          👉 These methods directly map to <strong>CRUD operations</strong>.
+        </p>
+      
+        <!-- =====================
+             REST URLS
+        ====================== -->
+        <h3>5️⃣ REST URL Examples</h3>
+      
+        <pre><code>
+      GET    /users       → Get all users
+      GET    /users/1     → Get a single user
+      POST   /users       → Create a new user
+      PUT    /users/1     → Update user data
+      DELETE /users/1     → Delete a user
+        </code></pre>
+      
+        <!-- =====================
+             JSON RESPONSE
+        ====================== -->
+        <h3>6️⃣ REST Response Format (JSON)</h3>
+      
+        <p>
+          Flask APIs typically return data in <strong>JSON</strong> format.
+        </p>
+      
+        <pre><code>
+      {
+        "id": 1,
+        "name": "Aman",
+        "course": "Flask"
+      }
+        </code></pre>
+      
+        <!-- =====================
+             FLASK REST PREVIEW
+        ====================== -->
+        <h3>7️⃣ Simple Flask REST Example (Preview)</h3>
+      
+        <pre><code>
+      from flask import Flask, jsonify
+      
+      app = Flask(__name__)
+      
+      @app.route("/api")
+      def api():
+          return jsonify({
+              "message": "Hello REST API"
+          })
+        </code></pre>
+      
+        <p><strong>Browser Output:</strong></p>
+        <pre><code>
+      {
+        "message": "Hello REST API"
+      }
+        </code></pre>
+      
+        <!-- =====================
+             REST VS WEBSITE
+        ====================== -->
+        <h3>8️⃣ REST API vs Website</h3>
+      
+        <table>
+          <thead>
+            <tr>
+              <th>Website</th>
+              <th>REST API</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Returns HTML</td><td>Returns JSON</td></tr>
+            <tr><td>For users</td><td>For applications</td></tr>
+            <tr><td>Browser-based</td><td>Browser, Mobile, React</td></tr>
+          </tbody>
+        </table>
+      
+        <!-- =====================
+             REAL LIFE
+        ====================== -->
+        <h3>9️⃣ Real-Life Example 📱</h3>
+      
+        <p><strong>Instagram Flow:</strong></p>
+        <ul>
+          <li>App sends request to API</li>
+          <li>API returns JSON data</li>
+          <li>App displays the UI</li>
+        </ul>
+      
+        <p>
+          🔥 The same approach is used when building REST APIs with Flask.
+        </p>
+      
+      </section>
+            
+      <section class="content-card">
+
+        <h2>Topic 5: Virtual Environment (venv)</h2>
+        <p>
+          Using a virtual environment is mandatory for every professional Flask
+          project. It keeps your project clean, isolated, and manageable.
+        </p>
+      
+        <hr />
+      
+        <!-- =====================
+             WHAT IS VENV
+        ====================== -->
+        <h3>1️⃣ What is a Virtual Environment?</h3>
+      
+        <p>
+          A <strong>virtual environment</strong> is a separate Python workspace
+          created for a single project.
+        </p>
+      
+        <p><strong>Why is it needed?</strong></p>
+      
+        <p><strong>Without virtual environment ❌</strong></p>
+        <ul>
+          <li>Package version conflicts</li>
+          <li>Global Python installation becomes messy</li>
+        </ul>
+      
+        <p><strong>With virtual environment ✅</strong></p>
+        <ul>
+          <li>Project-specific packages</li>
+          <li>Clean and professional setup</li>
+        </ul>
+      
+        <!-- =====================
+             ANALOGY
+        ====================== -->
+        <h3>2️⃣ Real-Life Analogy 🎒</h3>
+      
+        <ul>
+          <li><strong>Laptop</strong> → System Python</li>
+          <li><strong>Bag</strong> → Virtual environment</li>
+          <li><strong>Books inside bag</strong> → Flask packages</li>
+        </ul>
+      
+        <p>Each project carries its own bag.</p>
+      
+        <!-- =====================
+             PROJECT FOLDER
+        ====================== -->
+        <h3>3️⃣ Create Flask Project Folder</h3>
+      
+        <pre><code>
+      mkdir flask_app
+      cd flask_app
+        </code></pre>
+      
+        <!-- =====================
+             CREATE VENV
+        ====================== -->
+        <h3>4️⃣ Create Virtual Environment</h3>
+      
+        <pre><code>
+      python -m venv venv
+        </code></pre>
+      
+        <p>After running the command, the folder structure will look like this:</p>
+      
+        <pre><code>
+      flask_app/
+      │
+      ├── venv/
+        </code></pre>
+      
+        <!-- =====================
+             ACTIVATE VENV
+        ====================== -->
+        <h3>5️⃣ Activate Virtual Environment</h3>
+      
+        <h4>🔹 Windows</h4>
+        <pre><code>
+      venv\Scripts\activate
+        </code></pre>
+      
+        <h4>🔹 Linux / Mac</h4>
+        <pre><code>
+      source venv/bin/activate
+        </code></pre>
+      
+        <p>
+          After activation, you will see <strong>(venv)</strong> in the terminal.
+        </p>
+      
+        <p>
+          👉 This confirms that the virtual environment is active.
+        </p>
+      
+        <!-- =====================
+             INSTALL FLASK
+        ====================== -->
+        <h3>6️⃣ Install Flask (Inside venv)</h3>
+      
+        <pre><code>
+      pip install flask
+        </code></pre>
+      
+        <p><strong>Verify installation:</strong></p>
+        <pre><code>
+      pip list
+        </code></pre>
+      
+        <p>You should see packages like:</p>
+        <ul>
+          <li>Flask</li>
+          <li>Werkzeug</li>
+          <li>Jinja2</li>
+        </ul>
+      
+        <!-- =====================
+             FREEZE
+        ====================== -->
+        <h3>7️⃣ Freeze Dependencies (IMPORTANT)</h3>
+      
+        <pre><code>
+      pip freeze &gt; requirements.txt
+        </code></pre>
+      
+        <p>This creates a file named <strong>requirements.txt</strong>.</p>
+      
+        <p><strong>Example content:</strong></p>
+        <pre><code>
+      Flask==3.x.x
+        </code></pre>
+      
+        <p>
+          👉 This file is used when sharing or deploying your Flask project.
+        </p>
+      
+        <!-- =====================
+             DEACTIVATE
+        ====================== -->
+        <h3>8️⃣ Deactivate Virtual Environment</h3>
+      
+        <pre><code>
+      deactivate
+        </code></pre>
+      
+      </section>
+      <section class="content-card">
+
+        <h2>Topic 6: pip & Dependency Management</h2>
+        <p>
+          <strong>pip</strong> is the official tool used to install Flask and all
+          required Python libraries. Proper dependency management is essential
+          for professional Flask projects.
+        </p>
+      
+        <hr />
+      
+        <!-- =====================
+             WHAT IS PIP
+        ====================== -->
+        <h3>1️⃣ What is pip?</h3>
+      
+        <p>
+          <strong>pip</strong> stands for <strong>Python Package Installer</strong>.
+          It is used to install Python libraries from
+          <strong>PyPI (Python Package Index)</strong>.
+        </p>
+      
+        <!-- =====================
+             WHY PIP
+        ====================== -->
+        <h3>2️⃣ Why pip is Important?</h3>
+      
+        <ul>
+          <li>Flask is installed using pip</li>
+          <li>Databases, authentication, and APIs are installed via pip</li>
+          <li>Required for deployment and production setups</li>
+        </ul>
+      
+        <!-- =====================
+             BASIC COMMANDS
+        ====================== -->
+        <h3>3️⃣ Basic pip Commands (MUST KNOW)</h3>
+      
+        <h4>🔹 Check pip version</h4>
+        <pre><code>
+      pip --version
+        </code></pre>
+      
+        <h4>🔹 Install a package</h4>
+        <pre><code>
+      pip install flask
+        </code></pre>
+      
+        <h4>🔹 Install a specific version</h4>
+        <pre><code>
+      pip install flask==3.0.0
+        </code></pre>
+      
+        <h4>🔹 Uninstall a package</h4>
+        <pre><code>
+      pip uninstall flask
+        </code></pre>
+      
+        <h4>🔹 List installed packages</h4>
+        <pre><code>
+      pip list
+        </code></pre>
+      
+        <!-- =====================
+             REQUIREMENTS
+        ====================== -->
+        <h3>4️⃣ requirements.txt (VERY IMPORTANT)</h3>
+      
+        <p>
+          <strong>requirements.txt</strong> is a file that contains all the
+          dependencies used in a Flask project.
+        </p>
+      
+        <p><strong>Example:</strong></p>
+        <pre><code>
+      Flask==3.0.0
+        </code></pre>
+      
+        <h4>🔹 Create requirements.txt</h4>
+        <pre><code>
+      pip freeze &gt; requirements.txt
+        </code></pre>
+      
+        <h4>🔹 Install dependencies from requirements.txt</h4>
+        <pre><code>
+      pip install -r requirements.txt
+        </code></pre>
+      
+        <p><strong>Used when:</strong></p>
+        <ul>
+          <li>Sharing a project</li>
+          <li>Deploying to production</li>
+          <li>Working in a team</li>
+        </ul>
+      
+        <!-- =====================
+             BEST PRACTICE
+        ====================== -->
+        <h3>5️⃣ Best Practices (Professional Tips)</h3>
+      
+        <p><strong>✔ Always:</strong></p>
+        <ul>
+          <li>Activate virtual environment</li>
+          <li>Install packages inside venv</li>
+          <li>Freeze dependencies regularly</li>
+        </ul>
+      
+        <p><strong>❌ Never:</strong></p>
+        <ul>
+          <li>Install Flask globally</li>
+          <li>Skip requirements.txt</li>
+        </ul>
+      
+        <!-- =====================
+             MISTAKES
+        ====================== -->
+        <h3>6️⃣ Common Beginner Mistakes</h3>
+      
+        <table>
+          <thead>
+            <tr>
+              <th>Mistake</th>
+              <th>Fix</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Flask not found</td>
+              <td>Activate virtual environment</td>
+            </tr>
+            <tr>
+              <td>Wrong Flask version</td>
+              <td>Use version pinning</td>
+            </tr>
+            <tr>
+              <td>App works only on my PC</td>
+              <td>Use requirements.txt</td>
+            </tr>
+          </tbody>
+        </table>
+      
+      </section>
+      
       
 
   </main>
