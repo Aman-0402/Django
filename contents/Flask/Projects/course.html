@@ -1,127 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Flask Mini Project</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Global Flask Theme -->
-  <link rel="stylesheet" href="../../../extra/flaskstyle.css">
-  <script defer src="../../../extra/flaskscript.js"></script>
+<head>
+    <meta charset="UTF-8" />
+    <title>Flask Mini Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Global Flask Theme -->
+    <link rel="stylesheet" href="../../../extra/flaskstyle.css">
+    <script defer src="../../../extra/flaskscript.js"></script>
 </head>
 
 <body class="dark">
 
-  <!-- =====================
+    <!-- =====================
        FIXED THEME TOGGLE
   ====================== -->
-  <button id="themeToggle" class="theme-toggle" title="Toggle theme">
-    🌗
-  </button>
+    <button id="themeToggle" class="theme-toggle" title="Toggle theme">
+        🌗
+    </button>
 
-  <!-- =====================
+    <!-- =====================
        SIMPLE HEADER
   ====================== -->
-  <header class="fullscreen-header">
-    <div class="header-inner">
-      <h1>Course Learning Portal</h1>
-      <p>
-        Build a professional, scalable course platform using Flask,
-        databases, and clean architecture.
-      </p>
-    </div>
-  </header>
-  
-  <main class="content-wrapper">
+    <header class="fullscreen-header">
+        <div class="header-inner">
+            <h1>Course Learning Portal</h1>
+            <p>
+                Build a professional, scalable course platform using Flask,
+                databases, and clean architecture.
+            </p>
+        </div>
+    </header>
 
-    <section class="content-card">
-        <h2>🎯 What We Are Building</h2>
-        <ul>
-          <li>Users can see a list of courses</li>
-          <li>Users can open course detail pages</li>
-          <li>Admin can add and edit courses</li>
-          <li>Backend uses Flask with database</li>
-          <li>Clean and scalable project structure</li>
-        </ul>
-      </section>
-  
-      <!-- Tech Stack -->
-      <section class="content-card">
-        <h2>🧱 Tech Stack (Intermediate Level)</h2>
-        <ul>
-          <li>Flask</li>
-          <li>Flask Blueprints</li>
-          <li>Flask-SQLAlchemy</li>
-          <li>Jinja2 Templates</li>
-          <li>SQLite (for now)</li>
-          <li>Basic Admin Logic (no Flask-Admin yet)</li>
-        </ul>
-      </section>
-  
-      <!-- Step 1 Intro -->
-      <section class="content-card">
-        <h2>✅ STEP 1: Project Initialization & Environment Setup</h2>
-        <p>
-          By the end of this step, you will have:
-        </p>
-        <ul>
-          <li>A clean project folder</li>
-          <li>A virtual environment</li>
-          <li>Flask installed</li>
-          <li>A running Flask application</li>
-        </ul>
-      </section>
-  
-      <!-- Step 1.1 -->
-      <section class="content-card">
-        <h2>📁 Step 1.1: Create Project Folder</h2>
-        <p>Choose any workspace (Desktop or <code>E:\FlaskProjects</code>)</p>
-  
-        <pre><code>mkdir course_learning_portal
+    <main class="content-wrapper">
+
+        <section class="content-card">
+            <h2>🎯 What We Are Building</h2>
+            <ul>
+                <li>Users can see a list of courses</li>
+                <li>Users can open course detail pages</li>
+                <li>Admin can add and edit courses</li>
+                <li>Backend uses Flask with database</li>
+                <li>Clean and scalable project structure</li>
+            </ul>
+        </section>
+
+        <!-- Tech Stack -->
+        <section class="content-card">
+            <h2>🧱 Tech Stack (Intermediate Level)</h2>
+            <ul>
+                <li>Flask</li>
+                <li>Flask Blueprints</li>
+                <li>Flask-SQLAlchemy</li>
+                <li>Jinja2 Templates</li>
+                <li>SQLite (for now)</li>
+                <li>Basic Admin Logic (no Flask-Admin yet)</li>
+            </ul>
+        </section>
+
+        <!-- Step 1 Intro -->
+        <section class="content-card">
+            <h2>✅ STEP 1: Project Initialization & Environment Setup</h2>
+            <p>
+                By the end of this step, you will have:
+            </p>
+            <ul>
+                <li>A clean project folder</li>
+                <li>A virtual environment</li>
+                <li>Flask installed</li>
+                <li>A running Flask application</li>
+            </ul>
+        </section>
+
+        <!-- Step 1.1 -->
+        <section class="content-card">
+            <h2>📁 Step 1.1: Create Project Folder</h2>
+            <p>Choose any workspace (Desktop or <code>E:\FlaskProjects</code>)</p>
+
+            <pre><code>mkdir course_learning_portal
   cd course_learning_portal</code></pre>
-  
-        <p><strong>Why this name?</strong></p>
-        <ul>
-          <li>Professional</li>
-          <li>Resume-friendly</li>
-          <li>Scalable for upgrades</li>
-        </ul>
-      </section>
-  
-      <!-- Step 1.2 -->
-      <section class="content-card">
-        <h2>🐍 Step 1.2: Create Virtual Environment</h2>
-  
-        <pre><code>python -m venv venv</code></pre>
-  
-        <p><strong>Activate it (Windows):</strong></p>
-        <pre><code>venv\Scripts\activate</code></pre>
-  
-        <p><strong>Activate it (Linux / Mac):</strong></p>
-        <pre><code>source venv/bin/activate</code></pre>
-  
-        <p>
-          After activation, you should see <code>(venv)</code> in your terminal.
-        </p>
-      </section>
-  
-      <!-- Step 1.3 -->
-      <section class="content-card">
-        <h2>📦 Step 1.3: Install Flask</h2>
-  
-        <pre><code>pip install flask</code></pre>
-  
-        <p>Verify installation:</p>
-        <pre><code>pip show flask</code></pre>
-      </section>
-  
-      <!-- Step 1.4 -->
-      <section class="content-card">
-        <h2>📄 Step 1.4: Create Entry File</h2>
-  
-        <p>Create a file named <code>app.py</code>:</p>
-  
-        <pre><code>from flask import Flask
+
+            <p><strong>Why this name?</strong></p>
+            <ul>
+                <li>Professional</li>
+                <li>Resume-friendly</li>
+                <li>Scalable for upgrades</li>
+            </ul>
+        </section>
+
+        <!-- Step 1.2 -->
+        <section class="content-card">
+            <h2>🐍 Step 1.2: Create Virtual Environment</h2>
+
+            <pre><code>python -m venv venv</code></pre>
+
+            <p><strong>Activate it (Windows):</strong></p>
+            <pre><code>venv\Scripts\activate</code></pre>
+
+            <p><strong>Activate it (Linux / Mac):</strong></p>
+            <pre><code>source venv/bin/activate</code></pre>
+
+            <p>
+                After activation, you should see <code>(venv)</code> in your terminal.
+            </p>
+        </section>
+
+        <!-- Step 1.3 -->
+        <section class="content-card">
+            <h2>📦 Step 1.3: Install Flask</h2>
+
+            <pre><code>pip install flask</code></pre>
+
+            <p>Verify installation:</p>
+            <pre><code>pip show flask</code></pre>
+        </section>
+
+        <!-- Step 1.4 -->
+        <section class="content-card">
+            <h2>📄 Step 1.4: Create Entry File</h2>
+
+            <p>Create a file named <code>app.py</code>:</p>
+
+            <pre><code>from flask import Flask
   
   app = Flask(__name__)
   
@@ -131,44 +132,1216 @@
   
   if __name__ == "__main__":
       app.run(debug=True)</code></pre>
-      </section>
-  
-      <!-- Step 1.5 -->
-      <section class="content-card">
-        <h2>▶ Step 1.5: Run the App</h2>
-  
-        <pre><code>python app.py</code></pre>
-  
-        <p>Open in browser:</p>
-        <pre><code>http://127.0.0.1:5000/</code></pre>
-  
-        <p>
-          ✅ If you see <strong>Course Learning Portal - Flask App Running</strong>,
-          your setup is successful.
-        </p>
-      </section>
-      
+        </section>
 
-  </main>
+        <!-- Step 1.5 -->
+        <section class="content-card">
+            <h2>▶ Step 1.5: Run the App</h2>
 
-  <!-- =====================
+            <pre><code>python app.py</code></pre>
+
+            <p>Open in browser:</p>
+            <pre><code>http://127.0.0.1:5000/</code></pre>
+
+            <p>
+                ✅ If you see <strong>Course Learning Portal - Flask App Running</strong>,
+                your setup is successful.
+            </p>
+        </section>
+
+        <!-- =====================
+      STEP 2
+ ===================== -->
+
+        <section class="content-card">
+            <h2>✅ STEP 2: Professional Folder Structure (Blueprint-Based)</h2>
+
+            <p>
+                In this step, we will convert your single-file Flask app into a
+                <strong>professional, industry-grade structure</strong> using Blueprints.
+            </p>
+
+            <p><strong>🎯 Goal of Step 2</strong></p>
+            <ul>
+                <li>Convert single-file Flask app into professional structure</li>
+                <li>Understand why Blueprints are needed</li>
+                <li>Create folders exactly like industry Flask projects</li>
+            </ul>
+        </section>
+
+        <section class="content-card">
+            <h2>🤔 Why We Need Blueprints?</h2>
+
+            <p><strong>❌ Bad Practice (Beginner)</strong></p>
+            <ul>
+                <li>Everything inside <code>app.py</code></li>
+                <li>Routes, models, admin, logic mixed together</li>
+                <li>Not scalable</li>
+                <li>Hard to maintain</li>
+            </ul>
+
+            <p><strong>✅ Good Practice (Intermediate / Industry)</strong></p>
+            <ul>
+                <li>Separate modules using Blueprints</li>
+                <li>Clean, readable structure</li>
+                <li>Easy teamwork</li>
+                <li>Django-like modularity</li>
+            </ul>
+
+            <p>
+                <strong>📌 Blueprint</strong> = Mini Flask app for a specific feature
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2>📁 STEP 2.1: Final Folder Structure</h2>
+
+            <p>Create the following structure inside <code>course_learning_portal/</code>:</p>
+
+            <pre><code>course_learning_portal/
+ │
+ ├── app/
+ │   ├── __init__.py
+ │   │
+ │   ├── main/
+ │   │   ├── __init__.py
+ │   │   ├── routes.py
+ │   │
+ │   ├── courses/
+ │   │   ├── __init__.py
+ │   │   ├── routes.py
+ │   │   ├── models.py
+ │   │
+ │   ├── admin/
+ │   │   ├── __init__.py
+ │   │   ├── routes.py
+ │   │
+ │   ├── templates/
+ │   │   ├── base.html
+ │   │   ├── home.html
+ │   │   ├── course_list.html
+ │   │   ├── course_detail.html
+ │   │   └── admin/
+ │   │       ├── dashboard.html
+ │   │       └── course_form.html
+ │   │
+ │   └── static/
+ │       ├── css/
+ │       │   └── style.css
+ │       └── images/
+ │
+ ├── venv/
+ ├── run.py
+ └── requirements.txt</code></pre>
+
+            <p>
+                ⚠️ <strong>Important</strong><br />
+                <code>app/</code> is the actual Flask application.<br />
+                <code>run.py</code> is the entry point (instead of <code>app.py</code>).
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2>🧠 STEP 2.2: Folder Responsibilities</h2>
+
+            <ul>
+                <li><strong>run.py</strong> → Starts the application</li>
+                <li><strong>app/__init__.py</strong> → Creates app & registers Blueprints</li>
+                <li><strong>main/</strong> → Homepage & public routes</li>
+                <li><strong>courses/</strong> → Course list, details & models</li>
+                <li><strong>admin/</strong> → Admin dashboard & course management</li>
+                <li><strong>templates/</strong> → All Jinja HTML files</li>
+                <li><strong>static/</strong> → CSS, images, JS (later)</li>
+            </ul>
+
+            <p>
+                📌 This structure is exactly how <strong>large Flask applications</strong> are built.
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 2.3: Create run.py</h2>
+
+            <pre><code>from app import create_app
+ 
+ app = create_app()
+ 
+ if __name__ == "__main__":
+     app.run(debug=True)</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 2.4: Create App Factory</h2>
+
+            <p>Create <code>app/__init__.py</code>:</p>
+
+            <pre><code>from flask import Flask
+ 
+ def create_app():
+     app = Flask(__name__)
+ 
+     # Import Blueprints
+     from app.main.routes import main_bp
+     from app.courses.routes import courses_bp
+     from app.admin.routes import admin_bp
+ 
+     # Register Blueprints
+     app.register_blueprint(main_bp)
+     app.register_blueprint(courses_bp, url_prefix="/courses")
+     app.register_blueprint(admin_bp, url_prefix="/admin")
+ 
+     return app</code></pre>
+
+            <p>
+                <strong>📌 Why App Factory?</strong>
+            </p>
+            <ul>
+                <li>Enables testing</li>
+                <li>Improves scalability</li>
+                <li>Standard Flask architecture</li>
+            </ul>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 2.5: Create First Blueprint (Main)</h2>
+
+            <p><code>app/main/routes.py</code></p>
+
+            <pre><code>from flask import Blueprint, render_template
+ 
+ main_bp = Blueprint("main", __name__)
+ 
+ @main_bp.route("/")
+ def home():
+     return render_template("home.html")</code></pre>
+
+            <p><code>app/main/__init__.py</code></p>
+
+            <pre><code># main package</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>▶ STEP 2.6: Test the App</h2>
+
+            <pre><code>python run.py</code></pre>
+
+            <p>Create template <code>app/templates/home.html</code>:</p>
+
+            <pre><code>&lt;h1&gt;Course Learning Portal&lt;/h1&gt;
+ &lt;p&gt;Home page is working&lt;/p&gt;</code></pre>
+
+            <p>
+                Open <code>http://127.0.0.1:5000/</code>
+            </p>
+
+            <p>
+                ✅ If the page loads, your <strong>Blueprint structure is correct</strong>.
+            </p>
+        </section>
+        <!-- =====================
+ STEP 3
+===================== -->
+
+        <section class="content-card">
+            <h2>✅ STEP 3: Database Setup (Flask-SQLAlchemy) + Course Model</h2>
+
+            <p>
+                In this step, we connect Flask with a database and create our
+                <strong>first real table</strong> using Flask-SQLAlchemy.
+            </p>
+
+            <p><strong>🎯 Goal of Step 3</strong></p>
+            <ul>
+                <li>Connect Flask with a database</li>
+                <li>Create your first table (Course)</li>
+                <li>Understand models & relationships</li>
+                <li>Prepare to show real data on pages</li>
+            </ul>
+        </section>
+
+        <section class="content-card">
+            <h2>🧠 Before Coding: What Is a Model?</h2>
+
+            <p>In Flask (same concept as Django ORM):</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Database</th>
+                        <th>Flask</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Table</td>
+                        <td>Model</td>
+                    </tr>
+                    <tr>
+                        <td>Row</td>
+                        <td>Object</td>
+                    </tr>
+                    <tr>
+                        <td>Column</td>
+                        <td>Attribute</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                📌 Example:<br />
+                <code>Course</code> table → <code>Course</code> model → each course = one object
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2>📦 STEP 3.1: Install Required Packages</h2>
+
+            <p>Activate your virtual environment if not active.</p>
+
+            <pre><code>pip install flask-sqlalchemy</code></pre>
+
+            <p><strong>Optional (recommended later):</strong></p>
+
+            <pre><code>pip install flask-migrate</code></pre>
+
+            <p>Save dependencies:</p>
+
+            <pre><code>pip freeze &gt; requirements.txt</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>⚙️ STEP 3.2: Configure Database in App Factory</h2>
+
+            <p>Update <code>app/__init__.py</code>:</p>
+
+            <pre><code>from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
+def create_app():
+app = Flask(__name__)
+
+# Basic Config
+app.config["SECRET_KEY"] = "dev-secret-key"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///course_portal.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# Init DB
+db.init_app(app)
+
+# Import Blueprints
+from app.main.routes import main_bp
+from app.courses.routes import courses_bp
+from app.admin.routes import admin_bp
+
+# Register Blueprints
+app.register_blueprint(main_bp)
+app.register_blueprint(courses_bp, url_prefix="/courses")
+app.register_blueprint(admin_bp, url_prefix="/admin")
+
+return app</code></pre>
+
+            <p><strong>📌 Why SQLite now?</strong></p>
+            <ul>
+                <li>No setup required</li>
+                <li>Perfect for learning</li>
+                <li>Easily replaceable with MySQL/PostgreSQL later</li>
+            </ul>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 3.3: Create Course Model</h2>
+
+            <p><code>app/courses/models.py</code></p>
+
+            <pre><code>from app import db
+
+class Course(db.Model):
+id = db.Column(db.Integer, primary_key=True)
+title = db.Column(db.String(150), nullable=False)
+description = db.Column(db.Text, nullable=False)
+duration = db.Column(db.String(50))
+level = db.Column(db.String(50))  # Beginner / Intermediate / Advanced
+
+def __repr__(self):
+    return f"&lt;Course {self.title}&gt;"</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>🧠 Understand This Model</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Meaning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>Primary key</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>Course name</td>
+                    </tr>
+                    <tr>
+                        <td>description</td>
+                        <td>Course details</td>
+                    </tr>
+                    <tr>
+                        <td>duration</td>
+                        <td>Example: "6 Weeks"</td>
+                    </tr>
+                    <tr>
+                        <td>level</td>
+                        <td>Beginner / Intermediate</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>
+                📌 <code>nullable=False</code> → field must have a value
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 3.4: Link Model with Courses Module</h2>
+
+            <p><code>app/courses/__init__.py</code></p>
+
+            <pre><code># courses package</code></pre>
+
+            <p><code>app/courses/routes.py</code> (temporary)</p>
+
+            <pre><code>from flask import Blueprint
+
+courses_bp = Blueprint("courses", __name__)
+
+@courses_bp.route("/")
+def course_list():
+return "Course list will appear here"</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>🛠️ STEP 3.5: Create Database Tables (First Time)</h2>
+
+            <p>Open Python shell:</p>
+
+            <pre><code>python</code></pre>
+
+            <p>Run these commands exactly:</p>
+
+            <pre><code>from run import app
+from app import db
+
+with app.app_context():
+db.create_all()</code></pre>
+
+            <p>Exit:</p>
+
+            <pre><code>exit()</code></pre>
+
+            <p>
+                ✔ This creates <code>course_portal.db</code>
+            </p>
+
+            <p>
+                📌 Your database is now <strong>LIVE</strong>
+            </p>
+        </section>
+        <!-- =====================
+STEP 4
+===================== -->
+
+        <section class="content-card">
+            <h2>✅ STEP 4: Course List Page (Fetch from DB + Display)</h2>
+
+            <p>
+                In this step, we fetch course data from the database and display it on a
+                dynamic course list page using Jinja templates.
+            </p>
+
+            <p><strong>🎯 Goal of Step 4</strong></p>
+            <ul>
+                <li>Fetch courses from database</li>
+                <li>Send data from Flask to templates</li>
+                <li>Display a dynamic course list page</li>
+                <li>Understand Flask → Jinja → HTML flow</li>
+            </ul>
+        </section>
+
+        <section class="content-card">
+            <h2>🧠 Understand the Flow (VERY IMPORTANT)</h2>
+
+            <pre><code>Browser
+↓
+Route (/courses)
+↓
+Query Database (Course model)
+↓
+Send data to template
+↓
+Jinja loop renders HTML</code></pre>
+
+            <p>
+                📌 Same logic as Django — Flask just makes it more explicit.
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 4.1: Insert Sample Courses (One-Time)</h2>
+
+            <p>Open Python shell:</p>
+
+            <pre><code>python</code></pre>
+
+            <p>Run the following commands:</p>
+
+            <pre><code>from run import app
+from app import db
+from app.courses.models import Course
+
+with app.app_context():
+c1 = Course(
+   title="Python for Beginners",
+   description="Learn Python from scratch",
+   duration="6 Weeks",
+   level="Beginner"
+)
+
+c2 = Course(
+   title="Flask Web Development",
+   description="Build web apps using Flask",
+   duration="4 Weeks",
+   level="Intermediate"
+)
+
+db.session.add_all([c1, c2])
+db.session.commit()</code></pre>
+
+            <p>Exit shell:</p>
+
+            <pre><code>exit()</code></pre>
+
+            <p>
+                ✔ Database now has data
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 4.2: Update Course Routes</h2>
+
+            <p><code>app/courses/routes.py</code></p>
+
+            <pre><code>from flask import Blueprint, render_template
+from app.courses.models import Course
+
+courses_bp = Blueprint("courses", __name__)
+
+@courses_bp.route("/")
+def course_list():
+courses = Course.query.all()
+return render_template("course_list.html", courses=courses)</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 4.3: Create Course List Template</h2>
+
+            <p><code>app/templates/course_list.html</code></p>
+
+            <pre><code>{% extends "base.html" %}
+
+{% block content %}
+&lt;h2&gt;Available Courses&lt;/h2&gt;
+
+{% if courses %}
+&lt;ul&gt;
+   {% for course in courses %}
+       &lt;li&gt;
+           &lt;h3&gt;{{ course.title }}&lt;/h3&gt;
+           &lt;p&gt;{{ course.description }}&lt;/p&gt;
+           &lt;small&gt;
+               Duration: {{ course.duration }} |
+               Level: {{ course.level }}
+           &lt;/small&gt;
+       &lt;/li&gt;
+       &lt;hr&gt;
+   {% endfor %}
+&lt;/ul&gt;
+{% else %}
+&lt;p&gt;No courses available.&lt;/p&gt;
+{% endif %}
+{% endblock %}</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 4.4: Create Base Template</h2>
+
+            <p><code>app/templates/base.html</code></p>
+
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Course Learning Portal&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;nav&gt;
+&lt;a href="/"&gt;Home&lt;/a&gt; |
+&lt;a href="/courses/"&gt;Courses&lt;/a&gt;
+&lt;/nav&gt;
+
+&lt;hr&gt;
+
+{% block content %}{% endblock %}
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>▶ STEP 4.5: Test in Browser</h2>
+
+            <p>Run server:</p>
+
+            <pre><code>python run.py</code></pre>
+
+            <p>Open:</p>
+
+            <pre><code>http://127.0.0.1:5000/courses/</code></pre>
+
+            <p>
+                ✔ You should see:
+            </p>
+            <ul>
+                <li>Python for Beginners</li>
+                <li>Flask Web Development</li>
+            </ul>
+
+            <p>
+                🎉 <strong>Dynamic data is working</strong>
+            </p>
+        </section>
+        <!-- =====================
+STEP 5
+===================== -->
+
+        <section class="content-card">
+            <h2>✅ STEP 5: Course Detail Page (Dynamic URL + Single Record)</h2>
+
+            <p>
+                In this step, we create a <strong>dynamic course detail page</strong>
+                where each course has its own URL and shows full information.
+            </p>
+
+            <p><strong>🎯 Goal of Step 5</strong></p>
+            <ul>
+                <li>Create dynamic URLs like <code>/courses/1</code></li>
+                <li>Fetch a single course from the database</li>
+                <li>Display full course details</li>
+                <li>Use error-safe querying</li>
+            </ul>
+        </section>
+
+        <section class="content-card">
+            <h2>🧠 Concept First: What Is a Dynamic Route?</h2>
+
+            <p>Instead of hardcoded routes:</p>
+
+            <pre><code>/courses/python
+/courses/flask</code></pre>
+
+            <p>We use database-driven routing:</p>
+
+            <pre><code>/courses/&lt;id&gt;</code></pre>
+
+            <p>
+                📌 Same concept as Django’s <code>&lt;int:id&gt;</code>
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 5.1: Update Course Routes (Detail View)</h2>
+
+            <p><code>app/courses/routes.py</code></p>
+
+            <pre><code>from flask import Blueprint, render_template
+from app.courses.models import Course
+
+courses_bp = Blueprint("courses", __name__)
+
+@courses_bp.route("/")
+def course_list():
+courses = Course.query.all()
+return render_template("course_list.html", courses=courses)
+
+@courses_bp.route("/&lt;int:course_id&gt;")
+def course_detail(course_id):
+course = Course.query.get_or_404(course_id)
+return render_template("course_detail.html", course=course)</code></pre>
+
+            <p><strong>🔍 Important Line</strong></p>
+            <pre><code>Course.query.get_or_404(course_id)</code></pre>
+
+            <ul>
+                <li>Fetches course by ID</li>
+                <li>Automatically shows 404 page if not found</li>
+                <li>Industry best practice</li>
+            </ul>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 5.2: Create Course Detail Template</h2>
+
+            <p><code>app/templates/course_detail.html</code></p>
+
+            <pre><code>{% extends "base.html" %}
+
+{% block content %}
+&lt;h2&gt;{{ course.title }}&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;Description:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;{{ course.description }}&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Duration:&lt;/strong&gt; {{ course.duration }}&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Level:&lt;/strong&gt; {{ course.level }}&lt;/p&gt;
+
+&lt;a href="/courses/"&gt;← Back to Courses&lt;/a&gt;
+{% endblock %}</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 5.3: Add Links from Course List Page</h2>
+
+            <p>
+                Update <code>course_list.html</code> so each course title is clickable.
+            </p>
+
+            <p>Replace the title section with:</p>
+
+            <pre><code>&lt;h3&gt;
+&lt;a href="/courses/{{ course.id }}"&gt;
+   {{ course.title }}
+&lt;/a&gt;
+&lt;/h3&gt;</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>▶ STEP 5.4: Test in Browser</h2>
+
+            <p>Run server:</p>
+
+            <pre><code>python run.py</code></pre>
+
+            <p>Open:</p>
+
+            <pre><code>http://127.0.0.1:5000/courses/</code></pre>
+
+            <ul>
+                <li>Click on a course</li>
+                <li>URL becomes <code>/courses/1</code></li>
+                <li>Course detail page opens</li>
+                <li>Back button works</li>
+            </ul>
+
+            <p>
+                🎉 <strong>You now have a real course portal flow</strong>
+            </p>
+        </section>
+        <!-- =====================
+STEP 6
+===================== -->
+
+        <section class="content-card">
+            <h2>✅ STEP 6: Admin Panel – Add New Courses (Forms + POST)</h2>
+
+            <p>
+                In this step, we build a <strong>custom admin panel</strong> to add new
+                courses using HTML forms and save them into the database.
+            </p>
+
+            <p><strong>🎯 Goal of Step 6</strong></p>
+            <ul>
+                <li>Create a basic admin panel</li>
+                <li>Add new courses using an HTML form</li>
+                <li>Handle GET vs POST requests</li>
+                <li>Save data into the database from UI</li>
+            </ul>
+
+            <p>
+                📌 This is real backend <strong>CRUD</strong>.
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2>🧠 Concept First: Admin Logic (Simple & Clean)</h2>
+
+            <p>
+                We are <strong>not using Flask-Admin yet</strong>.
+                Instead, we build a custom admin panel to truly understand Flask.
+            </p>
+
+            <p><strong>Admin URLs</strong></p>
+            <ul>
+                <li><code>/admin/</code> → Admin dashboard</li>
+                <li><code>/admin/add-course</code> → Add new course</li>
+            </ul>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 6.1: Admin Blueprint Routes</h2>
+
+            <p><code>app/admin/routes.py</code></p>
+
+            <pre><code>from flask import Blueprint, render_template, request, redirect, url_for
+from app import db
+from app.courses.models import Course
+
+admin_bp = Blueprint("admin", __name__)
+
+@admin_bp.route("/")
+def dashboard():
+courses = Course.query.all()
+return render_template("admin/dashboard.html", courses=courses)
+
+@admin_bp.route("/add-course", methods=["GET", "POST"])
+def add_course():
+if request.method == "POST":
+   title = request.form.get("title")
+   description = request.form.get("description")
+   duration = request.form.get("duration")
+   level = request.form.get("level")
+
+   new_course = Course(
+       title=title,
+       description=description,
+       duration=duration,
+       level=level
+   )
+
+   db.session.add(new_course)
+   db.session.commit()
+
+   return redirect(url_for("admin.dashboard"))
+
+return render_template("admin/course_form.html")</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>🧠 Understand This Clearly</h2>
+
+            <p><strong>GET request</strong></p>
+            <ul>
+                <li>Shows the form</li>
+            </ul>
+
+            <p><strong>POST request</strong></p>
+            <ul>
+                <li>Reads form data</li>
+                <li>Creates Course object</li>
+                <li>Saves to database</li>
+                <li>Redirects to dashboard</li>
+            </ul>
+
+            <p>
+                📌 Same logic as Django views — Flask is just more explicit.
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 6.2: Admin Dashboard Template</h2>
+
+            <p><code>app/templates/admin/dashboard.html</code></p>
+
+            <pre><code>{% extends "base.html" %}
+
+{% block content %}
+&lt;h2&gt;Admin Dashboard&lt;/h2&gt;
+
+&lt;a href="/admin/add-course"&gt;➕ Add New Course&lt;/a&gt;
+&lt;hr&gt;
+
+{% if courses %}
+&lt;ul&gt;
+   {% for course in courses %}
+       &lt;li&gt;
+           &lt;strong&gt;{{ course.title }}&lt;/strong&gt;
+           ({{ course.level }})
+       &lt;/li&gt;
+   {% endfor %}
+&lt;/ul&gt;
+{% else %}
+&lt;p&gt;No courses added yet.&lt;/p&gt;
+{% endif %}
+{% endblock %}</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 6.3: Course Form Template</h2>
+
+            <p><code>app/templates/admin/course_form.html</code></p>
+
+            <pre><code>{% extends "base.html" %}
+
+{% block content %}
+&lt;h2&gt;Add New Course&lt;/h2&gt;
+
+&lt;form method="POST"&gt;
+&lt;label&gt;Course Title&lt;/label&gt;&lt;br&gt;
+&lt;input type="text" name="title" required&gt;&lt;br&gt;&lt;br&gt;
+
+&lt;label&gt;Description&lt;/label&gt;&lt;br&gt;
+&lt;textarea name="description" required&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+
+&lt;label&gt;Duration&lt;/label&gt;&lt;br&gt;
+&lt;input type="text" name="duration"&gt;&lt;br&gt;&lt;br&gt;
+
+&lt;label&gt;Level&lt;/label&gt;&lt;br&gt;
+&lt;select name="level"&gt;
+   &lt;option value="Beginner"&gt;Beginner&lt;/option&gt;
+   &lt;option value="Intermediate"&gt;Intermediate&lt;/option&gt;
+   &lt;option value="Advanced"&gt;Advanced&lt;/option&gt;
+&lt;/select&gt;&lt;br&gt;&lt;br&gt;
+
+&lt;button type="submit"&gt;Save Course&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;br&gt;
+&lt;a href="/admin/"&gt;← Back to Dashboard&lt;/a&gt;
+{% endblock %}</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>▶ STEP 6.4: Test Admin Panel</h2>
+
+            <p>Run server:</p>
+
+            <pre><code>python run.py</code></pre>
+
+            <p>Open:</p>
+
+            <pre><code>http://127.0.0.1:5000/admin/</code></pre>
+
+            <ul>
+                <li>Click <strong>Add New Course</strong></li>
+                <li>Fill the form → Submit</li>
+                <li>Course appears in admin dashboard</li>
+                <li>Course also appears in <code>/courses/</code></li>
+            </ul>
+
+            <p>
+                🎉 <strong>Admin and user sides are now connected</strong>
+            </p>
+        </section>
+        <!-- =====================
+STEP 7
+===================== -->
+
+        <section class="content-card">
+            <h2>✅ STEP 7: Edit Course (Update CRUD + Pre-Filled Form)</h2>
+
+            <p>
+                In this step, we implement the <strong>UPDATE</strong> part of CRUD by
+                allowing admins to edit existing courses using a pre-filled form.
+            </p>
+
+            <p><strong>🎯 Goal of Step 7</strong></p>
+            <ul>
+                <li>Edit existing courses</li>
+                <li>Pre-fill forms with database data</li>
+                <li>Update records safely</li>
+                <li>Understand GET (load form) + POST (update data)</li>
+            </ul>
+        </section>
+
+        <section class="content-card">
+            <h2>🧠 Understand the UPDATE Flow</h2>
+
+            <pre><code>Admin Dashboard
+↓
+Edit Link (course_id)
+↓
+Pre-filled Form (GET)
+↓
+Submit Updated Data (POST)
+↓
+Database Updated
+↓
+Redirect to Dashboard</code></pre>
+
+            <p>
+                📌 Same idea as Django’s <code>UpdateView</code>, but manual (better for learning).
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 7.1: Add Edit Route in Admin Blueprint</h2>
+
+            <p>Add this below <code>add_course()</code> in <code>app/admin/routes.py</code>:</p>
+
+            <pre><code>@admin_bp.route("/edit-course/&lt;int:course_id&gt;", methods=["GET", "POST"])
+def edit_course(course_id):
+course = Course.query.get_or_404(course_id)
+
+if request.method == "POST":
+   course.title = request.form.get("title")
+   course.description = request.form.get("description")
+   course.duration = request.form.get("duration")
+   course.level = request.form.get("level")
+
+   db.session.commit()
+   return redirect(url_for("admin.dashboard"))
+
+return render_template("admin/course_form.html", course=course)</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>🧠 Key Points to Notice</h2>
+
+            <ul>
+                <li>
+                    <strong>get_or_404</strong> → prevents invalid IDs and shows 404 safely
+                </li>
+                <li>
+                    <strong>Same template for Add & Edit</strong>
+                    <ul>
+                        <li>Add → empty form</li>
+                        <li>Edit → pre-filled form</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p>
+                📌 This is <strong>professional template reuse</strong>.
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 7.2: Update Course Form Template (Reusable)</h2>
+
+            <p>Replace <code>app/templates/admin/course_form.html</code> with:</p>
+
+            <pre><code>{% extends "base.html" %}
+
+{% block content %}
+&lt;h2&gt;{{ 'Edit Course' if course else 'Add New Course' }}&lt;/h2&gt;
+
+&lt;form method="POST"&gt;
+&lt;label&gt;Course Title&lt;/label&gt;&lt;br&gt;
+&lt;input type="text" name="title"
+      value="{{ course.title if course else '' }}"
+      required&gt;&lt;br&gt;&lt;br&gt;
+
+&lt;label&gt;Description&lt;/label&gt;&lt;br&gt;
+&lt;textarea name="description" required&gt;{{ course.description if course else '' }}&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+
+&lt;label&gt;Duration&lt;/label&gt;&lt;br&gt;
+&lt;input type="text" name="duration"
+      value="{{ course.duration if course else '' }}"&gt;&lt;br&gt;&lt;br&gt;
+
+&lt;label&gt;Level&lt;/label&gt;&lt;br&gt;
+&lt;select name="level"&gt;
+   &lt;option value="Beginner" {{ 'selected' if course and course.level=='Beginner' else '' }}&gt;Beginner&lt;/option&gt;
+   &lt;option value="Intermediate" {{ 'selected' if course and course.level=='Intermediate' else '' }}&gt;Intermediate&lt;/option&gt;
+   &lt;option value="Advanced" {{ 'selected' if course and course.level=='Advanced' else '' }}&gt;Advanced&lt;/option&gt;
+&lt;/select&gt;&lt;br&gt;&lt;br&gt;
+
+&lt;button type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;br&gt;
+&lt;a href="/admin/"&gt;← Back to Dashboard&lt;/a&gt;
+{% endblock %}</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 7.3: Add Edit Links in Admin Dashboard</h2>
+
+            <p>Update <code>app/templates/admin/dashboard.html</code>:</p>
+
+            <pre><code>&lt;ul&gt;
+{% for course in courses %}
+   &lt;li&gt;
+       &lt;strong&gt;{{ course.title }}&lt;/strong&gt;
+       ({{ course.level }})
+       |
+       &lt;a href="/admin/edit-course/{{ course.id }}"&gt;Edit&lt;/a&gt;
+   &lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;</code></pre>
+        </section>
+
+        <section class="content-card">
+            <h2>▶ STEP 7.4: Test Update Functionality</h2>
+
+            <p>Run server:</p>
+
+            <pre><code>python run.py</code></pre>
+
+            <p>Open:</p>
+
+            <pre><code>http://127.0.0.1:5000/admin/</code></pre>
+
+            <ul>
+                <li>Click <strong>Edit</strong></li>
+                <li>Form opens with pre-filled data</li>
+                <li>Update fields → Save</li>
+                <li>Changes reflect everywhere</li>
+            </ul>
+
+            <p>
+                🎉 <strong>UPDATE (U of CRUD) is complete</strong>
+            </p>
+        </section>
+        <!-- =====================
+STEP 8
+===================== -->
+
+        <section class="content-card">
+            <h2>✅ STEP 8: Delete Course (Delete CRUD + Confirmation)</h2>
+
+            <p>
+                In this step, we complete <strong>FULL CRUD</strong> by safely deleting
+                courses from the database using a POST-only request and confirmation.
+            </p>
+
+            <p><strong>🎯 Goal of Step 8</strong></p>
+            <ul>
+                <li>Delete a course safely</li>
+                <li>Use POST-only delete (best practice)</li>
+                <li>Add a confirmation prompt</li>
+                <li>Complete FULL CRUD</li>
+            </ul>
+        </section>
+
+        <section class="content-card">
+            <h2>🧠 Concept First: How DELETE Should Work</h2>
+
+            <p><strong>❌ Bad Practice</strong></p>
+
+            <pre><code>&lt;a href="/delete/1"&gt;Delete&lt;/a&gt;</code></pre>
+
+            <ul>
+                <li>Deletes data via GET</li>
+                <li>Security risk</li>
+                <li>Accidental deletion possible</li>
+            </ul>
+
+            <p><strong>✅ Good Practice</strong></p>
+            <ul>
+                <li>Delete via POST request</li>
+                <li>Use a form submit button</li>
+                <li>Optional confirmation popup</li>
+            </ul>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 8.1: Add Delete Route (Admin Blueprint)</h2>
+
+            <p>Add this below <code>edit_course()</code> in <code>app/admin/routes.py</code>:</p>
+
+            <pre><code>@admin_bp.route("/delete-course/&lt;int:course_id&gt;", methods=["POST"])
+def delete_course(course_id):
+course = Course.query.get_or_404(course_id)
+
+db.session.delete(course)
+db.session.commit()
+
+return redirect(url_for("admin.dashboard"))</code></pre>
+
+            <p>
+                📌 <strong>Why POST only?</strong>
+            </p>
+            <ul>
+                <li>Prevents accidental deletes</li>
+                <li>Protects against misuse</li>
+                <li>Industry-standard approach</li>
+            </ul>
+        </section>
+
+        <section class="content-card">
+            <h2>🧱 STEP 8.2: Add Delete Button in Admin Dashboard</h2>
+
+            <p>Update <code>app/templates/admin/dashboard.html</code>:</p>
+
+            <pre><code>&lt;ul&gt;
+{% for course in courses %}
+   &lt;li&gt;
+       &lt;strong&gt;{{ course.title }}&lt;/strong&gt;
+       ({{ course.level }})
+
+       | &lt;a href="/admin/edit-course/{{ course.id }}"&gt;Edit&lt;/a&gt;
+
+       | &lt;form action="/admin/delete-course/{{ course.id }}"
+               method="POST"
+               style="display:inline;"
+               onsubmit="return confirm('Are you sure you want to delete this course?');"&gt;
+           &lt;button type="submit"&gt;Delete&lt;/button&gt;
+         &lt;/form&gt;
+   &lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;</code></pre>
+
+            <p>
+                📌 <code>confirm()</code> shows a browser popup:<br />
+                <em>“Are you sure you want to delete this course?”</em>
+            </p>
+        </section>
+
+        <section class="content-card">
+            <h2>▶ STEP 8.3: Test Delete Feature</h2>
+
+            <p>Run server:</p>
+
+            <pre><code>python run.py</code></pre>
+
+            <p>Open:</p>
+
+            <pre><code>http://127.0.0.1:5000/admin/</code></pre>
+
+            <ul>
+                <li>Click <strong>Delete</strong></li>
+                <li>Confirmation popup appears</li>
+                <li>Confirm → course removed from database</li>
+                <li>Course disappears from:
+                    <ul>
+                        <li>Admin dashboard</li>
+                        <li>Course list</li>
+                        <li>Course detail page (404)</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <p>
+                🎉 <strong>DELETE (D of CRUD) is complete</strong>
+            </p>
+        </section>
+
+
+    </main>
+
+    <!-- =====================
        FOOTER
   ====================== -->
-  <footer class="content-footer">
+    <footer class="content-footer">
 
-    <a href="../content.html" class="btn">
-      ← Back to Flask Roadmap
-    </a>
-    <a href="https://github.com/Aman-0402" target="_blank" class="btn">
-      <img src="../../../assets/GitHub.png" alt="GitHub" />
-      GitHub
-    </a>
+        <a href="../content.html" class="btn">
+            ← Back to Flask Roadmap
+        </a>
+        <a href="https://github.com/Aman-0402" target="_blank" class="btn">
+            <img src="../../../assets/GitHub.png" alt="GitHub" />
+            GitHub
+        </a>
 
-    <button id="scrollTop" class="btn">
-      ↑ Top
-    </button>
+        <button id="scrollTop" class="btn">
+            ↑ Top
+        </button>
 
-  </footer>
+    </footer>
 
 </body>
+
 </html>
