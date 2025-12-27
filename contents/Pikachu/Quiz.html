@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Flask Quiz</title>
+    <style>
+        /* --- DARK THEME CSS --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% -20%, #2e1065, #000000 70%);
+            background-attachment: fixed;
+            /* Keeps the glow in place when scrolling */
+
+            color: #e0e0e0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: #ffffff;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+
+        /* Container for all questions */
+        .quiz-wrapper {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* Individual Question Card */
+        .question-card {
+            background-color: #1a1a1a;
+            /* Dark Grey Card */
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05);
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Buttons Styling */
+        .option-btn {
+            padding: 15px 20px;
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            color: #ccc;
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        /* Hover effect (only if not clicked yet) */
+        .option-btn:hover:not(:disabled) {
+            background-color: #333;
+            border-color: #666;
+            color: white;
+        }
+
+        /* --- FEEDBACK COLORS --- */
+
+        /* Correct Answer (Green) */
+        .option-btn.correct {
+            background-color: #1b5e20 !important;
+            border-color: #4caf50 !important;
+            color: #fff !important;
+        }
+
+        /* Wrong Answer (Red) */
+        .option-btn.incorrect {
+            background-color: #7f1d1d !important;
+            border-color: #f44336 !important;
+            color: #ffcdd2 !important;
+        }
+
+        /* Disabled State */
+        .option-btn:disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Django & Flask Quiz</h1>
+
+    <div class="quiz-wrapper" id="quiz-container">
+    </div>
+
+    <script>
+        // --- 1. QUIZ DATA (Add your MCQs here) ---
+        const questions = [
+            {
+                id: 1,
+                text: "Ravi wants to build a large e-commerce website with built-in authentication, ORM, and admin panel. Which framework best suits his requirement?",
+                options: ["Flask", "Node.js", "FastAPI", "Django"],
+                correct: 3
+            },
+            {
+                id: 2,
+                text: "Meena is developing a small REST API with minimal configuration and full control over components. Which framework should she choose?",
+                options: ["Flask", "Spring", "Django", "Laravel"],
+                correct: 0
+            },
+            {
+                id: 3,
+                text: "Arjun notices that Django uses Models, Views, and Templates to manage application flow. This design pattern is known as:",
+                options: ["MVC", "MVVM", "MVT", "MVP"],
+                correct: 2
+            },
+            {
+                id: 4,
+                text: "While learning Flask, Kiran realizes that it does not enforce a fixed project structure. This means Flask is a:",
+                options: ["CMS framework", "Microframework", "Frontend framework", "Full-stack framework"],
+                correct: 1
+            },
+            {
+                id: 5,
+                text: "Sneha installs Django using pip install django. Which tool is pip?",
+                options: ["Programming language", "Web server", "Database", "Package manager"],
+                correct: 3
+            },
+            {
+                id: 6,
+                text: "When starting a Django project, a folder containing settings.py, urls.py, and wsgi.py is created. This folder represents:",
+                options: ["Database", "Virtual environment", "Django project", "Django app"],
+                correct: 2
+            },
+            {
+                id: 7,
+                text: "In Flask, which file usually acts as the main application file to define routes?",
+                options: ["settings.py", "app.py", "models.py", "views.py"],
+                correct: 1
+            },
+            {
+                id: 8,
+                text: "A developer wants to quickly test changes locally during development. Which command is used to run the Django development server?",
+                options: ["django run", "django start", "python manage.py runserver", "python runserver"],
+                correct: 2
+            },
+            {
+                id: 9,
+                text: "While comparing frameworks, Rohit finds Django comes with ORM, authentication, and admin by default. This makes Django a:",
+                options: ["Lightweight framework", "Microframework", "Frontend framework", "Full-stack framework"],
+                correct: 3
+            },
+            {
+                id: 10,
+                text: "In Flask, routing is typically defined using:",
+                options: ["URL mapping files", "Decorators", "XML configuration", "Templates"],
+                correct: 1
+            },
+            {
+                id: 11,
+                text: "A startup team discusses features of Django. Which of the following are built-in Django features?",
+                options: ["Authentication system", "ORM", "Admin Interface", "Mandatory REST API support"],
+                correct: [0, 1, 2]
+            },
+            {
+                id: 12,
+                text: "While setting up a Flask project, which tasks are typically done manually compared to Django?",
+                options: ["Database integration", "URL routing structure", "Authentication setup", "Template engine selection"],
+                correct: [0, 2, 3]
+            },
+            {
+                id: 13,
+                text: "During environment setup, a developer uses a virtual environment to:",
+                options: ["Improve internet speed", "Avoid version conflicts", "Manage multiple projects", "Isolate dependencies"],
+                correct: [1, 2, 3]
+            },
+            {
+                id: 14,
+                text: "Which files are commonly found in a Django project structure?",
+                options: ["settings.py", "manage.py", "urls.py", "app.py"],
+                correct: [0, 1, 2]
+            },
+            {
+                id: 15,
+                text: "When running development servers, which statements are true?",
+                options: [
+                    "Flask uses flask run",
+                    "Production servers should be used during development",
+                    "Auto-reload helps detect changes quickly",
+                    "Django provides a built-in development server"
+                ],
+                correct: [0, 2, 3]
+            },
+            {
+                id: 16,
+                text: "Flask is best suited for large applications that require many built-in features.",
+                options: ["True", "False"],
+                correct: 1
+            },
+            {
+                id: 17,
+                text: "Flask is best suited for large applications that require many built-in features.",
+                options: ["True", "False"],
+                correct: 1
+            },
+            {
+                id: 18,
+                text: "Flask applications cannot use templates or databases.",
+                options: ["True", "False"],
+                correct: 1
+            },
+            {
+                id: 19,
+                text: "Flask applications cannot use templates or databases.",
+                options: ["True", "False"],
+                correct: 1
+            },
+            {
+                id: 20,
+                text: "Running a development server allows developers to test applications locally before deployment.",
+                options: ["True", "False"],
+                correct: 0
+            },
+            {
+                id: 21,
+                text: "Riya is building an e-commerce app in Django and wants to map a Python class to a database table automatically. Which Django feature helps her do this?",
+                options: ["ORM", "Middleware", "URLs", "Templates"],
+                correct: 0
+            },
+            {
+                id: 22,
+                text: "While developing a blog app, Arjun modifies a Django model by adding a new field. What should he do next to update the database?",
+                options: [
+                    "Run makemigrations and migrate",
+                    "Restart server",
+                    "Clear cache",
+                    "Edit database manually"
+                ],
+                correct: 0
+            },
+            {
+                id: 23,
+                text: "A developer wants to retrieve all users whose age is greater than 30 using Django. Which method is used?",
+                options: ["where()", "filter()", "rawSQL()", "select()"],
+                correct: 1
+            },
+            {
+                id: 24,
+                text: "In a Flask project, Meena uses SQLAlchemy to define database tables using Python classes. What is this concept called?",
+                options: ["Blueprint", "Serialization", "Routing", "ORM"],
+                correct: 3
+            },
+            {
+                id: 25,
+                text: "When a Django developer runs python manage.py migrate, what is Django doing?",
+                options: [
+                    "Creating views",
+                    "Starting the server",
+                    "Checking syntax",
+                    "Applying database changes"
+                ],
+                correct: 3
+            },
+            {
+                id: 26,
+                text: "Ravi wants to fetch a single record from a Django model using a primary key. Which ORM method should he use?",
+                options: ["get()", "values()", "filter()", "all()"],
+                correct: 0
+            },
+            {
+                id: 27,
+                text: "In Flask, which tool is commonly used for handling database migrations?",
+                options: ["Django Admin", "Jinja2", "Flask-Migrate", "Flask-WTF"],
+                correct: 2
+            },
+            {
+                id: 28,
+                text: "A Flask developer writes User.query.all(). What is happening here?",
+                options: [
+                    "Deleting records",
+                    "Updating records",
+                    "Inserting records",
+                    "Querying all rows"
+                ],
+                correct: 3
+            },
+            {
+                id: 29,
+                text: "Which Django command creates migration files based on model changes?",
+                options: ["startapp", "makemigrations", "migrate", "runserver"],
+                correct: 1
+            },
+            {
+                id: 30,
+                text: "In SQLAlchemy, which object represents a database table?",
+                options: ["View function", "Schema file", "Blueprint", "Model class"],
+                correct: 3
+            },
+            {
+                id: 31,
+                text: "While working on Django ORM, which actions are supported?",
+                options: [
+                    "Automatic table creation",
+                    "Writing raw SQL only",
+                    "Filtering query results",
+                    "Database abstraction"
+                ],
+                correct: [0, 2, 3]
+            },
+            {
+                id: 32,
+                text: "Neha is using Django migrations. Which statements are true?",
+                options: [
+                    "They update the database schema",
+                    "They track model changes",
+                    "They are auto-generated",
+                    "They replace ORM"
+                ],
+                correct: [0, 1, 2]
+            },
+            {
+                id: 33,
+                text: "In Flask with SQLAlchemy, which features help in database interaction?",
+                options: [
+                    "Query API",
+                    "URL routing",
+                    "Migration scripts",
+                    "Model classes"
+                ],
+                correct: [0, 2, 3]
+            },
+            {
+                id: 34,
+                text: "Which operations can be done using Django ORM queries?",
+                options: [
+                    "Update",
+                    "Create",
+                    "Read",
+                    "Design HTML"
+                ],
+                correct: [0, 1, 2]
+            },
+            {
+                id: 35,
+                text: "SQLAlchemy provides which benefits in Flask applications?",
+                options: [
+                    "ORM support",
+                    "Automatic HTML rendering",
+                    "Database-independent code",
+                    "Python-based querying"
+                ],
+                correct: [0, 2, 3]
+            },
+            {
+                id: 36,
+                text: "Django ORM allows developers to interact with databases without writing SQL.",
+                options: ["True", "False"],
+                correct: 0
+            },
+            {
+                id: 37,
+                text: "Flask has a built-in ORM like Django by default.",
+                options: ["True", "False"],
+                correct: 1
+            },
+            {
+                id: 38,
+                text: "Database migrations help keep database schema in sync with models.",
+                options: ["True", "False"],
+                correct: 0
+            },
+            {
+                id: 39,
+                text: "SQLAlchemy can be used only with MySQL databases.",
+                options: ["True", "False"],
+                correct: 1
+            },
+            {
+                id: 40,
+                text: "SQLAlchemy can be used only with MySQL databases.",
+                options: ["True", "False"],
+                correct: 1
+            },
+            {
+                id: 41,
+                text: "A developer builds a Django page that should display a list of products when the URL /products/ is accessed. Which Django component decides which function handles this URL?",
+                options: [
+                    "Model",
+                    "Admin Panel",
+                    "URL Dispatcher",
+                    "Template"
+                ],
+                correct: 2
+            },
+            {
+                id: 42,
+                text: "In a Django project, Ravi submits a login form and the data needs to be processed securely. Which HTTP method should be used?",
+                options: [
+                    "PUT",
+                    "GET",
+                    "POST",
+                    "DELETE"
+                ],
+                correct: 2
+            },
+            {
+                id: 43,
+                text: "An e-commerce site uses Django templates to show a user’s name dynamically on the homepage. Which syntax is used in the template?",
+                options: [
+                    "{% user.name %}",
+                    "<%= user.name %>",
+                    "$user.name",
+                    "{{ user.name }}"
+                ],
+                correct: 3
+            },
+            {
+                id: 44,
+                text: "A Flask developer maps the URL /profile to a function using @app.route('/profile'). What is this process called?",
+                options: [
+                    "URL Mapping",
+                    "Template Rendering",
+                    "Database Migration",
+                    "Form Validation"
+                ],
+                correct: 0
+            },
+            {
+                id: 45,
+                text: "When a user submits a registration form in Flask, where can the submitted data be accessed?",
+                options: [
+                    "response.body",
+                    "session.data",
+                    "request.get()",
+                    "request.form"
+                ],
+                correct: 3
+            },
+            {
+                id: 46,
+                text: "In Django, which file primarily connects URLs to views?",
+                options: ["models.py", "views.py", "settings.py", "urls.py"],
+                correct: 3
+            },
+            {
+                id: 47,
+                text: "A Flask application displays HTML pages with dynamic data using which template engine?",
+                options: ["Jinja2", "Blade", "Handlebars", "Mustache"],
+                correct: 0
+            },
+            {
+                id: 48,
+                text: "A Django view receives a request and returns an HTML page. What does the view usually return?",
+                options: ["HttpResponse", "Database object", "Template file", "Model instance"],
+                correct: 0
+            },
+            {
+                id: 49,
+                text: "A student notices that form data appears in the URL after submission. Which HTTP method was likely used?",
+                options: ["PATCH", "PUT", "GET", "POST"],
+                correct: 2
+            },
+            {
+                id: 50,
+                text: "In Flask, how does a view function typically return HTML content?",
+                options: ["Using HttpResponse()", "Using render_template()", "Using print()", "Using send_file()"],
+                correct: 1
+            },
+            {
+                id: 51,
+                text: "A Django developer is working with templates. Which of the following are valid template features?",
+                options: [
+                    "Direct SQL queries",
+                    "Template inheritance",
+                    "Context variables",
+                    "Template tags"
+                ],
+                correct: [1, 2, 3]
+            },
+            {
+                id: 52,
+                text: "In Flask routing, which statements are true?",
+                options: [
+                    "Routes use decorators",
+                    "Routes must be written in HTML",
+                    "Multiple routes can point to one function",
+                    "Routes map URLs to functions"
+                ],
+                correct: [0, 2, 3]
+            },
+            {
+                id: 53,
+                text: "When handling POST requests in Django, which steps are commonly involved?",
+                options: [
+                    "Validating form data",
+                    "Using request.POST",
+                    "Returning JsonResponse only",
+                    "CSRF protection"
+                ],
+                correct: [0, 1, 3]
+            },
+            {
+                id: 54,
+                text: "Which are similarities between Django templates and Flask (Jinja2) templates?",
+                options: [
+                    "Directly modify database",
+                    "Use {{ }} for variables",
+                    "Support template inheritance",
+                    "Support loops and conditions"
+                ],
+                correct: [1, 2, 3]
+            },
+            {
+                id: 55,
+                text: "Which situations typically require POST requests?",
+                options: [
+                    "Search query",
+                    "Login submission",
+                    "Payment processing",
+                    "User registration"
+                ],
+                correct: [1, 2, 3]
+            },
+            {
+                id: 56,
+                text: "Django URLs decide which view function should handle a request.",
+                options: ["True", "False"],
+                correct: 0
+            },
+            {
+                id: 57,
+                text: "Django URLs decide which view function should handle a request.",
+                options: ["True", "False"],
+                correct: 0
+            },
+            {
+                id: 58,
+                text: "Templates are used to separate business logic from presentation.",
+                options: ["True", "False"],
+                correct: 0
+            },
+            {
+                id: 59,
+                text: "GET requests are best used for sending sensitive information like passwords.",
+                options: ["True", "False"],
+                correct: 1
+            },
+            {
+                id: 60,
+                text: "Both Django and Flask can render dynamic HTML pages.",
+                options: ["True", "False"],
+                correct: 0
+            },
+            {
+                id: 61,
+                text: "Riya is building an e-commerce website using Django. She wants a built-in interface to manage users, products, and orders without extra coding. What should she use?",
+                options: [
+                    "Django ORM",
+                    "Django Forms",
+                    "Django Admin Interface",
+                    "Django Templates"
+                ],
+                correct: 2
+            },
+            {
+                id: 62,
+                text: "Arjun wants users to log in and stay authenticated across pages in his Flask app. Which tool should he use?",
+                options: [
+                    "Flask-Login",
+                    "SQLAlchemy",
+                    "Flask-Admin",
+                    "WTForms"
+                ],
+                correct: 0
+            },
+            {
+                id: 63,
+                text: "In a Django project, Sneha needs a form directly linked to a database model to add new users. Which form is best?",
+                options: [
+                    "ModelForm",
+                    "Form Class",
+                    "HTML Form",
+                    "Admin Form"
+                ],
+                correct: 0
+            },
+            {
+                id: 64,
+                text: "Kiran is creating a login system in Django. Which component handles login and logout functionality?",
+                options: [
+                    "Django Templates",
+                    "Django Middleware",
+                    "Django ORM",
+                    "Django Authentication System"
+                ],
+                correct: 3
+            },
+            {
+                id: 65,
+                text: "In Flask, Ravi wants to create structured and validated forms for user registration. Which tool is appropriate?",
+                options: [
+                    "Flask-Login",
+                    "Jinja2",
+                    "Flask-Admin",
+                    "WTForms"
+                ],
+                correct: 3
+            },
+            {
+                id: 66,
+                text: "A Django developer wants to add new users easily from the backend without building custom UI. Which feature supports this?",
+                options: [
+                    "Django Admin",
+                    "Django URLs",
+                    "Django Views",
+                    "Django Forms"
+                ],
+                correct: 0
+            },
+            {
+                id: 67,
+                text: "Meena is building a Flask dashboard for admins with CRUD functionality. Which library is best?",
+                options: [
+                    "SQLAlchemy",
+                    "Flask-Admin",
+                    "Flask-Login",
+                    "WTForms"
+                ],
+                correct: 1
+            },
+            {
+                id: 68,
+                text: "In Django, which file is mainly used to define user registration and login logic?",
+                options: [
+                    "models.py",
+                    "settings.py",
+                    "views.py",
+                    "urls.py"
+                ],
+                correct: 2
+            },
+            {
+                id: 69,
+                text: "When handling user input securely in Flask forms, validation is mainly handled by:",
+                options: [
+                    "Jinja2",
+                    "WTForms",
+                    "Flask-Login",
+                    "Flask Routes"
+                ],
+                correct: 1
+            },
+            {
+                id: 70,
+                text: "Which Django feature allows superusers to manage database records visually?",
+                options: [
+                    "Admin Interface",
+                    "Templates",
+                    "ORM",
+                    "Forms"
+                ],
+                correct: 0
+            },
+            {
+                id: 71,
+                text: "A Django authentication system supports which features?",
+                options: [
+                    "Database Migration",
+                    "Logout",
+                    "User Registration",
+                    "Login"
+                ],
+                correct: [1, 2, 3]
+            },
+            {
+                id: 72,
+                text: "Which features are provided by Django Admin?",
+                options: [
+                    "CRUD operations",
+                    "API authentication",
+                    "User management",
+                    "Auto-generated UI"
+                ],
+                correct: [0, 2, 3]
+            },
+            {
+                id: 73,
+                text: "Which tools are commonly used for handling forms?",
+                options: [
+                    "Flask-Login",
+                    "Django Form Class",
+                    "WTForms",
+                    "Django ModelForm"
+                ],
+                correct: [1, 2, 3]
+            },
+            {
+                id: 74,
+                text: "Flask-Login helps with:",
+                options: [
+                    "Session management",
+                    "Login state tracking",
+                    "Password hashing",
+                    "User authentication"
+                ],
+                correct: [0, 1, 3]
+            },
+            {
+                id: 75,
+                text: "Which libraries help create admin panels in Flask?",
+                options: [
+                    "Flask-Admin",
+                    "SQLAlchemy",
+                    "Flask-Login",
+                    "Django Admin"
+                ],
+                correct: [0, 1]
+            },
+            {
+                id: 76,
+                text: "Django provides a built-in admin interface by default.",
+                options: ["True", "False"],
+                correct: 0
+            },
+            {
+                id: 77,
+                text: "Flask has a built-in authentication system like Django.",
+                options: ["True", "False"],
+                correct: 1
+            },
+            {
+                id: 78,
+                text: "Flask has a built-in authentication system like Django.",
+                options: ["True", "False"],
+                correct: 1
+            },
+            {
+                id: 79,
+                text: "Django ModelForms automatically connect forms to database models.",
+                options: ["True", "False"],
+                correct: 0
+            },
+            {
+                id: 80,
+                text: "Flask-Admin is mandatory to create admin dashboards in Flask.",
+                options: ["True", "False"],
+                correct: 1
+            },
+            {
+                id: 81,
+                text: "A Django developer wants to verify that a function returns the correct HTTP response for valid input. Which approach should she use?",
+                options: [
+                    "API mocking",
+                    "Django unit test using TestCase",
+                    "Manual browser testing",
+                    "Flask shell testing"
+                ],
+                correct: 1
+            },
+            {
+                id: 82,
+                text: "An e-commerce website exposes product data for mobile apps using Django. Which tool should be used?",
+                options: [
+                    "Django Admin",
+                    "Django Forms",
+                    "Django REST Framework",
+                    "Django ORM"
+                ],
+                correct: 2
+            },
+            {
+                id: 83,
+                text: "A Flask developer wants to test APIs with minimal boilerplate code. Which testing framework is ideal?",
+                options: [
+                    "Postman",
+                    "Django TestCase",
+                    "PyTest",
+                    "Selenium"
+                ],
+                correct: 2
+            },
+            {
+                id: 84,
+                text: "A team wants to create REST APIs in Flask following REST principles. Which library should they use?",
+                options: [
+                    "Flask-RESTful",
+                    "Flask-Admin",
+                    "Flask-WTF",
+                    "Flask-Login"
+                ],
+                correct: 0
+            },
+            {
+                id: 85,
+                text: "During deployment, Heroku fails because dependencies are missing. Which file fixes this issue?",
+                options: [
+                    "requirements.txt",
+                    "Procfile",
+                    "manage.py",
+                    "settings.py"
+                ],
+                correct: 0
+            },
+            {
+                id: 86,
+                text: "A Flask app deployed on Heroku needs to specify the web server command. Which file is mandatory?",
+                options: [
+                    "app.py",
+                    "config.py",
+                    "Procfile",
+                    "runtime.txt"
+                ],
+                correct: 2
+            },
+            {
+                id: 87,
+                text: "A Django REST API must authenticate users via tokens. Which DRF feature supports this?",
+                options: [
+                    "Middleware",
+                    "Template views",
+                    "Serializers",
+                    "Authentication classes"
+                ],
+                correct: 3
+            },
+            {
+                id: 88,
+                text: "A developer wants to test Flask functions without running the full server. Which tool helps?",
+                options: [
+                    "Flask-Migrate",
+                    "PyTest",
+                    "Flask-Admin",
+                    "Jinja2"
+                ],
+                correct: 1
+            },
+            {
+                id: 89,
+                text: "Which component converts Django models into JSON for APIs?",
+                options: [
+                    "Views",
+                    "Templates",
+                    "Serializers",
+                    "URLs"
+                ],
+                correct: 2
+            },
+            {
+                id: 90,
+                text: "A QA engineer is preparing tests for a Django project. Which actions are part of unit testing?",
+                options: [
+                    "Checking database migrations",
+                    "Testing individual views",
+                    "Testing models and forms",
+                    "Deploying to Heroku"
+                ],
+                correct: [1, 2]
+            },
+            {
+                id: 91,
+                text: "While deploying Flask on Heroku, which files are essential?",
+                options: [
+                    "requirements.txt",
+                    "settings.py",
+                    "app.py",
+                    "Procfile"
+                ],
+                correct: [0, 2, 3]
+            },
+            {
+                id: 92,
+                text: "Which features are provided by Django REST Framework?",
+                options: [
+                    "Authentication",
+                    "Serializers",
+                    "HTML Templates",
+                    "API ViewSets"
+                ],
+                correct: [0, 1, 3]
+            },
+            {
+                id: 93,
+                text: "A Flask developer writes automated tests. Which tools can be used?",
+                options: [
+                    "Postman",
+                    "PyTest",
+                    "Django TestCase",
+                    "UnitTest"
+                ],
+                correct: [1, 3]
+            },
+            {
+                id: 94,
+                text: "Which tasks are handled during cloud deployment?",
+                options: [
+                    "Configuring environment variables",
+                    "Setting up runtime",
+                    "Installing dependencies",
+                    "Writing ORM queries"
+                ],
+                correct: [0, 1, 2]
+            },
+            {
+                id: 95,
+                text: "Django unit tests are written inside the tests.py file.",
+                options: ["True", "False"],
+                correct: 0
+            },
+            {
+                id: 96,
+                text: "Flask-RESTful helps in building REST APIs in Django.",
+                options: ["True", "False"],
+                correct: 1
+            },
+            {
+                id: 97,
+                text: "Heroku automatically detects Python applications using requirements.txt.",
+                options: ["True", "False"],
+                correct: 0
+            },
+            {
+                id: 98,
+                text: "Django REST Framework can return JSON and XML responses.",
+                options: ["True", "False"],
+                correct: 0
+            },
+            {
+                id: 99,
+                text: "Django REST Framework can return JSON and XML responses.",
+                options: ["True", "False"],
+                correct: 0
+            },
+
+        ];
+
+        // --- 2. RENDER LOGIC ---
+        const container = document.getElementById('quiz-container');
+
+        questions.forEach((q) => {
+            // Create Card Div
+            const card = document.createElement('div');
+            card.className = 'question-card';
+
+            // Create Question Text
+            const title = document.createElement('div');
+            title.className = 'question-text';
+            title.innerText = q.text;
+            card.appendChild(title);
+
+            // Create Options Container
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options-grid';
+
+            // Create Buttons
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+
+                // Click Event
+                btn.onclick = () => {
+                    // 1. Disable all buttons in this specific card
+                    const allBtns = optionsDiv.querySelectorAll('.option-btn');
+                    allBtns.forEach(b => b.disabled = true);
+
+                    // 2. Check Answer
+                    if (index === q.correct) {
+                        // User clicked correct
+                        btn.classList.add('correct');
+                    } else {
+                        // User clicked wrong
+                        btn.classList.add('incorrect');
+                        // Highlight the correct one automatically
+                        allBtns[q.correct].classList.add('correct');
+                    }
+                };
+
+                optionsDiv.appendChild(btn);
+            });
+
+            card.appendChild(optionsDiv);
+            container.appendChild(card);
+        });
+
+    </script>
+</body>
+
+</html>
