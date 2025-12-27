@@ -107,6 +107,50 @@
             cursor: default;
             opacity: 0.7;
         }
+
+        /* Selected option (before submit) */
+        .option-btn.selected {
+            border-color: #3b82f6;
+            background-color: #1e3a8a;
+            color: #ffffff;
+        }
+
+        .submit-btn {
+            margin-top: 16px;
+            padding: 10px 18px;
+            background-color: #2563eb;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            background-color: #1d4ed8;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: default;
+        }
+
+        .reset-btn {
+            margin-top: 10px;
+            margin-left: 10px;
+            padding: 8px 14px;
+            background-color: #374151;
+            border: none;
+            border-radius: 8px;
+            color: #e5e7eb;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .reset-btn:hover {
+            background-color: #4b5563;
+        }
     </style>
 </head>
 
@@ -961,41 +1005,43 @@
         const container = document.getElementById('quiz-container');
 
         questions.forEach((q) => {
-            // Create Card Div
+
             const card = document.createElement('div');
             card.className = 'question-card';
 
-            // Create Question Text
             const title = document.createElement('div');
             title.className = 'question-text';
             title.innerText = q.text;
             card.appendChild(title);
 
-            // Create Options Container
             const optionsDiv = document.createElement('div');
             optionsDiv.className = 'options-grid';
 
-            // Create Buttons
+            let selectedAnswers = [];
+
             q.options.forEach((opt, index) => {
+
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
                 btn.innerText = opt;
 
-                // Click Event
                 btn.onclick = () => {
-                    // 1. Disable all buttons in this specific card
-                    const allBtns = optionsDiv.querySelectorAll('.option-btn');
-                    allBtns.forEach(b => b.disabled = true);
 
-                    // 2. Check Answer
-                    if (index === q.correct) {
-                        // User clicked correct
-                        btn.classList.add('correct');
-                    } else {
-                        // User clicked wrong
-                        btn.classList.add('incorrect');
-                        // Highlight the correct one automatically
-                        allBtns[q.correct].classList.add('correct');
+                    // MULTIPLE correct
+                    if (Array.isArray(q.correct)) {
+                        btn.classList.toggle('selected');
+
+                        if (selectedAnswers.includes(index)) {
+                            selectedAnswers = selectedAnswers.filter(i => i !== index);
+                        } else {
+                            selectedAnswers.push(index);
+                        }
+                    }
+                    // SINGLE correct
+                    else {
+                        selectedAnswers = [index];
+                        optionsDiv.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
                     }
                 };
 
@@ -1003,6 +1049,66 @@
             });
 
             card.appendChild(optionsDiv);
+
+            // ✅ SUBMIT BUTTON
+            const submitBtn = document.createElement('button');
+            submitBtn.innerText = "Submit";
+            submitBtn.className = "submit-btn";
+
+            submitBtn.onclick = () => {
+
+                const allBtns = optionsDiv.querySelectorAll('.option-btn');
+                allBtns.forEach(b => b.disabled = true);
+                submitBtn.disabled = true;
+
+                // MULTIPLE correct
+                if (Array.isArray(q.correct)) {
+                    const isCorrect =
+                        selectedAnswers.length === q.correct.length &&
+                        selectedAnswers.every(i => q.correct.includes(i));
+
+                    if (isCorrect) {
+                        selectedAnswers.forEach(i => allBtns[i].classList.add('correct'));
+                    } else {
+                        selectedAnswers.forEach(i => allBtns[i].classList.add('incorrect'));
+                        q.correct.forEach(i => allBtns[i].classList.add('correct'));
+                    }
+                }
+                // SINGLE correct
+                else {
+                    if (selectedAnswers[0] === q.correct) {
+                        allBtns[q.correct].classList.add('correct');
+                    } else {
+                        allBtns[selectedAnswers[0]]?.classList.add('incorrect');
+                        allBtns[q.correct].classList.add('correct');
+                    }
+                }
+            };
+
+            card.appendChild(submitBtn);
+            // 🔄 RESET BUTTON
+            const resetBtn = document.createElement('button');
+            resetBtn.innerText = "Reset";
+            resetBtn.className = "reset-btn";
+
+            resetBtn.onclick = () => {
+                const allBtns = optionsDiv.querySelectorAll('.option-btn');
+
+                // clear selections
+                selectedAnswers = [];
+
+                // reset buttons
+                allBtns.forEach(b => {
+                    b.disabled = false;
+                    b.classList.remove('selected', 'correct', 'incorrect');
+                });
+
+                // re-enable submit
+                submitBtn.disabled = false;
+            };
+
+            card.appendChild(resetBtn);
+
             container.appendChild(card);
         });
 
