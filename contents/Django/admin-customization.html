@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Django Admin Customization</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" type="button" class="scroll-top-btn">↑</button>
+
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Django Admin Customization</h1>
+    <p class="subtitle">
+      Transform the default Django admin into a powerful, tailored management interface.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+
+  <!-- ================= INTRO ================= -->
+  <h2>📘 What Is Django Admin?</h2>
+  <p>
+    Django auto-generates a full admin panel at <code>/admin/</code> for all registered models.
+    Out of the box it works, but customizing <code>ModelAdmin</code> makes it production-ready —
+    searchable, filterable, and much easier to manage.
+  </p>
+
+  <h3>Access Admin Panel</h3>
+  <pre><code># 1. Create superuser
+python manage.py createsuperuser
+
+# 2. Run server and visit
+http://127.0.0.1:8000/admin/</code></pre>
+
+  <!-- ================= BASIC REGISTER ================= -->
+  <h2>🟢 Basic Registration</h2>
+  <pre><code># students/admin.py
+
+from django.contrib import admin
+from .models import Student
+
+# Simple — shows only __str__ in list
+admin.site.register(Student)</code></pre>
+
+  <!-- ================= MODEL ADMIN ================= -->
+  <h2>🔵 ModelAdmin — Full Customization</h2>
+  <pre><code># students/admin.py
+
+from django.contrib import admin
+from .models import Student
+
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+
+    # Columns shown in list view
+    list_display   = ["id", "name", "age", "email", "course"]
+
+    # Clickable column (opens detail page)
+    list_display_links = ["id", "name"]
+
+    # Editable directly in list view (no need to open record)
+    list_editable  = ["course"]
+
+    # Sidebar filter panel
+    list_filter    = ["course"]
+
+    # Search bar — searches these fields
+    search_fields  = ["name", "email"]
+
+    # Default sort order
+    ordering       = ["-id"]
+
+    # Records per page
+    list_per_page  = 20</code></pre>
+
+  <div class="note">
+    ✔ <code>@admin.register(Student)</code> decorator replaces <code>admin.site.register(Student, StudentAdmin)</code>.<br>
+    ✔ <code>list_editable</code> fields cannot also be in <code>list_display_links</code>.
+  </div>
+
+  <!-- ================= FIELDSETS ================= -->
+  <h2>🟡 Fieldsets — Organize Detail Form</h2>
+  <p>Group fields into sections on the add/edit page.</p>
+
+  <pre><code">@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ["name", "age", "email", "course"]
+
+    fieldsets = [
+        ("Personal Info", {
+            "fields": ["name", "age", "email"]
+        }),
+        ("Course Details", {
+            "fields": ["course"],
+            "classes": ["collapse"],   # collapsible section
+        }),
+    ]</code></pre>
+
+  <!-- ================= READONLY ================= -->
+  <h2>🔒 Read-Only Fields</h2>
+  <pre><code">@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display  = ["name", "email", "course"]
+    readonly_fields = ["email"]          # cannot be edited in admin</code></pre>
+
+  <!-- ================= CUSTOM COLUMNS ================= -->
+  <h2>⚙️ Custom Computed Columns</h2>
+  <p>Add columns that aren't model fields — calculated on the fly.</p>
+
+  <pre><code">@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ["name", "age", "course", "is_adult"]
+
+    @admin.display(description="Adult?", boolean=True)
+    def is_adult(self, obj):
+        return obj.age >= 18</code></pre>
+
+  <div class="note">
+    ✔ <code>description</code> — column header text.<br>
+    ✔ <code>boolean=True</code> — shows ✔/✘ icon instead of True/False.
+  </div>
+
+  <!-- ================= CUSTOM ACTIONS ================= -->
+  <h2>🚀 Custom Admin Actions</h2>
+  <p>Add bulk actions to the dropdown (alongside the default "Delete selected").</p>
+
+  <pre><code">from django.contrib import admin, messages
+
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ["name", "course"]
+    actions      = ["mark_as_django"]
+
+    @admin.action(description="Move selected students to Django course")
+    def mark_as_django(self, request, queryset):
+        updated = queryset.update(course="Django")
+        self.message_user(
+            request,
+            f"{updated} student(s) moved to Django course.",
+            messages.SUCCESS
+        )</code></pre>
+
+  <!-- ================= SEARCH HELP ================= -->
+  <h2>🔍 Search Field Lookups</h2>
+  <pre><code">search_fields = [
+    "name",           # exact contains (case-insensitive)
+    "email",          # contains
+    "=course",        # exact match
+    "^name",          # starts with
+]</code></pre>
+
+  <!-- ================= INLINE ================= -->
+  <h2>🔗 Inline Models — Edit Related Records Together</h2>
+  <p>Show and edit related model records on the parent model's page.</p>
+
+  <pre><code"># Example: Course has many Students
+
+from django.contrib import admin
+from .models import Course, Student
+
+class StudentInline(admin.TabularInline):   # or StackedInline
+    model  = Student
+    extra  = 1    # number of empty extra forms shown
+
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ["title", "instructor"]
+    inlines      = [StudentInline]</code></pre>
+
+  <table class="content-table">
+    <tr><th>Inline Type</th><th>Layout</th></tr>
+    <tr><td><code>TabularInline</code></td><td>Compact table — one row per related object</td></tr>
+    <tr><td><code>StackedInline</code></td><td>Full form layout — fields stacked vertically</td></tr>
+  </table>
+
+  <!-- ================= SITE CUSTOMIZATION ================= -->
+  <h2>🎨 Site-Wide Admin Customization</h2>
+  <pre><code"># any admin.py (e.g. myproject/admin.py or students/admin.py)
+
+from django.contrib import admin
+
+admin.site.site_header  = "My Project Admin"      # top-left header text
+admin.site.site_title   = "My Project"            # browser tab title
+admin.site.index_title  = "Welcome to Admin Panel" # dashboard heading</code></pre>
+
+  <!-- ================= FILTER HORIZONTAL ================= -->
+  <h2>🔄 ManyToMany — filter_horizontal / filter_vertical</h2>
+  <p>Replaces the default multi-select box with a user-friendly dual-list widget.</p>
+
+  <pre><code">@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    filter_horizontal = ["students"]   # ManyToManyField name
+    # OR
+    filter_vertical   = ["students"]</code></pre>
+
+  <!-- ================= DATE HIERARCHY ================= -->
+  <h2>📅 Date Hierarchy Navigation</h2>
+  <pre><code">@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    list_display   = ["name", "course", "enrolled_on"]
+    date_hierarchy = "enrolled_on"    # adds date drill-down nav at top</code></pre>
+
+  <!-- ================= SUMMARY ================= -->
+  <h2>🔹 ModelAdmin Options Quick Reference</h2>
+  <table class="content-table">
+    <tr><th>Option</th><th>What It Does</th></tr>
+    <tr><td><code>list_display</code></td><td>Columns in list view</td></tr>
+    <tr><td><code>list_display_links</code></td><td>Clickable columns</td></tr>
+    <tr><td><code>list_editable</code></td><td>Edit inline in list</td></tr>
+    <tr><td><code>list_filter</code></td><td>Sidebar filter panel</td></tr>
+    <tr><td><code>search_fields</code></td><td>Search bar targets</td></tr>
+    <tr><td><code>ordering</code></td><td>Default sort</td></tr>
+    <tr><td><code>list_per_page</code></td><td>Pagination size</td></tr>
+    <tr><td><code>readonly_fields</code></td><td>Non-editable fields</td></tr>
+    <tr><td><code>fieldsets</code></td><td>Group fields into sections</td></tr>
+    <tr><td><code>actions</code></td><td>Bulk action dropdown</td></tr>
+    <tr><td><code>inlines</code></td><td>Edit related records inline</td></tr>
+    <tr><td><code>date_hierarchy</code></td><td>Date drill-down navigation</td></tr>
+    <tr><td><code>filter_horizontal</code></td><td>Better ManyToMany widget</td></tr>
+  </table>
+
+  <div class="note">
+    🎯 Django Admin is not just for development — with proper customization it becomes
+    a full internal management tool without writing a single template.
+  </div>
+
+</section>
+
+<div class="content-navigation">
+  <a href="./file-uploads.html" class="btn secondary">⬅ Back: File Uploads</a>
+  <a href="./messages.html" class="btn primary">Next: Messages Framework ➜</a>
+</div>
+
+</body>
+</html>
