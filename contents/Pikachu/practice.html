@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Sets – Django & Flask</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(ellipse at top, #0f172a 0%, #000 70%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 50px 20px;
+            color: #eee;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        .page-title {
+            text-align: center;
+            font-size: 2.6em;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .page-sub {
+            text-align: center;
+            color: #888;
+            margin-bottom: 14px;
+            font-size: 1.05em;
+        }
+
+        .stats-bar {
+            text-align: center;
+            margin-bottom: 48px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .stats-bar span {
+            display: inline-block;
+            background: #1e1e2e;
+            border: 1px solid #2a2a3e;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin: 0 6px;
+            color: #7c7c9e;
+        }
+
+        .sets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px;
+        }
+
+        .set-card {
+            background: #0f0f1a;
+            border: 1px solid #1e1e35;
+            border-radius: 18px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .set-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+        }
+
+        .card-top {
+            padding: 28px 24px 20px;
+            position: relative;
+        }
+
+        .set-number {
+            font-size: 0.75em;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            opacity: 0.7;
+        }
+
+        .set-title {
+            font-size: 1.35em;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .set-desc {
+            color: #888;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .card-bottom {
+            padding: 16px 24px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #1a1a2e;
+        }
+
+        .meta {
+            display: flex;
+            gap: 14px;
+        }
+
+        .meta-tag {
+            font-size: 0.78em;
+            color: #555;
+            background: #13131f;
+            padding: 4px 10px;
+            border-radius: 10px;
+            border: 1px solid #1e1e35;
+        }
+
+        .start-btn {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #fff;
+            padding: 8px 20px;
+            border-radius: 20px;
+            transition: all 0.25s ease;
+        }
+
+        .set-card:hover .start-btn {
+            letter-spacing: 0.5px;
+        }
+
+        /* Per-set accent colors */
+        .s1 .card-top { background: linear-gradient(135deg, #1e1b4b 0%, #0f0f1a 60%); }
+        .s1 .set-number { color: #818cf8; }
+        .s1 .start-btn { background: linear-gradient(135deg, #4f46e5, #6366f1); }
+        .s1:hover { border-color: #6366f1; box-shadow: 0 16px 40px rgba(99,102,241,0.2); }
+
+        .s2 .card-top { background: linear-gradient(135deg, #0d2218 0%, #0f0f1a 60%); }
+        .s2 .set-number { color: #34d399; }
+        .s2 .start-btn { background: linear-gradient(135deg, #059669, #10b981); }
+        .s2:hover { border-color: #10b981; box-shadow: 0 16px 40px rgba(16,185,129,0.2); }
+
+        .s3 .card-top { background: linear-gradient(135deg, #1a0a2e 0%, #0f0f1a 60%); }
+        .s3 .set-number { color: #c084fc; }
+        .s3 .start-btn { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+        .s3:hover { border-color: #a855f7; box-shadow: 0 16px 40px rgba(168,85,247,0.2); }
+
+        .s4 .card-top { background: linear-gradient(135deg, #1a0e0e 0%, #0f0f1a 60%); }
+        .s4 .set-number { color: #fb923c; }
+        .s4 .start-btn { background: linear-gradient(135deg, #c2410c, #f97316); }
+        .s4:hover { border-color: #f97316; box-shadow: 0 16px 40px rgba(249,115,22,0.2); }
+
+        .s5 .card-top { background: linear-gradient(135deg, #0c1a20 0%, #0f0f1a 60%); }
+        .s5 .set-number { color: #38bdf8; }
+        .s5 .start-btn { background: linear-gradient(135deg, #0369a1, #0ea5e9); }
+        .s5:hover { border-color: #0ea5e9; box-shadow: 0 16px 40px rgba(14,165,233,0.2); }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 48px;
+            color: #444;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #888; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="page-title">Practice Sets</h1>
+        <p class="page-sub">Django & Flask — Mixed Question Papers</p>
+        <div class="stats-bar">
+            <span>5 Sets</span>
+            <span>50 Questions Each</span>
+            <span>250 Total Questions</span>
+            <span>Instant Feedback</span>
+        </div>
+
+        <div class="sets-grid">
+
+            <a href="./practice-set1.html" class="set-card s1">
+                <div class="card-top">
+                    <div class="set-number">Set 01</div>
+                    <div class="set-title">Django & Flask Basics</div>
+                    <div class="set-desc">Setup, routing, views, templates, URL patterns, request/response — the foundation of both frameworks.</div>
+                </div>
+                <div class="card-bottom">
+                    <div class="meta">
+                        <span class="meta-tag">50 Questions</span>
+                        <span class="meta-tag">Beginner</span>
+                    </div>
+                    <span class="start-btn">Start →</span>
+                </div>
+            </a>
+
+            <a href="./practice-set2.html" class="set-card s2">
+                <div class="card-top">
+                    <div class="set-number">Set 02</div>
+                    <div class="set-title">ORM & Databases</div>
+                    <div class="set-desc">Django ORM models, migrations, CRUD queries, and Flask-SQLAlchemy — database mastery.</div>
+                </div>
+                <div class="card-bottom">
+                    <div class="meta">
+                        <span class="meta-tag">50 Questions</span>
+                        <span class="meta-tag">Intermediate</span>
+                    </div>
+                    <span class="start-btn">Start →</span>
+                </div>
+            </a>
+
+            <a href="./practice-set3.html" class="set-card s3">
+                <div class="card-top">
+                    <div class="set-number">Set 03</div>
+                    <div class="set-title">Forms, Validation & CBV</div>
+                    <div class="set-desc">Django Forms, ModelForms, Class-Based Views, WTForms, and validation patterns in both frameworks.</div>
+                </div>
+                <div class="card-bottom">
+                    <div class="meta">
+                        <span class="meta-tag">50 Questions</span>
+                        <span class="meta-tag">Intermediate</span>
+                    </div>
+                    <span class="start-btn">Start →</span>
+                </div>
+            </a>
+
+            <a href="./practice-set4.html" class="set-card s4">
+                <div class="card-top">
+                    <div class="set-number">Set 04</div>
+                    <div class="set-title">Authentication & Profiles</div>
+                    <div class="set-desc">Django auth system, login/logout, @login_required, user profiles, signals, and Flask-Login.</div>
+                </div>
+                <div class="card-bottom">
+                    <div class="meta">
+                        <span class="meta-tag">50 Questions</span>
+                        <span class="meta-tag">Intermediate</span>
+                    </div>
+                    <span class="start-btn">Start →</span>
+                </div>
+            </a>
+
+            <a href="./practice-set5.html" class="set-card s5">
+                <div class="card-top">
+                    <div class="set-number">Set 05</div>
+                    <div class="set-title">Advanced & Mixed</div>
+                    <div class="set-desc">Admin, messages, pagination, blueprints, signals, deployment, and tricky mixed questions from both frameworks.</div>
+                </div>
+                <div class="card-bottom">
+                    <div class="meta">
+                        <span class="meta-tag">50 Questions</span>
+                        <span class="meta-tag">Advanced</span>
+                    </div>
+                    <span class="start-btn">Start →</span>
+                </div>
+            </a>
+
+        </div>
+
+        <a href="./pikachu.html" class="back-link">← Back to Hub</a>
+    </div>
+</body>
+</html>

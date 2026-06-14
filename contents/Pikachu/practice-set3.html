@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set 3 – Forms, Validation & CBV</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: radial-gradient(circle at 50% -20%, #2e1065, #000 70%); background-attachment: fixed; color: #e0e0e0; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .header { text-align: center; margin-bottom: 36px; }
+        .set-badge { display: inline-block; background: #7c3aed; color: #fff; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; padding: 4px 14px; border-radius: 20px; margin-bottom: 12px; text-transform: uppercase; }
+        h1 { color: #fff; font-size: 1.9em; letter-spacing: 1px; margin-bottom: 6px; }
+        .sub { color: #666; font-size: 0.9em; }
+        .score-board { background: #1a0a2e; border: 1px solid #3b0764; border-radius: 14px; padding: 14px 28px; margin-bottom: 32px; text-align: center; font-size: 1em; color: #c084fc; }
+        .score-board span { font-weight: 700; font-size: 1.4em; color: #d8b4fe; }
+        .quiz-wrapper { width: 100%; max-width: 820px; }
+        .question-card { background: #0d0718; border: 1px solid #2d1b69; border-radius: 14px; padding: 26px; margin-bottom: 26px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .q-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .q-num { background: #1a0a2e; color: #c084fc; font-size: 0.8em; font-weight: 700; padding: 4px 10px; border-radius: 8px; white-space: nowrap; }
+        .q-tag { font-size: 0.72em; padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+        .tag-django { background: #0d2218; color: #34d399; }
+        .tag-flask { background: #1a0a2e; color: #c084fc; }
+        .question-text { font-size: 1.05rem; font-weight: 600; color: #e2e8f0; line-height: 1.55; }
+        .options-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+        .option-btn { padding: 13px 18px; background: #130820; border: 1px solid #2d1b69; color: #bbb; text-align: left; border-radius: 10px; cursor: pointer; font-size: 0.97rem; transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { background: #1e0e35; border-color: #7c3aed; color: #fff; }
+        .option-btn.correct { background: #0d2218 !important; border-color: #22c55e !important; color: #86efac !important; }
+        .option-btn.incorrect { background: #1f0a0a !important; border-color: #ef4444 !important; color: #fca5a5 !important; }
+        .option-btn.selected { border-color: #a855f7; background: #1a0a2e; color: #fff; }
+        .option-btn:disabled { cursor: default; opacity: 0.75; }
+        .btn-row { margin-top: 14px; display: flex; gap: 10px; }
+        .submit-btn { padding: 9px 20px; background: #7c3aed; border: none; border-radius: 8px; color: #fff; font-size: 0.95rem; cursor: pointer; font-weight: 600; transition: background 0.2s; }
+        .submit-btn:hover:not(:disabled) { background: #6d28d9; }
+        .submit-btn:disabled { opacity: 0.5; cursor: default; }
+        .reset-btn { padding: 8px 16px; background: #130820; border: 1px solid #2d1b69; border-radius: 8px; color: #888; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+        .reset-btn:hover { background: #1e0e35; color: #ccc; }
+        .final-score { text-align: center; margin-top: 40px; padding: 30px; background: #0d0718; border: 1px solid #2d1b69; border-radius: 18px; }
+        .final-score h2 { font-size: 1.6em; color: #d8b4fe; margin-bottom: 8px; }
+        .final-score p { color: #666; }
+        .back-link { display: inline-block; margin-top: 24px; color: #a855f7; text-decoration: none; font-weight: 600; }
+        .back-link:hover { color: #c084fc; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="set-badge">Set 03 / 05</div>
+        <h1>Forms, Validation & CBV</h1>
+        <p class="sub">50 questions · Intermediate level · Instant feedback</p>
+    </div>
+    <div class="score-board">Score: <span id="scoreDisplay">0</span> / <span id="totalDisplay">0</span></div>
+    <div class="quiz-wrapper" id="quiz-container"></div>
+    <div class="final-score" id="finalScore" style="display:none; max-width:820px; width:100%;">
+        <h2>Set Complete! 🎉</h2>
+        <p id="finalText"></p>
+        <a href="./practice.html" class="back-link">← Back to Practice Sets</a>
+    </div>
+    <script>
+    const questions = [
+        { id:1, tag:"Django", text:"What class is used for a basic Django form not tied to a model?", options:["forms.ModelForm","forms.BaseForm","forms.Form","forms.BasicForm"], correct:2 },
+        { id:2, tag:"Django", text:"What class auto-generates Django form fields directly from a model?", options:["forms.AutoForm","forms.ModelForm","forms.DBForm","forms.SmartForm"], correct:1 },
+        { id:3, tag:"Django", text:"Which method validates form data in Django?", options:["form.check()","form.validate()","form.is_valid()","form.clean()"], correct:2 },
+        { id:4, tag:"Django", text:"What does form.cleaned_data contain after validation?", options:["Raw POST data","Validated Python values","HTML form fields","Database records"], correct:1 },
+        { id:5, tag:"Django", text:"Which dictionary contains POST data in Django views?", options:["request.data","request.body","request.GET","request.POST"], correct:3 },
+        { id:6, tag:"Django", text:"Which template tag is mandatory inside every Django HTML form?", options:["{% form_token %}","{% security_token %}","{% csrf_token %}","{% anti_csrf %}"], correct:2 },
+        { id:7, tag:"Django", text:"What does CSRF stand for?", options:["Cross-Site Resource Forgery","Cross-Site Request Forgery","Client-Side Request Fraud","Cross-Server Request Forwarding"], correct:1 },
+        { id:8, tag:"Django", text:"What does form.save() do in a Django ModelForm?", options:["Saves form as a file","Validates the form","Saves form data to the database","Logs form submission"], correct:2 },
+        { id:9, tag:"Django", text:"How do you bind POST data to a Django form?", options:["form = MyForm(request.body)","form = MyForm(data=request.POST)","form = MyForm(request.POST)","Both B and C"], correct:3 },
+        { id:10, tag:"Django", text:"How do you pre-fill a Django ModelForm with an existing object?", options:["form = MyForm(data=obj)","form = MyForm(model=obj)","form = MyForm(instance=obj)","form = MyForm(obj)"], correct:2 },
+        { id:11, tag:"Django", text:"What does {{ form.as_p }} do in a Django template?", options:["Renders form as a table","Renders each field wrapped in <p> tags","Renders only error messages","Renders the form as plain text"], correct:1 },
+        { id:12, tag:"Django", text:"What does {{ form.as_table }} do?", options:["Renders form fields as <p> tags","Renders form as HTML table rows","Creates a sortable table","Renders form as a list"], correct:1 },
+        { id:13, tag:"Django", text:"Which Django form field validates email format?", options:["forms.StringField()","forms.CharField(type='email')","forms.EmailField()","forms.MailField()"], correct:2 },
+        { id:14, tag:"Django", text:"Which Django form field handles file uploads?", options:["forms.UploadField()","forms.MediaField()","forms.FileInput()","forms.FileField()"], correct:3 },
+        { id:15, tag:"Django", text:"What does required=False do on a Django form field?", options:["Field is hidden","Field has no validation","Field is optional","Field is read-only"], correct:2 },
+        { id:16, tag:"Django", text:"What is a widget in Django forms?", options:["A form validator","The HTML rendering of a form field","A type of model field","A JavaScript component"], correct:1 },
+        { id:17, tag:"Django", text:"What is the naming convention for field-specific validation methods in Django forms?", options:["validate_fieldname()","field_clean()","clean_fieldname()","check_fieldname()"], correct:2 },
+        { id:18, tag:"Django", text:"What does raising forms.ValidationError() do?", options:["Saves the error to database","Stops form processing and shows error message","Deletes the form data","Logs the error to console"], correct:1 },
+        { id:19, tag:"Django", text:"What enctype must an HTML form have for file uploads?", options:["application/json","text/plain","application/x-www-form-urlencoded","multipart/form-data"], correct:3 },
+        { id:20, tag:"Django", text:"What is the Meta class inside a Django ModelForm used for?", options:["Metadata for Python","Specifying model and fields for the form","Setting form CSS","Database configuration"], correct:1 },
+        { id:21, tag:"Django", text:"What is a Class-Based View (CBV) in Django?", options:["A view defined as a Python class","A view for class models only","A view rendered with CSS classes","A type of middleware"], correct:0 },
+        { id:22, tag:"Django", text:"How do you connect a Django CBV to a URL pattern?", options:["ClassName.view()","ClassName()","ClassName.as_view()","ClassName.url()"], correct:2 },
+        { id:23, tag:"Django", text:"What does Django's ListView do?", options:["Lists URL patterns","Displays a list of model objects","Shows a list of installed apps","Displays all views"], correct:1 },
+        { id:24, tag:"Django", text:"What does Django's DetailView do?", options:["Shows model field details","Displays a single model object by pk","Shows database details","Displays request details"], correct:1 },
+        { id:25, tag:"Django", text:"What does Django's CreateView do?", options:["Creates a new Django project","Creates a new app","Renders form to create a new model record","Creates a new database"], correct:2 },
+        { id:26, tag:"Django", text:"What does Django's UpdateView do?", options:["Updates Django version","Runs database migrations","Renders a pre-filled form to update an existing record","Updates static files"], correct:2 },
+        { id:27, tag:"Django", text:"What does Django's DeleteView do?", options:["Deletes the entire database","Shows confirmation page and deletes a model record","Deletes a Django app","Removes static files"], correct:1 },
+        { id:28, tag:"Django", text:"What is context_object_name in a Django ListView?", options:["Name of the template file","Name of the URL pattern","Name of the list variable in the template","Name of the database table"], correct:2 },
+        { id:29, tag:"Django", text:"What does success_url in CreateView do?", options:["URL shown on error","URL to redirect to after successful form save","URL of the form page","URL of the admin panel"], correct:1 },
+        { id:30, tag:"Django", text:"Why use reverse_lazy() instead of reverse() in CBVs?", options:["It's faster","URLs are resolved at class definition time, not at import","It works without URL names","It handles errors better"], correct:1 },
+        { id:31, tag:"Django", text:"What does overriding get_queryset() in ListView allow you to do?", options:["Change template","Change URL pattern","Customize the database query","Add extra fields"], correct:2 },
+        { id:32, tag:"Django", text:"What does get_context_data() allow you to do in a CBV?", options:["Override the model","Add extra variables to the template context","Change success_url","Modify the form fields"], correct:1 },
+        { id:33, tag:"Django", text:"What mixin protects a Django CBV with login requirement?", options:["AuthRequiredMixin","PermissionMixin","LoginRequiredMixin","SessionMixin"], correct:2 },
+        { id:34, tag:"Django", text:"Where must LoginRequiredMixin be placed in a CBV class definition?", options:["Last in the parent list","Anywhere","First in the parent list","After the model name"], correct:2 },
+        { id:35, tag:"Django", text:"What is form_class in a Django CreateView?", options:["CSS class for the form","Name of the form template","Custom ModelForm to use instead of auto-generating from fields","The form's action URL"], correct:2 },
+        { id:36, tag:"Flask", text:"What is the most popular form library used with Flask?", options:["FlaskForms","DjangoForms","WTForms / Flask-WTF","PyForms"], correct:2 },
+        { id:37, tag:"Flask", text:"What class do Flask-WTF forms inherit from?", options:["WTForm","BaseForm","FlaskForm","Form"], correct:2 },
+        { id:38, tag:"Flask", text:"What method validates a Flask-WTF form on POST submission?", options:["form.is_valid()","form.validate()","form.validate_on_submit()","form.check()"], correct:2 },
+        { id:39, tag:"Flask", text:"Which WTForms validator makes a field required?", options:["Required()","NotEmpty()","DataRequired()","MustFill()"], correct:2 },
+        { id:40, tag:"Flask", text:"Which WTForms validator checks email format?", options:["IsEmail()","ValidEmail()","EmailFormat()","Email()"], correct:3 },
+        { id:41, tag:"Flask", text:"Which WTForms validator checks string length?", options:["MaxLength()","StringLength()","Length()","Size()"], correct:2 },
+        { id:42, tag:"Flask", text:"Which WTForms validator checks that two fields match (e.g., password confirm)?", options:["Matches()","SameAs()","EqualTo()","ConfirmField()"], correct:2 },
+        { id:43, tag:"Flask", text:"How do you access form field data in WTForms?", options:["form['fieldname']","form.data['fieldname']","form.fieldname.data","form.get('fieldname')"], correct:2 },
+        { id:44, tag:"Flask", text:"How do you render a WTForms field in a Jinja template?", options:["{{ form.fieldname }}","{{ form.fieldname() }}","{% render form.fieldname %}","{{ field(form.fieldname) }}"], correct:1 },
+        { id:45, tag:"Flask", text:"How do you display field errors in WTForms Jinja template?", options:["{{ form.fieldname.error }}","{{ form.errors.fieldname }}","{{ form.fieldname.errors }}","{% show_errors form.fieldname %}"], correct:2 },
+        { id:46, tag:"Flask", text:"What does form.hidden_tag() render in Flask-WTF templates?", options:["A hidden submit button","The CSRF token as a hidden input","All hidden fields","Form metadata"], correct:1 },
+        { id:47, tag:"Flask", text:"What is SECRET_KEY required for in Flask-WTF?", options:["Database encryption","CSRF token generation and signing","Admin authentication","API rate limiting"], correct:1 },
+        { id:48, tag:"Flask", text:"Which WTForms field creates a text input?", options:["TextInput()","CharField()","StringField()","InputField()"], correct:2 },
+        { id:49, tag:"Flask", text:"Which WTForms field creates a password input?", options:["SecretField()","HiddenField()","PasswordInput()","PasswordField()"], correct:3 },
+        { id:50, tag:"Flask", text:"Which WTForms field creates a submit button?", options:["ButtonField()","SubmitField()","ActionField()","SendField()"], correct:1 }
+    ];
+
+    let score = 0, answered = 0;
+    function renderQuiz() {
+        const container = document.getElementById('quiz-container');
+        container.innerHTML = '';
+        questions.forEach(q => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.id = 'q' + q.id;
+            card.innerHTML = `<div class="q-header"><span class="q-num">Q${q.id}</span><span class="q-tag tag-${q.tag.toLowerCase()}">${q.tag}</span></div><div class="question-text">${q.text}</div><div class="options-grid">${q.options.map((opt,i)=>`<button type="button" class="option-btn" data-qid="${q.id}" data-idx="${i}">${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}</div><div class="btn-row"><button type="button" class="submit-btn" id="sub${q.id}" disabled>Check Answer</button><button type="button" class="reset-btn" id="res${q.id}">Reset</button></div>`;
+            container.appendChild(card);
+        });
+        document.getElementById('totalDisplay').textContent = questions.length;
+        attachEvents();
+    }
+    function attachEvents() {
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const qid = this.dataset.qid;
+                document.getElementById('q'+qid).querySelectorAll('.option-btn').forEach(b=>b.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('sub'+qid).disabled = false;
+            });
+        });
+        document.querySelectorAll('.submit-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const qid = this.id.replace('sub','');
+                const q = questions.find(x=>x.id==qid);
+                const card = document.getElementById('q'+qid);
+                const selected = card.querySelector('.option-btn.selected');
+                if (!selected) return;
+                const idx = parseInt(selected.dataset.idx);
+                card.querySelectorAll('.option-btn').forEach(b=>{
+                    b.disabled=true;
+                    const i=parseInt(b.dataset.idx);
+                    if(i===q.correct) b.classList.add('correct');
+                    else if(b===selected&&i!==q.correct) b.classList.add('incorrect');
+                });
+                if(idx===q.correct) score++;
+                answered++;
+                document.getElementById('scoreDisplay').textContent = score;
+                this.disabled = true;
+                if(answered===questions.length) showFinal();
+            });
+        });
+        document.querySelectorAll('.reset-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const qid = this.id.replace('res','');
+                const card = document.getElementById('q'+qid);
+                card.querySelectorAll('.option-btn').forEach(b=>{b.disabled=false;b.classList.remove('selected','correct','incorrect');});
+                document.getElementById('sub'+qid).disabled = true;
+            });
+        });
+    }
+    function showFinal() {
+        const pct = Math.round((score/questions.length)*100);
+        document.getElementById('finalText').textContent = `You scored ${score} out of ${questions.length} (${pct}%). ${pct>=80?'🔥 Excellent!':pct>=60?'👍 Good job!':'📚 Keep practising!'}`;
+        const el = document.getElementById('finalScore');
+        el.style.display = 'block';
+        el.scrollIntoView({behavior:'smooth'});
+    }
+    renderQuiz();
+    </script>
+</body>
+</html>

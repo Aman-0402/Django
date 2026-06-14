@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set 1 – Django & Flask Basics</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: radial-gradient(circle at 50% -20%, #1e1b4b, #000 70%); background-attachment: fixed; color: #e0e0e0; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .header { text-align: center; margin-bottom: 36px; }
+        .set-badge { display: inline-block; background: #4f46e5; color: #fff; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; padding: 4px 14px; border-radius: 20px; margin-bottom: 12px; text-transform: uppercase; }
+        h1 { color: #fff; font-size: 1.9em; letter-spacing: 1px; margin-bottom: 6px; }
+        .sub { color: #666; font-size: 0.9em; }
+        .score-board { background: #1a1a2e; border: 1px solid #2a2a4e; border-radius: 14px; padding: 14px 28px; margin-bottom: 32px; text-align: center; font-size: 1em; color: #818cf8; }
+        .score-board span { font-weight: 700; font-size: 1.4em; color: #a5b4fc; }
+        .quiz-wrapper { width: 100%; max-width: 820px; }
+        .question-card { background: #0f0f1a; border: 1px solid #1e1e35; border-radius: 14px; padding: 26px; margin-bottom: 26px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .q-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .q-num { background: #1e1b4b; color: #818cf8; font-size: 0.8em; font-weight: 700; padding: 4px 10px; border-radius: 8px; white-space: nowrap; }
+        .q-tag { font-size: 0.72em; padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+        .tag-django { background: #0d2218; color: #34d399; }
+        .tag-flask { background: #1a0a2e; color: #c084fc; }
+        .question-text { font-size: 1.05rem; font-weight: 600; color: #e2e8f0; line-height: 1.55; }
+        .options-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+        .option-btn { padding: 13px 18px; background: #131320; border: 1px solid #2a2a4e; color: #bbb; text-align: left; border-radius: 10px; cursor: pointer; font-size: 0.97rem; transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { background: #1e1e35; border-color: #4f46e5; color: #fff; }
+        .option-btn.correct { background: #0d2218 !important; border-color: #22c55e !important; color: #86efac !important; }
+        .option-btn.incorrect { background: #1f0a0a !important; border-color: #ef4444 !important; color: #fca5a5 !important; }
+        .option-btn.selected { border-color: #6366f1; background: #1e1b4b; color: #fff; }
+        .option-btn:disabled { cursor: default; opacity: 0.75; }
+        .btn-row { margin-top: 14px; display: flex; gap: 10px; }
+        .submit-btn { padding: 9px 20px; background: #4f46e5; border: none; border-radius: 8px; color: #fff; font-size: 0.95rem; cursor: pointer; font-weight: 600; transition: background 0.2s; }
+        .submit-btn:hover:not(:disabled) { background: #4338ca; }
+        .submit-btn:disabled { opacity: 0.5; cursor: default; }
+        .reset-btn { padding: 8px 16px; background: #1e1e35; border: 1px solid #2a2a4e; border-radius: 8px; color: #888; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+        .reset-btn:hover { background: #2a2a4e; color: #ccc; }
+        .final-score { text-align: center; margin-top: 40px; padding: 30px; background: #0f0f1a; border: 1px solid #1e1e35; border-radius: 18px; }
+        .final-score h2 { font-size: 1.6em; color: #a5b4fc; margin-bottom: 8px; }
+        .final-score p { color: #666; }
+        .back-link { display: inline-block; margin-top: 24px; color: #6366f1; text-decoration: none; font-weight: 600; }
+        .back-link:hover { color: #818cf8; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="set-badge">Set 01 / 05</div>
+        <h1>Django & Flask Basics</h1>
+        <p class="sub">50 questions · Beginner level · Instant feedback</p>
+    </div>
+
+    <div class="score-board">
+        Score: <span id="scoreDisplay">0</span> / <span id="totalDisplay">0</span>
+    </div>
+
+    <div class="quiz-wrapper" id="quiz-container"></div>
+
+    <div class="final-score" id="finalScore" style="display:none; max-width:820px; width:100%;">
+        <h2>Set Complete! 🎉</h2>
+        <p id="finalText"></p>
+        <a href="./practice.html" class="back-link">← Back to Practice Sets</a>
+    </div>
+
+    <script>
+    const questions = [
+        { id:1, tag:"Django", text:"What does MVT stand for in Django?", options:["Model-View-Template","Model-View-Transaction","Main-View-Template","Module-View-Template"], correct:0 },
+        { id:2, tag:"Django", text:"Which command creates a new Django project?", options:["django startproject","django-admin startproject","python startproject","manage.py newproject"], correct:1 },
+        { id:3, tag:"Django", text:"Which file in a Django app maps URLs to views?", options:["views.py","models.py","urls.py","settings.py"], correct:2 },
+        { id:4, tag:"Django", text:"Which command runs the Django development server?", options:["python manage.py serve","python manage.py run","python manage.py runserver","django run"], correct:2 },
+        { id:5, tag:"Django", text:"What is the default port Django's dev server runs on?", options:["5000","3000","8080","8000"], correct:3 },
+        { id:6, tag:"Django", text:"What does {% %} represent in Django Template Language?", options:["Variables","Template tags","Comments","Filters"], correct:1 },
+        { id:7, tag:"Django", text:"What does {{ }} represent in Django Template Language?", options:["Template tags","Comments","Variables","Blocks"], correct:2 },
+        { id:8, tag:"Django", text:"Which template tag is used for template inheritance in Django?", options:["{% include %}","{% block %}","{% extends %}","{% import %}"], correct:2 },
+        { id:9, tag:"Django", text:"Which template tag loads static files in Django templates?", options:["{% static %}","{% load static %}","{% include static %}","{% use static %}"], correct:1 },
+        { id:10, tag:"Django", text:"What does include() do in Django's urls.py?", options:["Includes HTML files","Imports a Python module","Delegates URL routing to another urls.py","Loads static files"], correct:2 },
+        { id:11, tag:"Django", text:"What is a Django app?", options:["The entire website project","A modular component of a project","A Python package","A database table"], correct:1 },
+        { id:12, tag:"Django", text:"Which command creates a new Django app?", options:["django-admin createapp","python manage.py startapp","django-admin newapp","python manage.py createapp"], correct:1 },
+        { id:13, tag:"Django", text:"What does request.method return in Django?", options:["The URL path","The HTTP method (GET, POST, etc.)","The request body","The user session"], correct:1 },
+        { id:14, tag:"Django", text:"What does the render() function return in Django?", options:["A redirect","An HttpResponse with template content","A JSON response","A queryset"], correct:1 },
+        { id:15, tag:"Django", text:"Which function redirects a user to another URL in Django?", options:["go()","send()","redirect()","move()"], correct:2 },
+        { id:16, tag:"Django", text:"What does reverse() do in Django?", options:["Reverses a queryset","Gets a URL from a named URL pattern","Reverses a string","Undoes a redirect"], correct:1 },
+        { id:17, tag:"Django", text:"What does the name= parameter in Django's path() function do?", options:["Names the app","Gives the URL a name for reverse lookup","Names the view function","Sets the template name"], correct:1 },
+        { id:18, tag:"Django", text:"What is Django's default database?", options:["MySQL","PostgreSQL","SQLite","MongoDB"], correct:2 },
+        { id:19, tag:"Django", text:"What does DEBUG = True do in Django settings?", options:["Enables logging","Shows detailed error pages in development","Speeds up the server","Enables static files"], correct:1 },
+        { id:20, tag:"Django", text:"Where does Django look for templates by default?", options:["static/ folder","media/ folder","templates/ folder inside each app","root directory"], correct:2 },
+        { id:21, tag:"Django", text:"Which Django file contains all project-wide configuration?", options:["urls.py","models.py","settings.py","wsgi.py"], correct:2 },
+        { id:22, tag:"Django", text:"What does INSTALLED_APPS in settings.py contain?", options:["All installed Python packages","All registered Django apps","All available URLs","All database tables"], correct:1 },
+        { id:23, tag:"Django", text:"What does {% block %} do in Django templates?", options:["Blocks user access","Defines a replaceable section in a base template","Blocks template rendering","Marks end of loop"], correct:1 },
+        { id:24, tag:"Django", text:"What is BASE_DIR in Django's settings.py?", options:["The base URL of the project","Root directory of the project","The base template directory","The database root"], correct:1 },
+        { id:25, tag:"Django", text:"What file does Django create to define an app's configuration class?", options:["config.py","settings.py","apps.py","admin.py"], correct:2 },
+        { id:26, tag:"Flask", text:"What is Flask classified as?", options:["Full-stack framework","Micro web framework","ORM library","Template engine"], correct:1 },
+        { id:27, tag:"Flask", text:"What is the entry point decorator in Flask for defining routes?", options:["@route()","@flask.route()","@app.route()","@url.route()"], correct:2 },
+        { id:28, tag:"Flask", text:"What templating engine does Flask use by default?", options:["Django Template Language","Mako","Jinja2","Twig"], correct:2 },
+        { id:29, tag:"Flask", text:"Which function renders a Jinja template in Flask?", options:["render()","make_template()","template()","render_template()"], correct:3 },
+        { id:30, tag:"Flask", text:"What does request.form contain in Flask?", options:["GET query parameters","JSON body","POST form data","Session data"], correct:2 },
+        { id:31, tag:"Flask", text:"What does request.args contain in Flask?", options:["POST form data","GET query parameters","File uploads","Request headers"], correct:1 },
+        { id:32, tag:"Flask", text:"How do you start a Flask development server programmatically?", options:["flask.start()","app.serve()","app.run()","flask.run()"], correct:2 },
+        { id:33, tag:"Flask", text:"What does debug=True in app.run() enable?", options:["SQL logging","Auto-reload and error pages in browser","Database debugging","Performance profiling"], correct:1 },
+        { id:34, tag:"Flask", text:"What does Flask(__name__) do?", options:["Creates a template","Creates the Flask application instance","Imports Flask","Starts the server"], correct:1 },
+        { id:35, tag:"Flask", text:"What is the purpose of __name__ in Flask(__name__)?", options:["Sets the app name","Tells Flask the current module name for finding resources","Names the database","Sets debug mode"], correct:1 },
+        { id:36, tag:"Flask", text:"What is Jinja2's syntax for outputting variables?", options:["<% variable %>","{ variable }","{{ variable }}","[[ variable ]]"], correct:2 },
+        { id:37, tag:"Flask", text:"What is Jinja2's syntax for for-loops?", options:["{{ for x in list }}","{% for x in list %}","<% for x in list %>","(% for x in list %)"], correct:1 },
+        { id:38, tag:"Flask", text:"What does url_for() do in Flask?", options:["Fetches data from a URL","Generates a URL for a view function","Redirects to a URL","Validates a URL"], correct:1 },
+        { id:39, tag:"Flask", text:"What folder must templates be placed in by default in Flask?", options:["views/","static/","templates/","html/"], correct:2 },
+        { id:40, tag:"Flask", text:"What folder must static files (CSS, JS) be placed in by default in Flask?", options:["assets/","templates/","public/","static/"], correct:3 },
+        { id:41, tag:"Flask", text:"How do you capture a URL parameter in Flask?", options:["Using ?param= in route","Using <variable> in route and function parameter","Using request.params","Using url_args()"], correct:1 },
+        { id:42, tag:"Flask", text:"What does redirect() do in Flask?", options:["Refreshes current page","Sends user to another URL","Returns a template","Clears the session"], correct:1 },
+        { id:43, tag:"Flask", text:"What does abort(404) do in Flask?", options:["Logs an error","Returns a 404 error response","Redirects to homepage","Raises a Python exception"], correct:1 },
+        { id:44, tag:"Flask", text:"What is jsonify() used for in Flask?", options:["Parsing JSON input","Converting Python dict to JSON response","Saving JSON to database","Validating JSON"], correct:1 },
+        { id:45, tag:"Flask", text:"What is secret_key used for in Flask?", options:["Encrypting the database","Signing session cookies securely","Setting admin password","API authentication"], correct:1 },
+        { id:46, tag:"Flask", text:"What is session in Flask?", options:["A database connection","A dictionary-like object stored in a signed cookie","A file upload handler","A caching mechanism"], correct:1 },
+        { id:47, tag:"Flask", text:"What HTTP method is typically used for sending HTML form data?", options:["GET","DELETE","PUT","POST"], correct:3 },
+        { id:48, tag:"Flask", text:"What does methods=['GET', 'POST'] in @app.route() mean?", options:["Only GET is allowed","Only POST is allowed","Route accepts both GET and POST methods","Route is disabled"], correct:2 },
+        { id:49, tag:"Flask", text:"What command starts a Flask app using the CLI?", options:["python app.py start","flask serve","flask run","python flask start"], correct:2 },
+        { id:50, tag:"Flask", text:"Which folder does Flask's send_from_directory() serve files from?", options:["Any specified directory","Only static/","Only templates/","Only uploads/"], correct:0 }
+    ];
+
+    let score = 0;
+    let answered = 0;
+
+    function renderQuiz() {
+        const container = document.getElementById('quiz-container');
+        container.innerHTML = '';
+        questions.forEach(q => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.id = 'q' + q.id;
+            card.innerHTML = `
+                <div class="q-header">
+                    <span class="q-num">Q${q.id}</span>
+                    <span class="q-tag tag-${q.tag.toLowerCase()}">${q.tag}</span>
+                </div>
+                <div class="question-text">${q.text}</div>
+                <div class="options-grid">
+                    ${q.options.map((opt, i) => `<button type="button" class="option-btn" data-qid="${q.id}" data-idx="${i}">${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}
+                </div>
+                <div class="btn-row">
+                    <button type="button" class="submit-btn" id="sub${q.id}" disabled>Check Answer</button>
+                    <button type="button" class="reset-btn" id="res${q.id}">Reset</button>
+                </div>`;
+            container.appendChild(card);
+        });
+        document.getElementById('totalDisplay').textContent = questions.length;
+        attachEvents();
+    }
+
+    function attachEvents() {
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const qid = this.dataset.qid;
+                const card = document.getElementById('q' + qid);
+                card.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('sub' + qid).disabled = false;
+            });
+        });
+
+        document.querySelectorAll('.submit-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const qid = this.id.replace('sub', '');
+                const q = questions.find(x => x.id == qid);
+                const card = document.getElementById('q' + qid);
+                const selected = card.querySelector('.option-btn.selected');
+                if (!selected) return;
+                const idx = parseInt(selected.dataset.idx);
+                card.querySelectorAll('.option-btn').forEach(b => {
+                    b.disabled = true;
+                    const i = parseInt(b.dataset.idx);
+                    if (i === q.correct) b.classList.add('correct');
+                    else if (b === selected && i !== q.correct) b.classList.add('incorrect');
+                });
+                if (idx === q.correct) score++;
+                answered++;
+                document.getElementById('scoreDisplay').textContent = score;
+                this.disabled = true;
+                if (answered === questions.length) showFinal();
+            });
+        });
+
+        document.querySelectorAll('.reset-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const qid = this.id.replace('res', '');
+                const card = document.getElementById('q' + qid);
+                const sub = document.getElementById('sub' + qid);
+                card.querySelectorAll('.option-btn').forEach(b => {
+                    b.disabled = false;
+                    b.classList.remove('selected', 'correct', 'incorrect');
+                });
+                sub.disabled = true;
+            });
+        });
+    }
+
+    function showFinal() {
+        const pct = Math.round((score / questions.length) * 100);
+        const el = document.getElementById('finalScore');
+        document.getElementById('finalText').textContent = `You scored ${score} out of ${questions.length} (${pct}%). ${pct >= 80 ? '🔥 Excellent!' : pct >= 60 ? '👍 Good job!' : '📚 Keep practising!'}`;
+        el.style.display = 'block';
+        el.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    renderQuiz();
+    </script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set 2 – ORM & Databases</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: radial-gradient(circle at 50% -20%, #052e16, #000 70%); background-attachment: fixed; color: #e0e0e0; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .header { text-align: center; margin-bottom: 36px; }
+        .set-badge { display: inline-block; background: #059669; color: #fff; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; padding: 4px 14px; border-radius: 20px; margin-bottom: 12px; text-transform: uppercase; }
+        h1 { color: #fff; font-size: 1.9em; letter-spacing: 1px; margin-bottom: 6px; }
+        .sub { color: #666; font-size: 0.9em; }
+        .score-board { background: #0a1f14; border: 1px solid #14532d; border-radius: 14px; padding: 14px 28px; margin-bottom: 32px; text-align: center; font-size: 1em; color: #34d399; }
+        .score-board span { font-weight: 700; font-size: 1.4em; color: #86efac; }
+        .quiz-wrapper { width: 100%; max-width: 820px; }
+        .question-card { background: #070f0a; border: 1px solid #14532d; border-radius: 14px; padding: 26px; margin-bottom: 26px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .q-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .q-num { background: #052e16; color: #34d399; font-size: 0.8em; font-weight: 700; padding: 4px 10px; border-radius: 8px; white-space: nowrap; }
+        .q-tag { font-size: 0.72em; padding: 3px 8px; border-radius: 6px; font-weight: 600; }
+        .tag-django { background: #0d2218; color: #34d399; }
+        .tag-flask { background: #1a0a2e; color: #c084fc; }
+        .question-text { font-size: 1.05rem; font-weight: 600; color: #e2e8f0; line-height: 1.55; }
+        .options-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+        .option-btn { padding: 13px 18px; background: #0a1a0e; border: 1px solid #14532d; color: #bbb; text-align: left; border-radius: 10px; cursor: pointer; font-size: 0.97rem; transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { background: #0d2218; border-color: #059669; color: #fff; }
+        .option-btn.correct { background: #0d2218 !important; border-color: #22c55e !important; color: #86efac !important; }
+        .option-btn.incorrect { background: #1f0a0a !important; border-color: #ef4444 !important; color: #fca5a5 !important; }
+        .option-btn.selected { border-color: #10b981; background: #052e16; color: #fff; }
+        .option-btn:disabled { cursor: default; opacity: 0.75; }
+        .btn-row { margin-top: 14px; display: flex; gap: 10px; }
+        .submit-btn { padding: 9px 20px; background: #059669; border: none; border-radius: 8px; color: #fff; font-size: 0.95rem; cursor: pointer; font-weight: 600; transition: background 0.2s; }
+        .submit-btn:hover:not(:disabled) { background: #047857; }
+        .submit-btn:disabled { opacity: 0.5; cursor: default; }
+        .reset-btn { padding: 8px 16px; background: #0a1a0e; border: 1px solid #14532d; border-radius: 8px; color: #888; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+        .reset-btn:hover { background: #0d2218; color: #ccc; }
+        .final-score { text-align: center; margin-top: 40px; padding: 30px; background: #070f0a; border: 1px solid #14532d; border-radius: 18px; }
+        .final-score h2 { font-size: 1.6em; color: #86efac; margin-bottom: 8px; }
+        .final-score p { color: #666; }
+        .back-link { display: inline-block; margin-top: 24px; color: #10b981; text-decoration: none; font-weight: 600; }
+        .back-link:hover { color: #34d399; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="set-badge">Set 02 / 05</div>
+        <h1>ORM & Databases</h1>
+        <p class="sub">50 questions · Intermediate level · Instant feedback</p>
+    </div>
+    <div class="score-board">Score: <span id="scoreDisplay">0</span> / <span id="totalDisplay">0</span></div>
+    <div class="quiz-wrapper" id="quiz-container"></div>
+    <div class="final-score" id="finalScore" style="display:none; max-width:820px; width:100%;">
+        <h2>Set Complete! 🎉</h2>
+        <p id="finalText"></p>
+        <a href="./practice.html" class="back-link">← Back to Practice Sets</a>
+    </div>
+    <script>
+    const questions = [
+        { id:1, tag:"Django", text:"What does ORM stand for?", options:["Object-Relational Mapping","Object-Resource Manager","Ordered-Record Model","Open-Relational Method"], correct:0 },
+        { id:2, tag:"Django", text:"What class do Django models inherit from?", options:["db.Model","Model","models.Model","django.Model"], correct:2 },
+        { id:3, tag:"Django", text:"Which Django field stores text up to a max length?", options:["TextField","LongField","CharField","TextInput"], correct:2 },
+        { id:4, tag:"Django", text:"Which Django field stores long/unlimited text?", options:["CharField","LongTextField","BigField","TextField"], correct:3 },
+        { id:5, tag:"Django", text:"Which Django field stores integer values?", options:["NumberField","IntField","IntegerField","NumericField"], correct:2 },
+        { id:6, tag:"Django", text:"Which Django field validates and stores email addresses?", options:["StringField","EmailInput","EmailField","CharField with email=True"], correct:2 },
+        { id:7, tag:"Django", text:"What does DateTimeField(auto_now_add=True) do?", options:["Auto-updates on every save","Sets datetime only on creation","Requires manual date entry","Formats display date"], correct:1 },
+        { id:8, tag:"Django", text:"What does DateTimeField(auto_now=True) do?", options:["Sets datetime only on creation","Requires manual entry","Auto-updates datetime on every save","Stores only date, not time"], correct:2 },
+        { id:9, tag:"Django", text:"What does blank=True mean on a Django model field?", options:["Field can be NULL in database","Field is optional in forms","Field has no max length","Field is hidden from admin"], correct:1 },
+        { id:10, tag:"Django", text:"What does null=True mean on a Django model field?", options:["Field is optional in forms","Field is excluded from queries","Field can store NULL in database","Field has no default"], correct:2 },
+        { id:11, tag:"Django", text:"Which command creates migration files in Django?", options:["python manage.py migrate","python manage.py makemigrations","python manage.py syncdb","python manage.py createmigration"], correct:1 },
+        { id:12, tag:"Django", text:"Which command applies pending migrations to the database?", options:["python manage.py makemigrations","python manage.py syncdb","python manage.py migrate","python manage.py applydb"], correct:2 },
+        { id:13, tag:"Django", text:"What does Model.objects.all() return?", options:["A single object","A list of dicts","All records as a QuerySet","A count of records"], correct:2 },
+        { id:14, tag:"Django", text:"What does Model.objects.filter() return?", options:["A single matching object","A filtered QuerySet","A list","None if not found"], correct:1 },
+        { id:15, tag:"Django", text:"What does Model.objects.get() return?", options:["A QuerySet","A list of matches","A single object (raises exception if not found)","None if not found"], correct:2 },
+        { id:16, tag:"Django", text:"What does Model.objects.create() do?", options:["Creates a migration","Creates and saves a new database record","Creates a new model class","Creates a new app"], correct:1 },
+        { id:17, tag:"Django", text:"What does calling .save() on a model instance do?", options:["Exports data to CSV","Saves changes to database","Validates the model","Creates a new record always"], correct:1 },
+        { id:18, tag:"Django", text:"What does .delete() on a model instance do?", options:["Marks record as inactive","Deletes the record from the database","Removes fields from model","Clears the object's data"], correct:1 },
+        { id:19, tag:"Django", text:"What does Model.objects.exclude() do?", options:["Returns records NOT matching the condition","Returns only matching records","Excludes fields from output","Deletes non-matching records"], correct:0 },
+        { id:20, tag:"Django", text:"What does order_by('-name') do in Django ORM?", options:["Orders by name ascending","Orders by name descending (- prefix)","Reverses the queryset","Sorts by ID"], correct:1 },
+        { id:21, tag:"Django", text:"What does __gt mean in a Django ORM filter?", options:["Greater than or equal","Not equal to","Greater than","Contains"], correct:2 },
+        { id:22, tag:"Django", text:"What does __icontains mean in Django ORM filter?", options:["Case-sensitive contains","Exact match","Case-insensitive contains","Integer contains"], correct:2 },
+        { id:23, tag:"Django", text:"What does __in mean in Django ORM filter?", options:["Value is inside a range","Value is in a given list","Value contains substring","Value is not null"], correct:1 },
+        { id:24, tag:"Django", text:"What is ForeignKey used for in Django models?", options:["One-to-one relationship","Many-to-many relationship","One-to-many relationship","Embedding JSON"], correct:2 },
+        { id:25, tag:"Django", text:"What does on_delete=models.CASCADE do?", options:["Prevents deletion of parent","Logs deletion to file","Deletes related child records when parent is deleted","Sets child ForeignKey to NULL"], correct:2 },
+        { id:26, tag:"Django", text:"What does __str__ method in a Django model return?", options:["HTML representation","SQL query","String representation of the object","JSON output"], correct:2 },
+        { id:27, tag:"Django", text:"What does Model.objects.count() return?", options:["A QuerySet","A list","The number of records","The first record"], correct:2 },
+        { id:28, tag:"Django", text:"What does select_related() do in Django ORM?", options:["Selects random records","Performs SQL JOIN for ForeignKey to reduce queries","Selects only specific fields","Caches the queryset"], correct:1 },
+        { id:29, tag:"Django", text:"What is the purpose of ManyToManyField in Django?", options:["One-to-one relationship","One-to-many relationship","Many-to-many relationship between models","Embedding a list in a field"], correct:2 },
+        { id:30, tag:"Django", text:"What does values() do on a Django QuerySet?", options:["Returns model instances","Returns field values as dictionaries","Returns a count","Returns only primary keys"], correct:1 },
+        { id:31, tag:"Flask", text:"What is Flask-SQLAlchemy?", options:["A Flask template engine","A Flask ORM extension wrapping SQLAlchemy","A Flask authentication library","A Flask caching tool"], correct:1 },
+        { id:32, tag:"Flask", text:"How do you configure the database URI in Flask-SQLAlchemy?", options:["app.db = 'sqlite:///'","db.uri = 'sqlite:///'","app.config['SQLALCHEMY_DATABASE_URI'] = '...'","flask.config.DATABASE_URL = '...'"], correct:2 },
+        { id:33, tag:"Flask", text:"What class do Flask-SQLAlchemy models inherit from?", options:["Model","SQLModel","db.Model","BaseModel"], correct:2 },
+        { id:34, tag:"Flask", text:"Which command creates all tables in Flask-SQLAlchemy?", options:["db.init()","db.create_all()","db.migrate()","db.setup()"], correct:1 },
+        { id:35, tag:"Flask", text:"How do you add a new record in Flask-SQLAlchemy?", options:["db.insert(obj)","db.add(obj)","db.session.add(obj)","db.session.insert(obj)"], correct:2 },
+        { id:36, tag:"Flask", text:"How do you commit changes in Flask-SQLAlchemy?", options:["db.save()","db.commit()","db.session.save()","db.session.commit()"], correct:3 },
+        { id:37, tag:"Flask", text:"How do you delete a record in Flask-SQLAlchemy?", options:["db.remove(obj)","db.session.delete(obj)","obj.delete()","db.drop(obj)"], correct:1 },
+        { id:38, tag:"Flask", text:"How do you query all records in Flask-SQLAlchemy?", options:["Model.all()","Model.query.all()","db.query(Model).all()","Model.select().all()"], correct:1 },
+        { id:39, tag:"Flask", text:"How do you filter records in Flask-SQLAlchemy?", options:["Model.filter()","Model.query.filter_by()","db.filter(Model)","Model.where()"], correct:1 },
+        { id:40, tag:"Flask", text:"How do you get a record by primary key in Flask-SQLAlchemy?", options:["Model.query.find(id)","Model.get(id)","Model.query.get(id)","db.get(Model, id)"], correct:2 },
+        { id:41, tag:"Flask", text:"What does db.Column(db.Integer, primary_key=True) define?", options:["A required integer column","An auto-incrementing primary key column","A foreign key column","A unique integer column"], correct:1 },
+        { id:42, tag:"Flask", text:"What does nullable=False mean in a Flask-SQLAlchemy column?", options:["Column can be NULL","Column is optional","Column is required (cannot be NULL)","Column has no type"], correct:2 },
+        { id:43, tag:"Flask", text:"How do you define a ForeignKey in Flask-SQLAlchemy?", options:["db.ForeignKey('table.id')","db.Column(db.Integer, db.ForeignKey('table.id'))","db.Relation('table')","db.Link('table.id')"], correct:1 },
+        { id:44, tag:"Flask", text:"What does db.relationship() define?", options:["A database connection","A relationship between two models with Python access","A SQL JOIN query","A migration step"], correct:1 },
+        { id:45, tag:"Flask", text:"What does backref in db.relationship() do?", options:["Defines the primary key","Adds a reverse relationship attribute to the related model","Creates a backup of data","Sets cascade delete"], correct:1 },
+        { id:46, tag:"Flask", text:"What does db.session.rollback() do?", options:["Commits all changes","Undoes all uncommitted session changes","Rolls back migration","Resets database to initial state"], correct:1 },
+        { id:47, tag:"Flask", text:"How do you order results in Flask-SQLAlchemy?", options:[".sort()","db.order()","Model.query.order_by()","Model.query.sort_by()"], correct:2 },
+        { id:48, tag:"Flask", text:"How do you count records in Flask-SQLAlchemy?", options:["Model.query.len()","Model.count()","Model.query.count()","len(Model.query.all())"], correct:2 },
+        { id:49, tag:"Flask", text:"What does db.session.flush() do?", options:["Commits all changes permanently","Sends pending SQL to DB without committing","Clears all session data","Resets the database connection"], correct:1 },
+        { id:50, tag:"Flask", text:"What does unique=True on a db.Column ensure?", options:["Column is the primary key","Column value must be unique across all rows","Column cannot be NULL","Column is indexed"], correct:1 }
+    ];
+
+    let score = 0, answered = 0;
+    function renderQuiz() {
+        const container = document.getElementById('quiz-container');
+        container.innerHTML = '';
+        questions.forEach(q => {
+            const card = document.createElement('div');
+            card.className = 'question-card';
+            card.id = 'q' + q.id;
+            card.innerHTML = `<div class="q-header"><span class="q-num">Q${q.id}</span><span class="q-tag tag-${q.tag.toLowerCase()}">${q.tag}</span></div><div class="question-text">${q.text}</div><div class="options-grid">${q.options.map((opt,i)=>`<button type="button" class="option-btn" data-qid="${q.id}" data-idx="${i}">${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}</div><div class="btn-row"><button type="button" class="submit-btn" id="sub${q.id}" disabled>Check Answer</button><button type="button" class="reset-btn" id="res${q.id}">Reset</button></div>`;
+            container.appendChild(card);
+        });
+        document.getElementById('totalDisplay').textContent = questions.length;
+        attachEvents();
+    }
+    function attachEvents() {
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const qid = this.dataset.qid;
+                document.getElementById('q'+qid).querySelectorAll('.option-btn').forEach(b=>b.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('sub'+qid).disabled = false;
+            });
+        });
+        document.querySelectorAll('.submit-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const qid = this.id.replace('sub','');
+                const q = questions.find(x=>x.id==qid);
+                const card = document.getElementById('q'+qid);
+                const selected = card.querySelector('.option-btn.selected');
+                if (!selected) return;
+                const idx = parseInt(selected.dataset.idx);
+                card.querySelectorAll('.option-btn').forEach(b=>{
+                    b.disabled=true;
+                    const i=parseInt(b.dataset.idx);
+                    if(i===q.correct) b.classList.add('correct');
+                    else if(b===selected&&i!==q.correct) b.classList.add('incorrect');
+                });
+                if(idx===q.correct) score++;
+                answered++;
+                document.getElementById('scoreDisplay').textContent = score;
+                this.disabled = true;
+                if(answered===questions.length) showFinal();
+            });
+        });
+        document.querySelectorAll('.reset-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const qid = this.id.replace('res','');
+                const card = document.getElementById('q'+qid);
+                card.querySelectorAll('.option-btn').forEach(b=>{b.disabled=false;b.classList.remove('selected','correct','incorrect');});
+                document.getElementById('sub'+qid).disabled = true;
+            });
+        });
+    }
+    function showFinal() {
+        const pct = Math.round((score/questions.length)*100);
+        document.getElementById('finalText').textContent = `You scored ${score} out of ${questions.length} (${pct}%). ${pct>=80?'🔥 Excellent!':pct>=60?'👍 Good job!':'📚 Keep practising!'}`;
+        const el = document.getElementById('finalScore');
+        el.style.display = 'block';
+        el.scrollIntoView({behavior:'smooth'});
+    }
+    renderQuiz();
+    </script>
+</body>
+</html>
