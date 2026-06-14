@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Django Forms & ModelForms</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Django Forms & ModelForms</h1>
+    <p class="subtitle">
+      Handle user input safely using Django's built-in Form and ModelForm classes.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+
+  <!-- ================= INTRO ================= -->
+  <h2>📘 What Are Django Forms?</h2>
+  <p>
+    Django Forms are Python classes that handle HTML form rendering, user input validation,
+    and data cleaning — all in one place. Instead of writing raw <code>&lt;input&gt;</code>
+    tags and manually validating data, Django does it for you.
+  </p>
+
+  <table class="content-table">
+    <tr><th>Feature</th><th>Without Django Forms</th><th>With Django Forms</th></tr>
+    <tr><td>HTML rendering</td><td>Write manually</td><td>Auto-generated</td></tr>
+    <tr><td>Validation</td><td>Write manually</td><td>Built-in</td></tr>
+    <tr><td>Error messages</td><td>Write manually</td><td>Auto-generated</td></tr>
+    <tr><td>CSRF protection</td><td>Manual</td><td><code>{% csrf_token %}</code></td></tr>
+  </table>
+
+  <!-- ================= TYPES ================= -->
+  <h2>📂 Two Types of Django Forms</h2>
+  <ul>
+    <li><strong>Form</strong> — General-purpose, not tied to a model</li>
+    <li><strong>ModelForm</strong> — Auto-generates fields from a Django model (most common)</li>
+  </ul>
+
+  <!-- ================= FORM CLASS ================= -->
+  <h2>🟢 Django Form (Manual Fields)</h2>
+
+  <h3>📌 Step 1 — Create <code>forms.py</code></h3>
+  <pre><code># students/forms.py
+
+from django import forms
+
+class StudentForm(forms.Form):
+    name   = forms.CharField(max_length=100)
+    age    = forms.IntegerField(min_value=1, max_value=100)
+    email  = forms.EmailField()
+    course = forms.CharField(max_length=100)</code></pre>
+
+  <h3>📌 Step 2 — Use Form in View</h3>
+  <pre><code># students/views.py
+
+from django.shortcuts import render
+from .forms import StudentForm
+
+def add_student(request):
+    form = StudentForm()
+
+    if request.method == "POST":
+        form = StudentForm(request.POST)
+        if form.is_valid():
+            name   = form.cleaned_data["name"]
+            age    = form.cleaned_data["age"]
+            email  = form.cleaned_data["email"]
+            course = form.cleaned_data["course"]
+            # Save to DB or process here
+            return render(request, "students/success.html", {"name": name})
+
+    return render(request, "students/add_student.html", {"form": form})</code></pre>
+
+  <div class="note">
+    🔑 <strong>GET request</strong> → render blank form.<br>
+    🔑 <strong>POST request</strong> → validate + process data.<br>
+    🔑 <code>form.is_valid()</code> triggers all field validators.<br>
+    🔑 <code>form.cleaned_data</code> gives safe, converted Python values.
+  </div>
+
+  <h3>📌 Step 3 — Create Template</h3>
+  <pre><code>&lt;!-- students/templates/students/add_student.html --&gt;
+
+&lt;form method="POST"&gt;
+  {% csrf_token %}
+  {{ form.as_p }}
+  &lt;button type="submit"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+  <ul>
+    <li><code>{% csrf_token %}</code> — mandatory, protects against CSRF attacks</li>
+    <li><code>{{ form.as_p }}</code> — renders each field wrapped in <code>&lt;p&gt;</code> tags</li>
+    <li><code>{{ form.as_table }}</code> — renders as table rows</li>
+    <li><code>{{ form.as_ul }}</code> — renders as list items</li>
+  </ul>
+
+  <h3>📌 Step 4 — Connect URL</h3>
+  <pre><code># students/urls.py
+
+from django.urls import path
+from .views import add_student
+
+urlpatterns = [
+    path("add/", add_student, name="add_student"),
+]</code></pre>
+
+  <!-- ================= MODELFORM ================= -->
+  <h2>🔵 ModelForm (Recommended for Models)</h2>
+  <p>
+    <code>ModelForm</code> auto-generates form fields directly from your model.
+    No need to repeat field definitions.
+  </p>
+
+  <h3>📌 Existing Model</h3>
+  <pre><code># students/models.py
+
+from django.db import models
+
+class Student(models.Model):
+    name   = models.CharField(max_length=100)
+    age    = models.IntegerField()
+    email  = models.EmailField()
+    course = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name</code></pre>
+
+  <h3>📌 Create ModelForm</h3>
+  <pre><code># students/forms.py
+
+from django import forms
+from .models import Student
+
+class StudentModelForm(forms.ModelForm):
+    class Meta:
+        model  = Student
+        fields = ["name", "age", "email", "course"]
+        # OR use fields = "__all__"  to include every field
+        # OR use exclude = ["some_field"]  to skip specific fields</code></pre>
+
+  <h3>📌 View Using ModelForm</h3>
+  <pre><code># students/views.py
+
+from django.shortcuts import render, redirect
+from .forms import StudentModelForm
+
+def add_student(request):
+    form = StudentModelForm()
+
+    if request.method == "POST":
+        form = StudentModelForm(request.POST)
+        if form.is_valid():
+            form.save()          # Saves directly to database
+            return redirect("student_list")
+
+    return render(request, "students/add_student.html", {"form": form})</code></pre>
+
+  <div class="note">
+    ✔ <code>form.save()</code> automatically runs <code>INSERT INTO</code> query.<br>
+    ✔ No need to extract <code>cleaned_data</code> manually.<br>
+    ✔ One line replaces the entire CREATE block from CRUD lesson.
+  </div>
+
+  <!-- ================= FIELD WIDGETS ================= -->
+  <h2>🟡 Customizing Fields & Widgets</h2>
+  <p>
+    Widgets control how a field is rendered in HTML.
+    You can override default widgets to use dropdowns, text areas, date pickers, etc.
+  </p>
+
+  <pre><code># students/forms.py
+
+from django import forms
+from .models import Student
+
+COURSE_CHOICES = [
+    ("django",  "Django"),
+    ("flask",   "Flask"),
+    ("fastapi", "FastAPI"),
+]
+
+class StudentModelForm(forms.ModelForm):
+    class Meta:
+        model  = Student
+        fields = ["name", "age", "email", "course"]
+        widgets = {
+            "name":   forms.TextInput(attrs={"placeholder": "Enter full name", "class": "input-field"}),
+            "age":    forms.NumberInput(attrs={"min": 1, "max": 100}),
+            "email":  forms.EmailInput(attrs={"placeholder": "email@example.com"}),
+            "course": forms.Select(choices=COURSE_CHOICES),
+        }</code></pre>
+
+  <!-- ================= VALIDATION ================= -->
+  <h2>🔴 Form Validation</h2>
+
+  <h3>Built-in Validators</h3>
+  <ul>
+    <li><code>CharField(max_length=100)</code> — enforces max length</li>
+    <li><code>EmailField()</code> — validates email format</li>
+    <li><code>IntegerField(min_value=1)</code> — enforces numeric range</li>
+    <li><code>required=False</code> — makes field optional</li>
+  </ul>
+
+  <h3>Custom Validation (clean methods)</h3>
+  <pre><code># students/forms.py
+
+class StudentModelForm(forms.ModelForm):
+    class Meta:
+        model  = Student
+        fields = ["name", "age", "email", "course"]
+
+    # Validate a single field
+    def clean_age(self):
+        age = self.cleaned_data["age"]
+        if age < 16:
+            raise forms.ValidationError("Minimum age is 16.")
+        return age
+
+    # Validate multiple fields together
+    def clean(self):
+        cleaned_data = super().clean()
+        name  = cleaned_data.get("name")
+        email = cleaned_data.get("email")
+        if name and email and name.lower() in email.lower():
+            raise forms.ValidationError("Email should not contain your name.")
+        return cleaned_data</code></pre>
+
+  <!-- ================= EDIT FORM ================= -->
+  <h2>🟣 Edit / Update Form (Pre-filled)</h2>
+  <p>Pass <code>instance=</code> to pre-fill form with existing database record.</p>
+
+  <pre><code># students/views.py
+
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Student
+from .forms import StudentModelForm
+
+def edit_student(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    form    = StudentModelForm(instance=student)
+
+    if request.method == "POST":
+        form = StudentModelForm(request.POST, instance=student)
+        if form.is_valid():
+            form.save()          # Runs UPDATE query, not INSERT
+            return redirect("student_list")
+
+    return render(request, "students/edit_student.html", {"form": form})</code></pre>
+
+  <pre><code># students/urls.py
+
+path("edit/&lt;int:pk&gt;/", edit_student, name="edit_student"),</code></pre>
+
+  <pre><code>&lt;!-- Template --&gt;
+&lt;a href="{% url 'edit_student' student.pk %}"&gt;Edit&lt;/a&gt;</code></pre>
+
+  <!-- ================= DISPLAY ERRORS ================= -->
+  <h2>⚠️ Displaying Validation Errors in Template</h2>
+  <pre><code>&lt;form method="POST"&gt;
+  {% csrf_token %}
+
+  {% if form.errors %}
+    &lt;div class="error-box"&gt;
+      Please fix the errors below.
+    &lt;/div&gt;
+  {% endif %}
+
+  {% for field in form %}
+    &lt;label&gt;{{ field.label }}&lt;/label&gt;
+    {{ field }}
+    {% if field.errors %}
+      &lt;span class="error"&gt;{{ field.errors.0 }}&lt;/span&gt;
+    {% endif %}
+  {% endfor %}
+
+  &lt;button type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+  <!-- ================= SUMMARY ================= -->
+  <h2>🔹 Form vs ModelForm — When to Use</h2>
+  <table class="content-table">
+    <tr><th>Use Case</th><th>Use</th></tr>
+    <tr><td>Contact form, search form (no model)</td><td><code>Form</code></td></tr>
+    <tr><td>Create/Edit a model record</td><td><code>ModelForm</code></td></tr>
+    <tr><td>Custom multi-step form</td><td><code>Form</code></td></tr>
+    <tr><td>Admin-like CRUD pages</td><td><code>ModelForm</code></td></tr>
+  </table>
+
+  <h2>🔹 Quick Reference</h2>
+  <table class="content-table">
+    <tr><th>Task</th><th>Code</th></tr>
+    <tr><td>Render blank form</td><td><code>form = StudentModelForm()</code></td></tr>
+    <tr><td>Bind POST data</td><td><code>form = StudentModelForm(request.POST)</code></td></tr>
+    <tr><td>Validate</td><td><code>form.is_valid()</code></td></tr>
+    <tr><td>Save to DB</td><td><code>form.save()</code></td></tr>
+    <tr><td>Edit existing record</td><td><code>form = StudentModelForm(request.POST, instance=obj)</code></td></tr>
+    <tr><td>Get cleaned value</td><td><code>form.cleaned_data["field_name"]</code></td></tr>
+  </table>
+
+  <div class="note">
+    🎯 <strong>ModelForm</strong> is the most used pattern in Django projects.
+    Master it and you can build any CRUD interface quickly.
+  </div>
+
+</section>
+
+<div class="content-navigation">
+  <a href="./mini-project.html" class="btn secondary">⬅ Back: Mini Project</a>
+  <a href="./class-based-views.html" class="btn primary">Next: Class-Based Views ➜</a>
+</div>
+
+</body>
+</html>
