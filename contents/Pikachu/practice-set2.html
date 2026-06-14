@@ -28,11 +28,13 @@
         .option-btn.incorrect { background: #1f0a0a !important; border-color: #ef4444 !important; color: #fca5a5 !important; }
         .option-btn.selected { border-color: #10b981; background: #052e16; color: #fff; }
         .option-btn:disabled { cursor: default; opacity: 0.75; }
+        .explanation { margin-top: 16px; padding: 13px 16px; background: #040e08; border-left: 3px solid #10b981; border-radius: 0 8px 8px 0; font-size: 0.9em; color: #94a3b8; line-height: 1.6; }
+        .explanation strong { color: #86efac; }
         .btn-row { margin-top: 14px; display: flex; gap: 10px; }
         .submit-btn { padding: 9px 20px; background: #059669; border: none; border-radius: 8px; color: #fff; font-size: 0.95rem; cursor: pointer; font-weight: 600; transition: background 0.2s; }
         .submit-btn:hover:not(:disabled) { background: #047857; }
         .submit-btn:disabled { opacity: 0.5; cursor: default; }
-        .reset-btn { padding: 8px 16px; background: #0a1a0e; border: 1px solid #14532d; border-radius: 8px; color: #888; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+        .reset-btn { padding: 8px 16px; background: #0a1a0e; border: 1px solid #14532d; border-radius: 8px; color: #888; cursor: pointer; font-size: 0.9rem; }
         .reset-btn:hover { background: #0d2218; color: #ccc; }
         .final-score { text-align: center; margin-top: 40px; padding: 30px; background: #070f0a; border: 1px solid #14532d; border-radius: 18px; }
         .final-score h2 { font-size: 1.6em; color: #86efac; margin-bottom: 8px; }
@@ -45,128 +47,106 @@
     <div class="header">
         <div class="set-badge">Set 02 / 05</div>
         <h1>ORM & Databases</h1>
-        <p class="sub">50 questions · Intermediate level · Instant feedback</p>
+        <p class="sub">50 questions · Intermediate level · Instant feedback with explanation</p>
     </div>
     <div class="score-board">Score: <span id="scoreDisplay">0</span> / <span id="totalDisplay">0</span></div>
     <div class="quiz-wrapper" id="quiz-container"></div>
     <div class="final-score" id="finalScore" style="display:none; max-width:820px; width:100%;">
-        <h2>Set Complete! 🎉</h2>
-        <p id="finalText"></p>
+        <h2>Set Complete! 🎉</h2><p id="finalText"></p>
         <a href="./practice.html" class="back-link">← Back to Practice Sets</a>
     </div>
     <script>
     const questions = [
-        { id:1, tag:"Django", text:"What does ORM stand for?", options:["Object-Relational Mapping","Object-Resource Manager","Ordered-Record Model","Open-Relational Method"], correct:0 },
-        { id:2, tag:"Django", text:"What class do Django models inherit from?", options:["db.Model","Model","models.Model","django.Model"], correct:2 },
-        { id:3, tag:"Django", text:"Which Django field stores text up to a max length?", options:["TextField","LongField","CharField","TextInput"], correct:2 },
-        { id:4, tag:"Django", text:"Which Django field stores long/unlimited text?", options:["CharField","LongTextField","BigField","TextField"], correct:3 },
-        { id:5, tag:"Django", text:"Which Django field stores integer values?", options:["NumberField","IntField","IntegerField","NumericField"], correct:2 },
-        { id:6, tag:"Django", text:"Which Django field validates and stores email addresses?", options:["StringField","EmailInput","EmailField","CharField with email=True"], correct:2 },
-        { id:7, tag:"Django", text:"What does DateTimeField(auto_now_add=True) do?", options:["Auto-updates on every save","Sets datetime only on creation","Requires manual date entry","Formats display date"], correct:1 },
-        { id:8, tag:"Django", text:"What does DateTimeField(auto_now=True) do?", options:["Sets datetime only on creation","Requires manual entry","Auto-updates datetime on every save","Stores only date, not time"], correct:2 },
-        { id:9, tag:"Django", text:"What does blank=True mean on a Django model field?", options:["Field can be NULL in database","Field is optional in forms","Field has no max length","Field is hidden from admin"], correct:1 },
-        { id:10, tag:"Django", text:"What does null=True mean on a Django model field?", options:["Field is optional in forms","Field is excluded from queries","Field can store NULL in database","Field has no default"], correct:2 },
-        { id:11, tag:"Django", text:"Which command creates migration files in Django?", options:["python manage.py migrate","python manage.py makemigrations","python manage.py syncdb","python manage.py createmigration"], correct:1 },
-        { id:12, tag:"Django", text:"Which command applies pending migrations to the database?", options:["python manage.py makemigrations","python manage.py syncdb","python manage.py migrate","python manage.py applydb"], correct:2 },
-        { id:13, tag:"Django", text:"What does Model.objects.all() return?", options:["A single object","A list of dicts","All records as a QuerySet","A count of records"], correct:2 },
-        { id:14, tag:"Django", text:"What does Model.objects.filter() return?", options:["A single matching object","A filtered QuerySet","A list","None if not found"], correct:1 },
-        { id:15, tag:"Django", text:"What does Model.objects.get() return?", options:["A QuerySet","A list of matches","A single object (raises exception if not found)","None if not found"], correct:2 },
-        { id:16, tag:"Django", text:"What does Model.objects.create() do?", options:["Creates a migration","Creates and saves a new database record","Creates a new model class","Creates a new app"], correct:1 },
-        { id:17, tag:"Django", text:"What does calling .save() on a model instance do?", options:["Exports data to CSV","Saves changes to database","Validates the model","Creates a new record always"], correct:1 },
-        { id:18, tag:"Django", text:"What does .delete() on a model instance do?", options:["Marks record as inactive","Deletes the record from the database","Removes fields from model","Clears the object's data"], correct:1 },
-        { id:19, tag:"Django", text:"What does Model.objects.exclude() do?", options:["Returns records NOT matching the condition","Returns only matching records","Excludes fields from output","Deletes non-matching records"], correct:0 },
-        { id:20, tag:"Django", text:"What does order_by('-name') do in Django ORM?", options:["Orders by name ascending","Orders by name descending (- prefix)","Reverses the queryset","Sorts by ID"], correct:1 },
-        { id:21, tag:"Django", text:"What does __gt mean in a Django ORM filter?", options:["Greater than or equal","Not equal to","Greater than","Contains"], correct:2 },
-        { id:22, tag:"Django", text:"What does __icontains mean in Django ORM filter?", options:["Case-sensitive contains","Exact match","Case-insensitive contains","Integer contains"], correct:2 },
-        { id:23, tag:"Django", text:"What does __in mean in Django ORM filter?", options:["Value is inside a range","Value is in a given list","Value contains substring","Value is not null"], correct:1 },
-        { id:24, tag:"Django", text:"What is ForeignKey used for in Django models?", options:["One-to-one relationship","Many-to-many relationship","One-to-many relationship","Embedding JSON"], correct:2 },
-        { id:25, tag:"Django", text:"What does on_delete=models.CASCADE do?", options:["Prevents deletion of parent","Logs deletion to file","Deletes related child records when parent is deleted","Sets child ForeignKey to NULL"], correct:2 },
-        { id:26, tag:"Django", text:"What does __str__ method in a Django model return?", options:["HTML representation","SQL query","String representation of the object","JSON output"], correct:2 },
-        { id:27, tag:"Django", text:"What does Model.objects.count() return?", options:["A QuerySet","A list","The number of records","The first record"], correct:2 },
-        { id:28, tag:"Django", text:"What does select_related() do in Django ORM?", options:["Selects random records","Performs SQL JOIN for ForeignKey to reduce queries","Selects only specific fields","Caches the queryset"], correct:1 },
-        { id:29, tag:"Django", text:"What is the purpose of ManyToManyField in Django?", options:["One-to-one relationship","One-to-many relationship","Many-to-many relationship between models","Embedding a list in a field"], correct:2 },
-        { id:30, tag:"Django", text:"What does values() do on a Django QuerySet?", options:["Returns model instances","Returns field values as dictionaries","Returns a count","Returns only primary keys"], correct:1 },
-        { id:31, tag:"Flask", text:"What is Flask-SQLAlchemy?", options:["A Flask template engine","A Flask ORM extension wrapping SQLAlchemy","A Flask authentication library","A Flask caching tool"], correct:1 },
-        { id:32, tag:"Flask", text:"How do you configure the database URI in Flask-SQLAlchemy?", options:["app.db = 'sqlite:///'","db.uri = 'sqlite:///'","app.config['SQLALCHEMY_DATABASE_URI'] = '...'","flask.config.DATABASE_URL = '...'"], correct:2 },
-        { id:33, tag:"Flask", text:"What class do Flask-SQLAlchemy models inherit from?", options:["Model","SQLModel","db.Model","BaseModel"], correct:2 },
-        { id:34, tag:"Flask", text:"Which command creates all tables in Flask-SQLAlchemy?", options:["db.init()","db.create_all()","db.migrate()","db.setup()"], correct:1 },
-        { id:35, tag:"Flask", text:"How do you add a new record in Flask-SQLAlchemy?", options:["db.insert(obj)","db.add(obj)","db.session.add(obj)","db.session.insert(obj)"], correct:2 },
-        { id:36, tag:"Flask", text:"How do you commit changes in Flask-SQLAlchemy?", options:["db.save()","db.commit()","db.session.save()","db.session.commit()"], correct:3 },
-        { id:37, tag:"Flask", text:"How do you delete a record in Flask-SQLAlchemy?", options:["db.remove(obj)","db.session.delete(obj)","obj.delete()","db.drop(obj)"], correct:1 },
-        { id:38, tag:"Flask", text:"How do you query all records in Flask-SQLAlchemy?", options:["Model.all()","Model.query.all()","db.query(Model).all()","Model.select().all()"], correct:1 },
-        { id:39, tag:"Flask", text:"How do you filter records in Flask-SQLAlchemy?", options:["Model.filter()","Model.query.filter_by()","db.filter(Model)","Model.where()"], correct:1 },
-        { id:40, tag:"Flask", text:"How do you get a record by primary key in Flask-SQLAlchemy?", options:["Model.query.find(id)","Model.get(id)","Model.query.get(id)","db.get(Model, id)"], correct:2 },
-        { id:41, tag:"Flask", text:"What does db.Column(db.Integer, primary_key=True) define?", options:["A required integer column","An auto-incrementing primary key column","A foreign key column","A unique integer column"], correct:1 },
-        { id:42, tag:"Flask", text:"What does nullable=False mean in a Flask-SQLAlchemy column?", options:["Column can be NULL","Column is optional","Column is required (cannot be NULL)","Column has no type"], correct:2 },
-        { id:43, tag:"Flask", text:"How do you define a ForeignKey in Flask-SQLAlchemy?", options:["db.ForeignKey('table.id')","db.Column(db.Integer, db.ForeignKey('table.id'))","db.Relation('table')","db.Link('table.id')"], correct:1 },
-        { id:44, tag:"Flask", text:"What does db.relationship() define?", options:["A database connection","A relationship between two models with Python access","A SQL JOIN query","A migration step"], correct:1 },
-        { id:45, tag:"Flask", text:"What does backref in db.relationship() do?", options:["Defines the primary key","Adds a reverse relationship attribute to the related model","Creates a backup of data","Sets cascade delete"], correct:1 },
-        { id:46, tag:"Flask", text:"What does db.session.rollback() do?", options:["Commits all changes","Undoes all uncommitted session changes","Rolls back migration","Resets database to initial state"], correct:1 },
-        { id:47, tag:"Flask", text:"How do you order results in Flask-SQLAlchemy?", options:[".sort()","db.order()","Model.query.order_by()","Model.query.sort_by()"], correct:2 },
-        { id:48, tag:"Flask", text:"How do you count records in Flask-SQLAlchemy?", options:["Model.query.len()","Model.count()","Model.query.count()","len(Model.query.all())"], correct:2 },
-        { id:49, tag:"Flask", text:"What does db.session.flush() do?", options:["Commits all changes permanently","Sends pending SQL to DB without committing","Clears all session data","Resets the database connection"], correct:1 },
-        { id:50, tag:"Flask", text:"What does unique=True on a db.Column ensure?", options:["Column is the primary key","Column value must be unique across all rows","Column cannot be NULL","Column is indexed"], correct:1 }
+        { id:1, tag:"Django", text:"What does ORM stand for?", options:["Object-Relational Mapping","Object-Resource Manager","Ordered-Record Model","Open-Relational Method"], correct:0, explanation:"ORM (Object-Relational Mapping) lets you interact with a relational database using Python objects instead of raw SQL queries." },
+        { id:2, tag:"Django", text:"What class do Django models inherit from?", options:["db.Model","Model","models.Model","django.Model"], correct:2, explanation:"Every Django model class inherits from django.db.models.Model. Django auto-creates the database table from the class definition." },
+        { id:3, tag:"Django", text:"Which Django field stores text up to a max length?", options:["TextField","LongField","CharField","TextInput"], correct:2, explanation:"CharField(max_length=N) stores short strings. max_length is required. For unlimited text use TextField." },
+        { id:4, tag:"Django", text:"Which Django field stores long/unlimited text?", options:["CharField","LongTextField","BigField","TextField"], correct:3, explanation:"TextField stores large amounts of text with no length restriction. Maps to TEXT in SQL. Don't specify max_length." },
+        { id:5, tag:"Django", text:"Which Django field stores integer values?", options:["NumberField","IntField","IntegerField","NumericField"], correct:2, explanation:"IntegerField stores integers. Variants: SmallIntegerField, BigIntegerField, PositiveIntegerField." },
+        { id:6, tag:"Django", text:"Which Django field validates and stores email addresses?", options:["StringField","EmailInput","EmailField","CharField with email=True"], correct:2, explanation:"EmailField is a CharField that validates the email format. It uses Django's EmailValidator automatically." },
+        { id:7, tag:"Django", text:"What does DateTimeField(auto_now_add=True) do?", options:["Auto-updates on every save","Sets datetime only on creation","Requires manual date entry","Formats display date"], correct:1, explanation:"auto_now_add=True sets the field to now() only when the record is first created. It cannot be changed afterward." },
+        { id:8, tag:"Django", text:"What does DateTimeField(auto_now=True) do?", options:["Sets datetime only on creation","Requires manual entry","Auto-updates datetime on every save","Stores only date, not time"], correct:2, explanation:"auto_now=True updates the field to now() every time .save() is called. Perfect for 'last modified' timestamps." },
+        { id:9, tag:"Django", text:"What does blank=True mean on a Django model field?", options:["Field can be NULL in database","Field is optional in forms","Field has no max length","Field is hidden from admin"], correct:1, explanation:"blank=True makes the field optional in Django forms and the admin. It's a form validation setting, not a database constraint." },
+        { id:10, tag:"Django", text:"What does null=True mean on a Django model field?", options:["Field is optional in forms","Field is excluded from queries","Field can store NULL in database","Field has no default"], correct:2, explanation:"null=True allows the database column to store SQL NULL. For string fields, prefer blank=True without null=True (store empty string instead)." },
+        { id:11, tag:"Django", text:"Which command creates migration files in Django?", options:["python manage.py migrate","python manage.py makemigrations","python manage.py syncdb","python manage.py createmigration"], correct:1, explanation:"makemigrations detects model changes and generates migration files in migrations/. Run this after every model change." },
+        { id:12, tag:"Django", text:"Which command applies pending migrations to the database?", options:["python manage.py makemigrations","python manage.py syncdb","python manage.py migrate","python manage.py applydb"], correct:2, explanation:"migrate reads migration files and executes the SQL to create/alter/drop database tables. Always run after makemigrations." },
+        { id:13, tag:"Django", text:"What does Model.objects.all() return?", options:["A single object","A list of dicts","All records as a QuerySet","A count of records"], correct:2, explanation:"objects.all() returns a QuerySet of all records. QuerySets are lazy — the DB query runs only when you iterate or evaluate them." },
+        { id:14, tag:"Django", text:"What does Model.objects.filter() return?", options:["A single matching object","A filtered QuerySet","A list","None if not found"], correct:1, explanation:"filter(**kwargs) returns a QuerySet of matching records. If nothing matches, it returns an empty QuerySet (no exception)." },
+        { id:15, tag:"Django", text:"What does Model.objects.get() return?", options:["A QuerySet","A list of matches","A single object (raises exception if not found)","None if not found"], correct:2, explanation:"get() returns exactly one object. Raises DoesNotExist if not found, MultipleObjectsReturned if more than one matches." },
+        { id:16, tag:"Django", text:"What does Model.objects.create() do?", options:["Creates a migration","Creates and saves a new database record","Creates a new model class","Creates a new app"], correct:1, explanation:"create(**kwargs) is equivalent to obj = Model(**kwargs); obj.save(). It creates and persists the record in one step." },
+        { id:17, tag:"Django", text:"What does calling .save() on a model instance do?", options:["Exports data to CSV","Saves changes to database","Validates the model","Creates a new record always"], correct:1, explanation:".save() runs INSERT if the object is new or UPDATE if it already exists (detected by whether pk is set)." },
+        { id:18, tag:"Django", text:"What does .delete() on a model instance do?", options:["Marks record as inactive","Deletes the record from the database","Removes fields from model","Clears the object's data"], correct:1, explanation:"obj.delete() executes a DELETE SQL query removing that row. Related records with CASCADE are also deleted." },
+        { id:19, tag:"Django", text:"What does Model.objects.exclude() do?", options:["Returns records NOT matching the condition","Returns only matching records","Excludes fields from output","Deletes non-matching records"], correct:0, explanation:"exclude(**kwargs) is the opposite of filter(). It returns all records that do NOT match the given conditions." },
+        { id:20, tag:"Django", text:"What does order_by('-name') do in Django ORM?", options:["Orders by name ascending","Orders by name descending (- prefix)","Reverses the queryset","Sorts by ID"], correct:1, explanation:"The - prefix means descending. order_by('name') is ascending. You can chain: order_by('-created', 'name')." },
+        { id:21, tag:"Django", text:"What does __gt mean in a Django ORM filter?", options:["Greater than or equal","Not equal to","Greater than","Contains"], correct:2, explanation:"__gt means 'greater than'. Other lookups: __gte (≥), __lt (<), __lte (≤), __exact, __in, __contains." },
+        { id:22, tag:"Django", text:"What does __icontains mean in Django ORM filter?", options:["Case-sensitive contains","Exact match","Case-insensitive contains","Integer contains"], correct:2, explanation:"__icontains performs a case-insensitive LIKE '%value%' SQL query. __contains is case-sensitive." },
+        { id:23, tag:"Django", text:"What does __in mean in Django ORM filter?", options:["Value is inside a range","Value is in a given list","Value contains substring","Value is not null"], correct:1, explanation:"filter(course__in=['Django','Flask']) generates WHERE course IN ('Django','Flask'). Accepts any iterable." },
+        { id:24, tag:"Django", text:"What is ForeignKey used for in Django models?", options:["One-to-one relationship","Many-to-many relationship","One-to-many relationship","Embedding JSON"], correct:2, explanation:"ForeignKey creates a many-to-one relationship. Many students can belong to one course. Adds a _id column to the table." },
+        { id:25, tag:"Django", text:"What does on_delete=models.CASCADE do?", options:["Prevents deletion of parent","Logs deletion to file","Deletes related child records when parent is deleted","Sets child ForeignKey to NULL"], correct:2, explanation:"CASCADE automatically deletes all related child records when the parent is deleted. Other options: SET_NULL, PROTECT, SET_DEFAULT." },
+        { id:26, tag:"Django", text:"What does __str__ method in a Django model return?", options:["HTML representation","SQL query","String representation of the object","JSON output"], correct:2, explanation:"__str__ defines how the object appears in Django admin, shell, and templates. E.g., return self.name makes it readable." },
+        { id:27, tag:"Django", text:"What does Model.objects.count() return?", options:["A QuerySet","A list","The number of records","The first record"], correct:2, explanation:"count() runs SELECT COUNT(*) — much faster than len(Model.objects.all()) which loads all objects into memory." },
+        { id:28, tag:"Django", text:"What does select_related() do in Django ORM?", options:["Selects random records","Performs SQL JOIN for ForeignKey to reduce queries","Selects only specific fields","Caches the queryset"], correct:1, explanation:"select_related() does a SQL JOIN to fetch related ForeignKey objects in one query instead of N+1 queries." },
+        { id:29, tag:"Django", text:"What is the purpose of ManyToManyField in Django?", options:["One-to-one relationship","One-to-many relationship","Many-to-many relationship between models","Embedding a list in a field"], correct:2, explanation:"ManyToManyField creates a junction/through table automatically. E.g., a Student can have many Courses and vice versa." },
+        { id:30, tag:"Django", text:"What does values() do on a Django QuerySet?", options:["Returns model instances","Returns field values as dictionaries","Returns a count","Returns only primary keys"], correct:1, explanation:"values() returns dicts instead of model objects: [{'name': 'Aman', 'age': 22}]. Useful for lightweight data access." },
+        { id:31, tag:"Flask", text:"What is Flask-SQLAlchemy?", options:["A Flask template engine","A Flask ORM extension wrapping SQLAlchemy","A Flask authentication library","A Flask caching tool"], correct:1, explanation:"Flask-SQLAlchemy integrates SQLAlchemy ORM with Flask, providing db object, model base class, and session management." },
+        { id:32, tag:"Flask", text:"How do you configure the database URI in Flask-SQLAlchemy?", options:["app.db = 'sqlite:///'","db.uri = 'sqlite:///'","app.config['SQLALCHEMY_DATABASE_URI'] = '...'","flask.config.DATABASE_URL = '...'"], correct:2, explanation:"The connection string format: 'sqlite:///app.db', 'postgresql://user:pass@localhost/dbname', 'mysql://...'." },
+        { id:33, tag:"Flask", text:"What class do Flask-SQLAlchemy models inherit from?", options:["Model","SQLModel","db.Model","BaseModel"], correct:2, explanation:"db = SQLAlchemy(app); class User(db.Model): — db.Model is the declarative base that maps the class to a DB table." },
+        { id:34, tag:"Flask", text:"Which command creates all tables in Flask-SQLAlchemy?", options:["db.init()","db.create_all()","db.migrate()","db.setup()"], correct:1, explanation:"db.create_all() generates CREATE TABLE SQL for all models. Run inside app context. Use Flask-Migrate for production migrations." },
+        { id:35, tag:"Flask", text:"How do you add a new record in Flask-SQLAlchemy?", options:["db.insert(obj)","db.add(obj)","db.session.add(obj)","db.session.insert(obj)"], correct:2, explanation:"db.session.add(obj) stages the object. The INSERT runs when you call db.session.commit(). You can add multiple objects before committing." },
+        { id:36, tag:"Flask", text:"How do you commit changes in Flask-SQLAlchemy?", options:["db.save()","db.commit()","db.session.save()","db.session.commit()"], correct:3, explanation:"db.session.commit() executes all pending SQL (INSERT/UPDATE/DELETE) as a transaction. On error, call db.session.rollback()." },
+        { id:37, tag:"Flask", text:"How do you delete a record in Flask-SQLAlchemy?", options:["db.remove(obj)","db.session.delete(obj)","obj.delete()","db.drop(obj)"], correct:1, explanation:"db.session.delete(obj) stages the DELETE. The SQL runs on db.session.commit(). The object must be attached to the session." },
+        { id:38, tag:"Flask", text:"How do you query all records in Flask-SQLAlchemy?", options:["Model.all()","Model.query.all()","db.query(Model).all()","Model.select().all()"], correct:1, explanation:"Model.query.all() returns a list of all model objects. Model.query is a shortcut for db.session.query(Model)." },
+        { id:39, tag:"Flask", text:"How do you filter records in Flask-SQLAlchemy?", options:["Model.filter()","Model.query.filter_by()","db.filter(Model)","Model.where()"], correct:1, explanation:"filter_by(name='Aman') generates WHERE name='Aman'. For complex conditions use filter(Model.age > 18)." },
+        { id:40, tag:"Flask", text:"How do you get a record by primary key in Flask-SQLAlchemy?", options:["Model.query.find(id)","Model.get(id)","Model.query.get(id)","db.get(Model, id)"], correct:2, explanation:"Model.query.get(id) looks up by primary key. Returns None if not found (no exception). Fast — uses identity map cache." },
+        { id:41, tag:"Flask", text:"What does db.Column(db.Integer, primary_key=True) define?", options:["A required integer column","An auto-incrementing primary key column","A foreign key column","A unique integer column"], correct:1, explanation:"primary_key=True makes the column the table's PK. With db.Integer it auto-increments. SQLAlchemy handles this automatically." },
+        { id:42, tag:"Flask", text:"What does nullable=False mean in a Flask-SQLAlchemy column?", options:["Column can be NULL","Column is optional","Column is required (cannot be NULL)","Column has no type"], correct:2, explanation:"nullable=False adds NOT NULL constraint in SQL. The default is nullable=True. Always set nullable=False for required fields." },
+        { id:43, tag:"Flask", text:"How do you define a ForeignKey in Flask-SQLAlchemy?", options:["db.ForeignKey('table.id')","db.Column(db.Integer, db.ForeignKey('table.id'))","db.Relation('table')","db.Link('table.id')"], correct:1, explanation:"The table name in ForeignKey uses the SQL table name (lowercase model name by default), not the Python class name." },
+        { id:44, tag:"Flask", text:"What does db.relationship() define?", options:["A database connection","A relationship between two models with Python access","A SQL JOIN query","A migration step"], correct:1, explanation:"db.relationship() doesn't add a DB column — it adds a Python attribute that loads related objects automatically via SQLAlchemy." },
+        { id:45, tag:"Flask", text:"What does backref in db.relationship() do?", options:["Defines the primary key","Adds a reverse relationship attribute to the related model","Creates a backup of data","Sets cascade delete"], correct:1, explanation:"backref='students' on Course.students adds a .course attribute to Student objects automatically, without defining it explicitly." },
+        { id:46, tag:"Flask", text:"What does db.session.rollback() do?", options:["Commits all changes","Undoes all uncommitted session changes","Rolls back migration","Resets database to initial state"], correct:1, explanation:"rollback() undoes all pending changes in the current session. Call it in the except block after catching a DB exception." },
+        { id:47, tag:"Flask", text:"How do you order results in Flask-SQLAlchemy?", options:[".sort()","db.order()","Model.query.order_by()","Model.query.sort_by()"], correct:2, explanation:"Model.query.order_by(Model.name.desc()).all() orders descending. .asc() for ascending (default)." },
+        { id:48, tag:"Flask", text:"How do you count records in Flask-SQLAlchemy?", options:["Model.query.len()","Model.count()","Model.query.count()","len(Model.query.all())"], correct:2, explanation:"Model.query.count() runs SELECT COUNT(*) — efficient. Avoid len(Model.query.all()) which loads all records to count them." },
+        { id:49, tag:"Flask", text:"What does db.session.flush() do?", options:["Commits all changes permanently","Sends pending SQL to DB without committing","Clears all session data","Resets the database connection"], correct:1, explanation:"flush() sends SQL to the DB within the current transaction but doesn't commit. Useful to get auto-generated IDs before committing." },
+        { id:50, tag:"Flask", text:"What does unique=True on a db.Column ensure?", options:["Column is the primary key","Column value must be unique across all rows","Column cannot be NULL","Column is indexed"], correct:1, explanation:"unique=True adds a UNIQUE constraint. Attempting to insert a duplicate value raises IntegrityError. Common for email, username fields." }
     ];
 
     let score = 0, answered = 0;
     function renderQuiz() {
-        const container = document.getElementById('quiz-container');
-        container.innerHTML = '';
+        const c = document.getElementById('quiz-container');
+        c.innerHTML = '';
         questions.forEach(q => {
             const card = document.createElement('div');
-            card.className = 'question-card';
-            card.id = 'q' + q.id;
-            card.innerHTML = `<div class="q-header"><span class="q-num">Q${q.id}</span><span class="q-tag tag-${q.tag.toLowerCase()}">${q.tag}</span></div><div class="question-text">${q.text}</div><div class="options-grid">${q.options.map((opt,i)=>`<button type="button" class="option-btn" data-qid="${q.id}" data-idx="${i}">${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}</div><div class="btn-row"><button type="button" class="submit-btn" id="sub${q.id}" disabled>Check Answer</button><button type="button" class="reset-btn" id="res${q.id}">Reset</button></div>`;
-            container.appendChild(card);
+            card.className = 'question-card'; card.id = 'q'+q.id;
+            card.innerHTML = `<div class="q-header"><span class="q-num">Q${q.id}</span><span class="q-tag tag-${q.tag.toLowerCase()}">${q.tag}</span></div><div class="question-text">${q.text}</div><div class="options-grid">${q.options.map((o,i)=>`<button type="button" class="option-btn" data-qid="${q.id}" data-idx="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div><div class="btn-row"><button type="button" class="submit-btn" id="sub${q.id}" disabled>Check Answer</button><button type="button" class="reset-btn" id="res${q.id}">Reset</button></div>`;
+            c.appendChild(card);
         });
         document.getElementById('totalDisplay').textContent = questions.length;
         attachEvents();
     }
     function attachEvents() {
-        document.querySelectorAll('.option-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const qid = this.dataset.qid;
-                document.getElementById('q'+qid).querySelectorAll('.option-btn').forEach(b=>b.classList.remove('selected'));
-                this.classList.add('selected');
-                document.getElementById('sub'+qid).disabled = false;
-            });
-        });
-        document.querySelectorAll('.submit-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const qid = this.id.replace('sub','');
-                const q = questions.find(x=>x.id==qid);
-                const card = document.getElementById('q'+qid);
-                const selected = card.querySelector('.option-btn.selected');
-                if (!selected) return;
-                const idx = parseInt(selected.dataset.idx);
-                card.querySelectorAll('.option-btn').forEach(b=>{
-                    b.disabled=true;
-                    const i=parseInt(b.dataset.idx);
-                    if(i===q.correct) b.classList.add('correct');
-                    else if(b===selected&&i!==q.correct) b.classList.add('incorrect');
-                });
-                if(idx===q.correct) score++;
-                answered++;
-                document.getElementById('scoreDisplay').textContent = score;
-                this.disabled = true;
-                if(answered===questions.length) showFinal();
-            });
-        });
-        document.querySelectorAll('.reset-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const qid = this.id.replace('res','');
-                const card = document.getElementById('q'+qid);
-                card.querySelectorAll('.option-btn').forEach(b=>{b.disabled=false;b.classList.remove('selected','correct','incorrect');});
-                document.getElementById('sub'+qid).disabled = true;
-            });
-        });
+        document.querySelectorAll('.option-btn').forEach(b => b.addEventListener('click', function() {
+            document.getElementById('q'+this.dataset.qid).querySelectorAll('.option-btn').forEach(x=>x.classList.remove('selected'));
+            this.classList.add('selected'); document.getElementById('sub'+this.dataset.qid).disabled = false;
+        }));
+        document.querySelectorAll('.submit-btn').forEach(b => b.addEventListener('click', function() {
+            const qid = this.id.replace('sub',''), q = questions.find(x=>x.id==qid);
+            const card = document.getElementById('q'+qid), sel = card.querySelector('.option-btn.selected');
+            if (!sel) return;
+            const idx = parseInt(sel.dataset.idx);
+            card.querySelectorAll('.option-btn').forEach(b=>{b.disabled=true; const i=parseInt(b.dataset.idx); if(i===q.correct)b.classList.add('correct'); else if(b===sel&&i!==q.correct)b.classList.add('incorrect');});
+            const exp = document.createElement('div'); exp.className='explanation'; exp.innerHTML=`<strong>💡 Explanation:</strong> ${q.explanation}`; card.querySelector('.btn-row').before(exp);
+            if(idx===q.correct) score++; answered++; document.getElementById('scoreDisplay').textContent=score; this.disabled=true;
+            if(answered===questions.length) showFinal();
+        }));
+        document.querySelectorAll('.reset-btn').forEach(b => b.addEventListener('click', function() {
+            const qid=this.id.replace('res',''), card=document.getElementById('q'+qid);
+            card.querySelectorAll('.option-btn').forEach(x=>{x.disabled=false;x.classList.remove('selected','correct','incorrect');}); document.getElementById('sub'+qid).disabled=true;
+            const e=card.querySelector('.explanation'); if(e) e.remove();
+        }));
     }
     function showFinal() {
-        const pct = Math.round((score/questions.length)*100);
-        document.getElementById('finalText').textContent = `You scored ${score} out of ${questions.length} (${pct}%). ${pct>=80?'🔥 Excellent!':pct>=60?'👍 Good job!':'📚 Keep practising!'}`;
-        const el = document.getElementById('finalScore');
-        el.style.display = 'block';
-        el.scrollIntoView({behavior:'smooth'});
+        const pct=Math.round((score/questions.length)*100);
+        document.getElementById('finalText').textContent=`You scored ${score} out of ${questions.length} (${pct}%). ${pct>=80?'🔥 Excellent!':pct>=60?'👍 Good job!':'📚 Keep practising!'}`;
+        const el=document.getElementById('finalScore'); el.style.display='block'; el.scrollIntoView({behavior:'smooth'});
     }
     renderQuiz();
     </script>

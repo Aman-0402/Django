@@ -28,11 +28,13 @@
         .option-btn.incorrect { background: #1f0a0a !important; border-color: #ef4444 !important; color: #fca5a5 !important; }
         .option-btn.selected { border-color: #a855f7; background: #1a0a2e; color: #fff; }
         .option-btn:disabled { cursor: default; opacity: 0.75; }
+        .explanation { margin-top: 16px; padding: 13px 16px; background: #0a0418; border-left: 3px solid #a855f7; border-radius: 0 8px 8px 0; font-size: 0.9em; color: #94a3b8; line-height: 1.6; }
+        .explanation strong { color: #d8b4fe; }
         .btn-row { margin-top: 14px; display: flex; gap: 10px; }
-        .submit-btn { padding: 9px 20px; background: #7c3aed; border: none; border-radius: 8px; color: #fff; font-size: 0.95rem; cursor: pointer; font-weight: 600; transition: background 0.2s; }
+        .submit-btn { padding: 9px 20px; background: #7c3aed; border: none; border-radius: 8px; color: #fff; font-size: 0.95rem; cursor: pointer; font-weight: 600; }
         .submit-btn:hover:not(:disabled) { background: #6d28d9; }
         .submit-btn:disabled { opacity: 0.5; cursor: default; }
-        .reset-btn { padding: 8px 16px; background: #130820; border: 1px solid #2d1b69; border-radius: 8px; color: #888; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+        .reset-btn { padding: 8px 16px; background: #130820; border: 1px solid #2d1b69; border-radius: 8px; color: #888; cursor: pointer; font-size: 0.9rem; }
         .reset-btn:hover { background: #1e0e35; color: #ccc; }
         .final-score { text-align: center; margin-top: 40px; padding: 30px; background: #0d0718; border: 1px solid #2d1b69; border-radius: 18px; }
         .final-score h2 { font-size: 1.6em; color: #d8b4fe; margin-bottom: 8px; }
@@ -45,129 +47,90 @@
     <div class="header">
         <div class="set-badge">Set 03 / 05</div>
         <h1>Forms, Validation & CBV</h1>
-        <p class="sub">50 questions · Intermediate level · Instant feedback</p>
+        <p class="sub">50 questions · Intermediate level · Instant feedback with explanation</p>
     </div>
     <div class="score-board">Score: <span id="scoreDisplay">0</span> / <span id="totalDisplay">0</span></div>
     <div class="quiz-wrapper" id="quiz-container"></div>
     <div class="final-score" id="finalScore" style="display:none; max-width:820px; width:100%;">
-        <h2>Set Complete! 🎉</h2>
-        <p id="finalText"></p>
+        <h2>Set Complete! 🎉</h2><p id="finalText"></p>
         <a href="./practice.html" class="back-link">← Back to Practice Sets</a>
     </div>
     <script>
     const questions = [
-        { id:1, tag:"Django", text:"What class is used for a basic Django form not tied to a model?", options:["forms.ModelForm","forms.BaseForm","forms.Form","forms.BasicForm"], correct:2 },
-        { id:2, tag:"Django", text:"What class auto-generates Django form fields directly from a model?", options:["forms.AutoForm","forms.ModelForm","forms.DBForm","forms.SmartForm"], correct:1 },
-        { id:3, tag:"Django", text:"Which method validates form data in Django?", options:["form.check()","form.validate()","form.is_valid()","form.clean()"], correct:2 },
-        { id:4, tag:"Django", text:"What does form.cleaned_data contain after validation?", options:["Raw POST data","Validated Python values","HTML form fields","Database records"], correct:1 },
-        { id:5, tag:"Django", text:"Which dictionary contains POST data in Django views?", options:["request.data","request.body","request.GET","request.POST"], correct:3 },
-        { id:6, tag:"Django", text:"Which template tag is mandatory inside every Django HTML form?", options:["{% form_token %}","{% security_token %}","{% csrf_token %}","{% anti_csrf %}"], correct:2 },
-        { id:7, tag:"Django", text:"What does CSRF stand for?", options:["Cross-Site Resource Forgery","Cross-Site Request Forgery","Client-Side Request Fraud","Cross-Server Request Forwarding"], correct:1 },
-        { id:8, tag:"Django", text:"What does form.save() do in a Django ModelForm?", options:["Saves form as a file","Validates the form","Saves form data to the database","Logs form submission"], correct:2 },
-        { id:9, tag:"Django", text:"How do you bind POST data to a Django form?", options:["form = MyForm(request.body)","form = MyForm(data=request.POST)","form = MyForm(request.POST)","Both B and C"], correct:3 },
-        { id:10, tag:"Django", text:"How do you pre-fill a Django ModelForm with an existing object?", options:["form = MyForm(data=obj)","form = MyForm(model=obj)","form = MyForm(instance=obj)","form = MyForm(obj)"], correct:2 },
-        { id:11, tag:"Django", text:"What does {{ form.as_p }} do in a Django template?", options:["Renders form as a table","Renders each field wrapped in <p> tags","Renders only error messages","Renders the form as plain text"], correct:1 },
-        { id:12, tag:"Django", text:"What does {{ form.as_table }} do?", options:["Renders form fields as <p> tags","Renders form as HTML table rows","Creates a sortable table","Renders form as a list"], correct:1 },
-        { id:13, tag:"Django", text:"Which Django form field validates email format?", options:["forms.StringField()","forms.CharField(type='email')","forms.EmailField()","forms.MailField()"], correct:2 },
-        { id:14, tag:"Django", text:"Which Django form field handles file uploads?", options:["forms.UploadField()","forms.MediaField()","forms.FileInput()","forms.FileField()"], correct:3 },
-        { id:15, tag:"Django", text:"What does required=False do on a Django form field?", options:["Field is hidden","Field has no validation","Field is optional","Field is read-only"], correct:2 },
-        { id:16, tag:"Django", text:"What is a widget in Django forms?", options:["A form validator","The HTML rendering of a form field","A type of model field","A JavaScript component"], correct:1 },
-        { id:17, tag:"Django", text:"What is the naming convention for field-specific validation methods in Django forms?", options:["validate_fieldname()","field_clean()","clean_fieldname()","check_fieldname()"], correct:2 },
-        { id:18, tag:"Django", text:"What does raising forms.ValidationError() do?", options:["Saves the error to database","Stops form processing and shows error message","Deletes the form data","Logs the error to console"], correct:1 },
-        { id:19, tag:"Django", text:"What enctype must an HTML form have for file uploads?", options:["application/json","text/plain","application/x-www-form-urlencoded","multipart/form-data"], correct:3 },
-        { id:20, tag:"Django", text:"What is the Meta class inside a Django ModelForm used for?", options:["Metadata for Python","Specifying model and fields for the form","Setting form CSS","Database configuration"], correct:1 },
-        { id:21, tag:"Django", text:"What is a Class-Based View (CBV) in Django?", options:["A view defined as a Python class","A view for class models only","A view rendered with CSS classes","A type of middleware"], correct:0 },
-        { id:22, tag:"Django", text:"How do you connect a Django CBV to a URL pattern?", options:["ClassName.view()","ClassName()","ClassName.as_view()","ClassName.url()"], correct:2 },
-        { id:23, tag:"Django", text:"What does Django's ListView do?", options:["Lists URL patterns","Displays a list of model objects","Shows a list of installed apps","Displays all views"], correct:1 },
-        { id:24, tag:"Django", text:"What does Django's DetailView do?", options:["Shows model field details","Displays a single model object by pk","Shows database details","Displays request details"], correct:1 },
-        { id:25, tag:"Django", text:"What does Django's CreateView do?", options:["Creates a new Django project","Creates a new app","Renders form to create a new model record","Creates a new database"], correct:2 },
-        { id:26, tag:"Django", text:"What does Django's UpdateView do?", options:["Updates Django version","Runs database migrations","Renders a pre-filled form to update an existing record","Updates static files"], correct:2 },
-        { id:27, tag:"Django", text:"What does Django's DeleteView do?", options:["Deletes the entire database","Shows confirmation page and deletes a model record","Deletes a Django app","Removes static files"], correct:1 },
-        { id:28, tag:"Django", text:"What is context_object_name in a Django ListView?", options:["Name of the template file","Name of the URL pattern","Name of the list variable in the template","Name of the database table"], correct:2 },
-        { id:29, tag:"Django", text:"What does success_url in CreateView do?", options:["URL shown on error","URL to redirect to after successful form save","URL of the form page","URL of the admin panel"], correct:1 },
-        { id:30, tag:"Django", text:"Why use reverse_lazy() instead of reverse() in CBVs?", options:["It's faster","URLs are resolved at class definition time, not at import","It works without URL names","It handles errors better"], correct:1 },
-        { id:31, tag:"Django", text:"What does overriding get_queryset() in ListView allow you to do?", options:["Change template","Change URL pattern","Customize the database query","Add extra fields"], correct:2 },
-        { id:32, tag:"Django", text:"What does get_context_data() allow you to do in a CBV?", options:["Override the model","Add extra variables to the template context","Change success_url","Modify the form fields"], correct:1 },
-        { id:33, tag:"Django", text:"What mixin protects a Django CBV with login requirement?", options:["AuthRequiredMixin","PermissionMixin","LoginRequiredMixin","SessionMixin"], correct:2 },
-        { id:34, tag:"Django", text:"Where must LoginRequiredMixin be placed in a CBV class definition?", options:["Last in the parent list","Anywhere","First in the parent list","After the model name"], correct:2 },
-        { id:35, tag:"Django", text:"What is form_class in a Django CreateView?", options:["CSS class for the form","Name of the form template","Custom ModelForm to use instead of auto-generating from fields","The form's action URL"], correct:2 },
-        { id:36, tag:"Flask", text:"What is the most popular form library used with Flask?", options:["FlaskForms","DjangoForms","WTForms / Flask-WTF","PyForms"], correct:2 },
-        { id:37, tag:"Flask", text:"What class do Flask-WTF forms inherit from?", options:["WTForm","BaseForm","FlaskForm","Form"], correct:2 },
-        { id:38, tag:"Flask", text:"What method validates a Flask-WTF form on POST submission?", options:["form.is_valid()","form.validate()","form.validate_on_submit()","form.check()"], correct:2 },
-        { id:39, tag:"Flask", text:"Which WTForms validator makes a field required?", options:["Required()","NotEmpty()","DataRequired()","MustFill()"], correct:2 },
-        { id:40, tag:"Flask", text:"Which WTForms validator checks email format?", options:["IsEmail()","ValidEmail()","EmailFormat()","Email()"], correct:3 },
-        { id:41, tag:"Flask", text:"Which WTForms validator checks string length?", options:["MaxLength()","StringLength()","Length()","Size()"], correct:2 },
-        { id:42, tag:"Flask", text:"Which WTForms validator checks that two fields match (e.g., password confirm)?", options:["Matches()","SameAs()","EqualTo()","ConfirmField()"], correct:2 },
-        { id:43, tag:"Flask", text:"How do you access form field data in WTForms?", options:["form['fieldname']","form.data['fieldname']","form.fieldname.data","form.get('fieldname')"], correct:2 },
-        { id:44, tag:"Flask", text:"How do you render a WTForms field in a Jinja template?", options:["{{ form.fieldname }}","{{ form.fieldname() }}","{% render form.fieldname %}","{{ field(form.fieldname) }}"], correct:1 },
-        { id:45, tag:"Flask", text:"How do you display field errors in WTForms Jinja template?", options:["{{ form.fieldname.error }}","{{ form.errors.fieldname }}","{{ form.fieldname.errors }}","{% show_errors form.fieldname %}"], correct:2 },
-        { id:46, tag:"Flask", text:"What does form.hidden_tag() render in Flask-WTF templates?", options:["A hidden submit button","The CSRF token as a hidden input","All hidden fields","Form metadata"], correct:1 },
-        { id:47, tag:"Flask", text:"What is SECRET_KEY required for in Flask-WTF?", options:["Database encryption","CSRF token generation and signing","Admin authentication","API rate limiting"], correct:1 },
-        { id:48, tag:"Flask", text:"Which WTForms field creates a text input?", options:["TextInput()","CharField()","StringField()","InputField()"], correct:2 },
-        { id:49, tag:"Flask", text:"Which WTForms field creates a password input?", options:["SecretField()","HiddenField()","PasswordInput()","PasswordField()"], correct:3 },
-        { id:50, tag:"Flask", text:"Which WTForms field creates a submit button?", options:["ButtonField()","SubmitField()","ActionField()","SendField()"], correct:1 }
+        { id:1, tag:"Django", text:"What class is used for a basic Django form not tied to a model?", options:["forms.ModelForm","forms.BaseForm","forms.Form","forms.BasicForm"], correct:2, explanation:"forms.Form is the base class for custom forms. You define each field manually. Use it for search forms, contact forms, etc." },
+        { id:2, tag:"Django", text:"What class auto-generates Django form fields directly from a model?", options:["forms.AutoForm","forms.ModelForm","forms.DBForm","forms.SmartForm"], correct:1, explanation:"ModelForm inspects the model and auto-creates form fields matching each model field. Less code, matches DB constraints automatically." },
+        { id:3, tag:"Django", text:"Which method validates form data in Django?", options:["form.check()","form.validate()","form.is_valid()","form.clean()"], correct:2, explanation:"is_valid() runs all field validators and the clean() methods. Returns True if valid. Populates form.cleaned_data and form.errors." },
+        { id:4, tag:"Django", text:"What does form.cleaned_data contain after validation?", options:["Raw POST data","Validated Python values","HTML form fields","Database records"], correct:1, explanation:"cleaned_data contains the validated and type-converted values. E.g., an IntegerField gives an int, not a string." },
+        { id:5, tag:"Django", text:"Which dictionary contains POST data in Django views?", options:["request.data","request.body","request.GET","request.POST"], correct:3, explanation:"request.POST is a QueryDict containing all form fields submitted via POST. For files use request.FILES." },
+        { id:6, tag:"Django", text:"Which template tag is mandatory inside every Django HTML form?", options:["{% form_token %}","{% security_token %}","{% csrf_token %}","{% anti_csrf %}"], correct:2, explanation:"{% csrf_token %} generates a hidden input with a secret token. Django rejects POST requests without it to prevent CSRF attacks." },
+        { id:7, tag:"Django", text:"What does CSRF stand for?", options:["Cross-Site Resource Forgery","Cross-Site Request Forgery","Client-Side Request Fraud","Cross-Server Request Forwarding"], correct:1, explanation:"CSRF (Cross-Site Request Forgery) is an attack where a malicious site tricks a logged-in user's browser into making unwanted requests." },
+        { id:8, tag:"Django", text:"What does form.save() do in a Django ModelForm?", options:["Saves form as a file","Validates the form","Saves form data to the database","Logs form submission"], correct:2, explanation:"form.save() calls Model.objects.create() or instance.save() automatically. Use commit=False to modify before saving." },
+        { id:9, tag:"Django", text:"How do you bind POST data to a Django form?", options:["form = MyForm(request.body)","form = MyForm(data=request.POST)","form = MyForm(request.POST)","Both B and C"], correct:3, explanation:"Both MyForm(request.POST) and MyForm(data=request.POST) work — request.POST is the first positional argument." },
+        { id:10, tag:"Django", text:"How do you pre-fill a Django ModelForm with an existing object?", options:["form = MyForm(data=obj)","form = MyForm(model=obj)","form = MyForm(instance=obj)","form = MyForm(obj)"], correct:2, explanation:"instance=obj pre-fills the form with existing values. On save, it runs UPDATE instead of INSERT." },
+        { id:11, tag:"Django", text:"What does {{ form.as_p }} do in a Django template?", options:["Renders form as a table","Renders each field wrapped in &lt;p&gt; tags","Renders only error messages","Renders the form as plain text"], correct:1, explanation:"as_p wraps each field in &lt;p&gt; tags. as_table renders &lt;tr&gt; rows. as_ul renders &lt;li&gt; items. All include labels and error messages." },
+        { id:12, tag:"Django", text:"What does {{ form.as_table }} do?", options:["Renders form fields as &lt;p&gt; tags","Renders form as HTML table rows","Creates a sortable table","Renders form as a list"], correct:1, explanation:"as_table renders each field as a &lt;tr&gt;&lt;th&gt;Label&lt;/th&gt;&lt;td&gt;Widget&lt;/td&gt;&lt;/tr&gt;. You must wrap it in &lt;table&gt; tags yourself." },
+        { id:13, tag:"Django", text:"Which Django form field validates email format?", options:["forms.StringField()","forms.CharField(type='email')","forms.EmailField()","forms.MailField()"], correct:2, explanation:"EmailField uses EmailValidator internally. If the value isn't a valid email format, is_valid() returns False." },
+        { id:14, tag:"Django", text:"Which Django form field handles file uploads?", options:["forms.UploadField()","forms.MediaField()","forms.FileInput()","forms.FileField()"], correct:3, explanation:"FileField handles file uploads. The view must pass request.FILES to the form and the template needs enctype='multipart/form-data'." },
+        { id:15, tag:"Django", text:"What does required=False do on a Django form field?", options:["Field is hidden","Field has no validation","Field is optional","Field is read-only"], correct:2, explanation:"required=False means the form is valid even if this field is left blank. The default is required=True." },
+        { id:16, tag:"Django", text:"What is a widget in Django forms?", options:["A form validator","The HTML rendering of a form field","A type of model field","A JavaScript component"], correct:1, explanation:"Widgets control HTML output. E.g., forms.TextInput renders &lt;input type='text'&gt;, forms.Textarea renders &lt;textarea&gt;. You can pass attrs={'class':'my-class'}." },
+        { id:17, tag:"Django", text:"What is the naming convention for field-specific validation methods in Django forms?", options:["validate_fieldname()","field_clean()","clean_fieldname()","check_fieldname()"], correct:2, explanation:"clean_fieldname() is called by is_valid() for that specific field. It must return the cleaned value or raise ValidationError." },
+        { id:18, tag:"Django", text:"What does raising forms.ValidationError() do?", options:["Saves the error to database","Stops form processing and shows error message","Deletes the form data","Logs the error to console"], correct:1, explanation:"ValidationError marks the field (or form) as invalid, adds the message to form.errors, and makes is_valid() return False." },
+        { id:19, tag:"Django", text:"What enctype must an HTML form have for file uploads?", options:["application/json","text/plain","application/x-www-form-urlencoded","multipart/form-data"], correct:3, explanation:"enctype='multipart/form-data' tells the browser to split the form into parts for files. Without it, request.FILES will be empty." },
+        { id:20, tag:"Django", text:"What is the Meta class inside a Django ModelForm used for?", options:["Metadata for Python","Specifying model and fields for the form","Setting form CSS","Database configuration"], correct:1, explanation:"class Meta defines model=MyModel, fields=['name','email'], exclude=['field'], widgets={}, labels={} for the ModelForm." },
+        { id:21, tag:"Django", text:"What is a Class-Based View (CBV) in Django?", options:["A view defined as a Python class","A view for class models only","A view rendered with CSS classes","A type of middleware"], correct:0, explanation:"CBVs use Python class inheritance to provide reusable view logic. Django's generic views (ListView, CreateView, etc.) are CBVs." },
+        { id:22, tag:"Django", text:"How do you connect a Django CBV to a URL pattern?", options:["ClassName.view()","ClassName()","ClassName.as_view()","ClassName.url()"], correct:2, explanation:"as_view() converts the class to a callable function that Django's URL router can call. Required for all CBVs in urls.py." },
+        { id:23, tag:"Django", text:"What does Django's ListView do?", options:["Lists URL patterns","Displays a list of model objects","Shows a list of installed apps","Displays all views"], correct:1, explanation:"ListView automatically queries model.objects.all() and passes the results to the template as object_list (or context_object_name)." },
+        { id:24, tag:"Django", text:"What does Django's DetailView do?", options:["Shows model field details","Displays a single model object by pk","Shows database details","Displays request details"], correct:1, explanation:"DetailView uses the pk URL parameter to call Model.objects.get(pk=pk) and passes the object to the template." },
+        { id:25, tag:"Django", text:"What does Django's CreateView do?", options:["Creates a new Django project","Creates a new app","Renders form to create a new model record","Creates a new database"], correct:2, explanation:"CreateView renders an empty ModelForm on GET and saves it on POST. Set fields or form_class and success_url." },
+        { id:26, tag:"Django", text:"What does Django's UpdateView do?", options:["Updates Django version","Runs database migrations","Renders a pre-filled form to update an existing record","Updates static files"], correct:2, explanation:"UpdateView fetches the object by pk, pre-fills the form, and on POST calls form.save() to UPDATE the record." },
+        { id:27, tag:"Django", text:"What does Django's DeleteView do?", options:["Deletes the entire database","Shows confirmation page and deletes a model record","Deletes a Django app","Removes static files"], correct:1, explanation:"DeleteView shows a confirmation template on GET. On POST (confirm), it calls object.delete() and redirects to success_url." },
+        { id:28, tag:"Django", text:"What is context_object_name in a Django ListView?", options:["Name of the template file","Name of the URL pattern","Name of the list variable in the template","Name of the database table"], correct:2, explanation:"Without it, the list is available as object_list. Setting context_object_name='students' makes it available as students in the template." },
+        { id:29, tag:"Django", text:"What does success_url in CreateView do?", options:["URL shown on error","URL to redirect to after successful form save","URL of the form page","URL of the admin panel"], correct:1, explanation:"After form.save() succeeds, Django redirects to success_url. Use reverse_lazy('view-name') to avoid circular import issues." },
+        { id:30, tag:"Django", text:"Why use reverse_lazy() instead of reverse() in CBVs?", options:["It's faster","URLs are resolved at class definition time, not at import","It works without URL names","It handles errors better"], correct:1, explanation:"Class attributes are evaluated at import time, before URLs are loaded. reverse_lazy() delays URL resolution until it's actually called." },
+        { id:31, tag:"Django", text:"What does overriding get_queryset() in ListView allow you to do?", options:["Change template","Change URL pattern","Customize the database query","Add extra fields"], correct:2, explanation:"get_queryset() lets you filter: return Student.objects.filter(course='Django').order_by('name') instead of returning all records." },
+        { id:32, tag:"Django", text:"What does get_context_data() allow you to do in a CBV?", options:["Override the model","Add extra variables to the template context","Change success_url","Modify the form fields"], correct:1, explanation:"context = super().get_context_data(**kwargs); context['extra'] = value; return context — adds extra template variables." },
+        { id:33, tag:"Django", text:"What mixin protects a Django CBV with login requirement?", options:["AuthRequiredMixin","PermissionMixin","LoginRequiredMixin","SessionMixin"], correct:2, explanation:"LoginRequiredMixin from django.contrib.auth.mixins checks is_authenticated before the view runs. Must be listed first in class parents." },
+        { id:34, tag:"Django", text:"Where must LoginRequiredMixin be placed in a CBV class definition?", options:["Last in the parent list","Anywhere","First in the parent list","After the model name"], correct:2, explanation:"Python MRO means the first parent's methods take priority. LoginRequiredMixin must come first to intercept the request before ListView etc." },
+        { id:35, tag:"Django", text:"What is form_class in a Django CreateView?", options:["CSS class for the form","Name of the form template","Custom ModelForm to use instead of auto-generating from fields","The form's action URL"], correct:2, explanation:"form_class = StudentModelForm lets you use a custom ModelForm with widgets, validators, etc. instead of auto-generating from fields=[...]." },
+        { id:36, tag:"Flask", text:"What is the most popular form library used with Flask?", options:["FlaskForms","DjangoForms","WTForms / Flask-WTF","PyForms"], correct:2, explanation:"WTForms is the library; Flask-WTF is the Flask extension that integrates it with CSRF protection, app context, etc." },
+        { id:37, tag:"Flask", text:"What class do Flask-WTF forms inherit from?", options:["WTForm","BaseForm","FlaskForm","Form"], correct:2, explanation:"FlaskForm (from flask_wtf) extends WTForms' Form with Flask integration including automatic CSRF protection." },
+        { id:38, tag:"Flask", text:"What method validates a Flask-WTF form on POST submission?", options:["form.is_valid()","form.validate()","form.validate_on_submit()","form.check()"], correct:2, explanation:"validate_on_submit() returns True only if the request is POST and all validators pass. Combines method check + validation in one." },
+        { id:39, tag:"Flask", text:"Which WTForms validator makes a field required?", options:["Required()","NotEmpty()","DataRequired()","MustFill()"], correct:2, explanation:"DataRequired() raises ValidationError if the field is empty or whitespace-only. Replaces the older Required() validator." },
+        { id:40, tag:"Flask", text:"Which WTForms validator checks email format?", options:["IsEmail()","ValidEmail()","EmailFormat()","Email()"], correct:3, explanation:"Email() from wtforms.validators checks that the value matches an email pattern. Also install email-validator package." },
+        { id:41, tag:"Flask", text:"Which WTForms validator checks string length?", options:["MaxLength()","StringLength()","Length()","Size()"], correct:2, explanation:"Length(min=3, max=50) validates string length. If violated, raises ValidationError with a default or custom message." },
+        { id:42, tag:"Flask", text:"Which WTForms validator checks that two fields match (e.g., password confirm)?", options:["Matches()","SameAs()","EqualTo()","ConfirmField()"], correct:2, explanation:"EqualTo('password') on the confirm_password field checks that both values are identical. Useful for password confirmation forms." },
+        { id:43, tag:"Flask", text:"How do you access form field data in WTForms?", options:["form['fieldname']","form.data['fieldname']","form.fieldname.data","form.get('fieldname')"], correct:2, explanation:"form.name.data returns the validated value of the 'name' field. Access after validate_on_submit() returns True." },
+        { id:44, tag:"Flask", text:"How do you render a WTForms field in a Jinja template?", options:["{{ form.fieldname }}","{{ form.fieldname() }}","{% render form.fieldname %}","{{ field(form.fieldname) }}"], correct:1, explanation:"{{ form.name() }} renders the HTML input widget. Pass attributes: {{ form.name(class='input', placeholder='Name') }}." },
+        { id:45, tag:"Flask", text:"How do you display field errors in WTForms Jinja template?", options:["{{ form.fieldname.error }}","{{ form.errors.fieldname }}","{{ form.fieldname.errors }}","{% show_errors form.fieldname %}"], correct:2, explanation:"form.name.errors is a list of error strings. Loop: {% for e in form.name.errors %}&lt;span&gt;{{ e }}&lt;/span&gt;{% endfor %}." },
+        { id:46, tag:"Flask", text:"What does form.hidden_tag() render in Flask-WTF templates?", options:["A hidden submit button","The CSRF token as a hidden input","All hidden fields","Form metadata"], correct:1, explanation:"{{ form.hidden_tag() }} renders &lt;input type='hidden' name='csrf_token' value='...'&gt;. Required for CSRF protection in Flask-WTF." },
+        { id:47, tag:"Flask", text:"What is SECRET_KEY required for in Flask-WTF?", options:["Database encryption","CSRF token generation and signing","Admin authentication","API rate limiting"], correct:1, explanation:"Flask-WTF uses app.secret_key to sign and verify CSRF tokens. Without it, all form submissions will fail with CSRF validation error." },
+        { id:48, tag:"Flask", text:"Which WTForms field creates a text input?", options:["TextInput()","CharField()","StringField()","InputField()"], correct:2, explanation:"StringField() renders &lt;input type='text'&gt; by default. The widget can be overridden to use TextArea or other inputs." },
+        { id:49, tag:"Flask", text:"Which WTForms field creates a password input?", options:["SecretField()","HiddenField()","PasswordInput()","PasswordField()"], correct:3, explanation:"PasswordField() renders &lt;input type='password'&gt; which masks the input. The data is still accessible via form.password.data." },
+        { id:50, tag:"Flask", text:"Which WTForms field creates a submit button?", options:["ButtonField()","SubmitField()","ActionField()","SendField()"], correct:1, explanation:"SubmitField('Save') renders &lt;input type='submit' value='Save'&gt;. The label is passed as the first argument." }
     ];
 
     let score = 0, answered = 0;
     function renderQuiz() {
-        const container = document.getElementById('quiz-container');
-        container.innerHTML = '';
+        const c = document.getElementById('quiz-container'); c.innerHTML = '';
         questions.forEach(q => {
-            const card = document.createElement('div');
-            card.className = 'question-card';
-            card.id = 'q' + q.id;
-            card.innerHTML = `<div class="q-header"><span class="q-num">Q${q.id}</span><span class="q-tag tag-${q.tag.toLowerCase()}">${q.tag}</span></div><div class="question-text">${q.text}</div><div class="options-grid">${q.options.map((opt,i)=>`<button type="button" class="option-btn" data-qid="${q.id}" data-idx="${i}">${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}</div><div class="btn-row"><button type="button" class="submit-btn" id="sub${q.id}" disabled>Check Answer</button><button type="button" class="reset-btn" id="res${q.id}">Reset</button></div>`;
-            container.appendChild(card);
+            const card = document.createElement('div'); card.className='question-card'; card.id='q'+q.id;
+            card.innerHTML=`<div class="q-header"><span class="q-num">Q${q.id}</span><span class="q-tag tag-${q.tag.toLowerCase()}">${q.tag}</span></div><div class="question-text">${q.text}</div><div class="options-grid">${q.options.map((o,i)=>`<button type="button" class="option-btn" data-qid="${q.id}" data-idx="${i}">${String.fromCharCode(65+i)}. ${o}</button>`).join('')}</div><div class="btn-row"><button type="button" class="submit-btn" id="sub${q.id}" disabled>Check Answer</button><button type="button" class="reset-btn" id="res${q.id}">Reset</button></div>`;
+            c.appendChild(card);
         });
-        document.getElementById('totalDisplay').textContent = questions.length;
-        attachEvents();
+        document.getElementById('totalDisplay').textContent=questions.length; attachEvents();
     }
     function attachEvents() {
-        document.querySelectorAll('.option-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const qid = this.dataset.qid;
-                document.getElementById('q'+qid).querySelectorAll('.option-btn').forEach(b=>b.classList.remove('selected'));
-                this.classList.add('selected');
-                document.getElementById('sub'+qid).disabled = false;
-            });
-        });
-        document.querySelectorAll('.submit-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const qid = this.id.replace('sub','');
-                const q = questions.find(x=>x.id==qid);
-                const card = document.getElementById('q'+qid);
-                const selected = card.querySelector('.option-btn.selected');
-                if (!selected) return;
-                const idx = parseInt(selected.dataset.idx);
-                card.querySelectorAll('.option-btn').forEach(b=>{
-                    b.disabled=true;
-                    const i=parseInt(b.dataset.idx);
-                    if(i===q.correct) b.classList.add('correct');
-                    else if(b===selected&&i!==q.correct) b.classList.add('incorrect');
-                });
-                if(idx===q.correct) score++;
-                answered++;
-                document.getElementById('scoreDisplay').textContent = score;
-                this.disabled = true;
-                if(answered===questions.length) showFinal();
-            });
-        });
-        document.querySelectorAll('.reset-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const qid = this.id.replace('res','');
-                const card = document.getElementById('q'+qid);
-                card.querySelectorAll('.option-btn').forEach(b=>{b.disabled=false;b.classList.remove('selected','correct','incorrect');});
-                document.getElementById('sub'+qid).disabled = true;
-            });
-        });
+        document.querySelectorAll('.option-btn').forEach(b=>b.addEventListener('click',function(){document.getElementById('q'+this.dataset.qid).querySelectorAll('.option-btn').forEach(x=>x.classList.remove('selected'));this.classList.add('selected');document.getElementById('sub'+this.dataset.qid).disabled=false;}));
+        document.querySelectorAll('.submit-btn').forEach(b=>b.addEventListener('click',function(){
+            const qid=this.id.replace('sub',''),q=questions.find(x=>x.id==qid),card=document.getElementById('q'+qid),sel=card.querySelector('.option-btn.selected');
+            if(!sel)return; const idx=parseInt(sel.dataset.idx);
+            card.querySelectorAll('.option-btn').forEach(b=>{b.disabled=true;const i=parseInt(b.dataset.idx);if(i===q.correct)b.classList.add('correct');else if(b===sel&&i!==q.correct)b.classList.add('incorrect');});
+            const exp=document.createElement('div');exp.className='explanation';exp.innerHTML=`<strong>💡 Explanation:</strong> ${q.explanation}`;card.querySelector('.btn-row').before(exp);
+            if(idx===q.correct)score++;answered++;document.getElementById('scoreDisplay').textContent=score;this.disabled=true;if(answered===questions.length)showFinal();
+        }));
+        document.querySelectorAll('.reset-btn').forEach(b=>b.addEventListener('click',function(){const qid=this.id.replace('res',''),card=document.getElementById('q'+qid);card.querySelectorAll('.option-btn').forEach(x=>{x.disabled=false;x.classList.remove('selected','correct','incorrect');});document.getElementById('sub'+qid).disabled=true;const e=card.querySelector('.explanation');if(e)e.remove();}));
     }
-    function showFinal() {
-        const pct = Math.round((score/questions.length)*100);
-        document.getElementById('finalText').textContent = `You scored ${score} out of ${questions.length} (${pct}%). ${pct>=80?'🔥 Excellent!':pct>=60?'👍 Good job!':'📚 Keep practising!'}`;
-        const el = document.getElementById('finalScore');
-        el.style.display = 'block';
-        el.scrollIntoView({behavior:'smooth'});
-    }
+    function showFinal(){const pct=Math.round((score/questions.length)*100);document.getElementById('finalText').textContent=`You scored ${score} out of ${questions.length} (${pct}%). ${pct>=80?'🔥 Excellent!':pct>=60?'👍 Good job!':'📚 Keep practising!'}`;const el=document.getElementById('finalScore');el.style.display='block';el.scrollIntoView({behavior:'smooth'});}
     renderQuiz();
     </script>
 </body>
