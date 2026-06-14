@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Django Authentication System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" type="button" class="scroll-top-btn">↑</button>
+
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Django Authentication System</h1>
+    <p class="subtitle">
+      Built-in login, logout, registration, and access control — no third-party library needed.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+
+  <!-- ================= INTRO ================= -->
+  <h2>📘 What Django Auth Provides</h2>
+  <p>
+    Django ships with a complete authentication system out of the box.
+    It handles users, passwords, sessions, and permissions — you just wire it up.
+  </p>
+
+  <table class="content-table">
+    <tr><th>Feature</th><th>Provided By</th></tr>
+    <tr><td>User model</td><td><code>django.contrib.auth.models.User</code></td></tr>
+    <tr><td>Login / Logout</td><td><code>django.contrib.auth.views</code></td></tr>
+    <tr><td>Password hashing</td><td>Automatic (PBKDF2 + SHA256)</td></tr>
+    <tr><td>Session management</td><td>Django sessions framework</td></tr>
+    <tr><td>Access control</td><td><code>@login_required</code>, permissions</td></tr>
+  </table>
+
+  <div class="note">
+    🔑 <code>django.contrib.auth</code> and <code>django.contrib.sessions</code>
+    are in <code>INSTALLED_APPS</code> by default — nothing to install.
+  </div>
+
+  <!-- ================= USER MODEL ================= -->
+  <h2>👤 The Built-in User Model</h2>
+  <p>Django's <code>User</code> model has these fields by default:</p>
+
+  <table class="content-table">
+    <tr><th>Field</th><th>Type</th><th>Notes</th></tr>
+    <tr><td><code>username</code></td><td>CharField</td><td>Required, unique</td></tr>
+    <tr><td><code>password</code></td><td>CharField</td><td>Stored as hash, never plain text</td></tr>
+    <tr><td><code>email</code></td><td>EmailField</td><td>Optional by default</td></tr>
+    <tr><td><code>first_name</code></td><td>CharField</td><td>Optional</td></tr>
+    <tr><td><code>last_name</code></td><td>CharField</td><td>Optional</td></tr>
+    <tr><td><code>is_active</code></td><td>BooleanField</td><td>False = account disabled</td></tr>
+    <tr><td><code>is_staff</code></td><td>BooleanField</td><td>True = can access /admin/</td></tr>
+    <tr><td><code>is_superuser</code></td><td>BooleanField</td><td>True = all permissions</td></tr>
+    <tr><td><code>date_joined</code></td><td>DateTimeField</td><td>Auto-set on creation</td></tr>
+  </table>
+
+  <!-- ================= REGISTRATION ================= -->
+  <h2>🟢 User Registration</h2>
+
+  <h3>📌 Step 1 — Create Registration Form</h3>
+  <pre><code># accounts/forms.py
+
+from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
+class RegisterForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model  = User
+        fields = ["username", "email", "password1", "password2"]</code></pre>
+
+  <div class="note">
+    ✔ <code>UserCreationForm</code> is Django's built-in form — handles password matching and strength validation automatically.<br>
+    ✔ <code>password1</code> = enter password, <code>password2</code> = confirm password.
+  </div>
+
+  <h3>📌 Step 2 — Registration View</h3>
+  <pre><code># accounts/views.py
+
+from django.shortcuts import render, redirect
+from .forms import RegisterForm
+
+def register(request):
+    form = RegisterForm()
+
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()               # Creates the User with hashed password
+            return redirect("login")
+
+    return render(request, "accounts/register.html", {"form": form})</code></pre>
+
+  <h3>📌 Step 3 — Template</h3>
+  <pre><code>&lt;!-- accounts/templates/accounts/register.html --&gt;
+
+&lt;h2&gt;Register&lt;/h2&gt;
+&lt;form method="POST"&gt;
+  {% csrf_token %}
+  {{ form.as_p }}
+  &lt;button type="submit"&gt;Create Account&lt;/button&gt;
+&lt;/form&gt;
+&lt;p&gt;Already have an account? &lt;a href="{% url 'login' %}"&gt;Login&lt;/a&gt;&lt;/p&gt;</code></pre>
+
+  <!-- ================= LOGIN ================= -->
+  <h2>🔵 Login</h2>
+  <p>Django provides a ready-made <code>LoginView</code> — just connect the URL and create a template.</p>
+
+  <h3>📌 Step 1 — URL</h3>
+  <pre><code># accounts/urls.py
+
+from django.urls import path
+from django.contrib.auth import views as auth_views
+from . import views
+
+urlpatterns = [
+    path("register/", views.register,            name="register"),
+    path("login/",    auth_views.LoginView.as_view(
+                          template_name="accounts/login.html"
+                      ),                         name="login"),
+    path("logout/",   auth_views.LogoutView.as_view(), name="logout"),
+]</code></pre>
+
+  <h3>📌 Step 2 — Login Template</h3>
+  <pre><code>&lt;!-- accounts/templates/accounts/login.html --&gt;
+
+&lt;h2&gt;Login&lt;/h2&gt;
+&lt;form method="POST"&gt;
+  {% csrf_token %}
+  {{ form.as_p }}
+  &lt;button type="submit"&gt;Login&lt;/button&gt;
+&lt;/form&gt;
+&lt;p&gt;Don't have an account? &lt;a href="{% url 'register' %}"&gt;Register&lt;/a&gt;&lt;/p&gt;</code></pre>
+
+  <h3>📌 Step 3 — Set Redirect After Login</h3>
+  <pre><code># settings.py
+
+LOGIN_REDIRECT_URL  = "/"        # redirect here after successful login
+LOGOUT_REDIRECT_URL = "/login/"  # redirect here after logout
+LOGIN_URL           = "/login/"  # redirect here when @login_required blocks access</code></pre>
+
+  <!-- ================= LOGIN REQUIRED ================= -->
+  <h2>🔒 Protecting Views with @login_required</h2>
+  <p>Any view decorated with <code>@login_required</code> redirects unauthenticated users to the login page.</p>
+
+  <h3>FBV — Decorator</h3>
+  <pre><code># students/views.py
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def dashboard(request):
+    return render(request, "students/dashboard.html")</code></pre>
+
+  <h3>CBV — Mixin</h3>
+  <pre><code>from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+from .models import Student
+
+class StudentListView(LoginRequiredMixin, ListView):
+    model               = Student
+    template_name       = "students/student_list.html"
+    context_object_name = "students"</code></pre>
+
+  <div class="note">
+    ✔ For CBVs, use <code>LoginRequiredMixin</code> — decorators don't work directly on class methods.<br>
+    ✔ Mixin must be the <strong>first</strong> parent class listed.
+  </div>
+
+  <!-- ================= CURRENT USER ================= -->
+  <h2>👤 Accessing the Logged-In User</h2>
+
+  <h3>In Views</h3>
+  <pre><code">def dashboard(request):
+    user = request.user              # the logged-in User object
+    print(user.username)
+    print(user.email)
+    print(user.is_authenticated)     # True if logged in
+    return render(request, "dashboard.html", {"user": user})</code></pre>
+
+  <h3>In Templates</h3>
+  <pre><code>{% if user.is_authenticated %}
+  &lt;p&gt;Welcome, {{ user.username }}!&lt;/p&gt;
+  &lt;a href="{% url 'logout' %}"&gt;Logout&lt;/a&gt;
+{% else %}
+  &lt;a href="{% url 'login' %}"&gt;Login&lt;/a&gt;
+  &lt;a href="{% url 'register' %}"&gt;Register&lt;/a&gt;
+{% endif %}</code></pre>
+
+  <!-- ================= MANUAL AUTH ================= -->
+  <h2>⚙️ Manual Login / Logout (in Views)</h2>
+  <p>For custom auth flows, use Django's <code>authenticate()</code> and <code>login()</code> functions directly.</p>
+
+  <pre><code># accounts/views.py
+
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
+
+def custom_login(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)          # creates session
+            return redirect("dashboard")
+        else:
+            return render(request, "accounts/login.html", {"error": "Invalid credentials"})
+
+    return render(request, "accounts/login.html")
+
+
+def custom_logout(request):
+    logout(request)                       # destroys session
+    return redirect("login")</code></pre>
+
+  <!-- ================= CREATE USER PROGRAMMATICALLY ================= -->
+  <h2>🛠️ Creating Users in Code</h2>
+  <pre><code">from django.contrib.auth.models import User
+
+# Regular user
+user = User.objects.create_user(
+    username="aman",
+    email="aman@gmail.com",
+    password="securepassword123"   # auto-hashed
+)
+
+# Superuser (full admin access)
+admin = User.objects.create_superuser(
+    username="admin",
+    email="admin@gmail.com",
+    password="adminpass"
+)</code></pre>
+
+  <!-- ================= CHANGE PASSWORD ================= -->
+  <h2>🔑 Changing Passwords</h2>
+  <pre><code">from django.contrib.auth.models import User
+
+user = User.objects.get(username="aman")
+user.set_password("newpassword456")   # hashes automatically
+user.save()</code></pre>
+
+  <div class="note">
+    ⚠️ After <code>set_password()</code>, the user's session is invalidated.
+    Call <code>update_session_auth_hash(request, user)</code> to keep them logged in.
+  </div>
+
+  <pre><code">from django.contrib.auth import update_session_auth_hash
+
+user.set_password("newpassword456")
+user.save()
+update_session_auth_hash(request, user)   # keeps current session valid</code></pre>
+
+  <!-- ================= COMPLETE URLS ================= -->
+  <h2>📌 Wire Up in Project URLs</h2>
+  <pre><code"># myproject/urls.py
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path("admin/",    admin.site.urls),
+    path("accounts/", include("accounts.urls")),
+    path("",          include("students.urls")),
+]</code></pre>
+
+  <!-- ================= SUMMARY ================= -->
+  <h2>🔹 Auth Flow Summary</h2>
+  <table class="content-table">
+    <tr><th>Action</th><th>What Happens</th></tr>
+    <tr><td>Register</td><td><code>User.objects.create_user()</code> — stores hashed password</td></tr>
+    <tr><td>Login</td><td><code>authenticate()</code> checks credentials → <code>login()</code> creates session</td></tr>
+    <tr><td>Request arrives</td><td>Django loads <code>request.user</code> from session cookie</td></tr>
+    <tr><td><code>@login_required</code></td><td>Checks <code>request.user.is_authenticated</code></td></tr>
+    <tr><td>Logout</td><td><code>logout()</code> destroys session</td></tr>
+  </table>
+
+  <h2>🔹 Key Functions &amp; Classes</h2>
+  <table class="content-table">
+    <tr><th>Name</th><th>Import From</th><th>Use</th></tr>
+    <tr><td><code>authenticate()</code></td><td><code>django.contrib.auth</code></td><td>Check username/password</td></tr>
+    <tr><td><code>login()</code></td><td><code>django.contrib.auth</code></td><td>Create session</td></tr>
+    <tr><td><code>logout()</code></td><td><code>django.contrib.auth</code></td><td>Destroy session</td></tr>
+    <tr><td><code>@login_required</code></td><td><code>django.contrib.auth.decorators</code></td><td>Protect FBV</td></tr>
+    <tr><td><code>LoginRequiredMixin</code></td><td><code>django.contrib.auth.mixins</code></td><td>Protect CBV</td></tr>
+    <tr><td><code>UserCreationForm</code></td><td><code>django.contrib.auth.forms</code></td><td>Register form</td></tr>
+    <tr><td><code>LoginView</code></td><td><code>django.contrib.auth.views</code></td><td>Built-in login page</td></tr>
+    <tr><td><code>LogoutView</code></td><td><code>django.contrib.auth.views</code></td><td>Built-in logout</td></tr>
+  </table>
+
+  <div class="note">
+    🎯 Django auth handles passwords securely by default — never store plain-text passwords.
+    Always use <code>create_user()</code> or <code>UserCreationForm</code>, never set <code>user.password</code> directly.
+  </div>
+
+</section>
+
+<div class="content-navigation">
+  <a href="./class-based-views.html" class="btn secondary">⬅ Back: Class-Based Views</a>
+  <a href="./user-profiles.html" class="btn primary">Next: User Profiles ➜</a>
+</div>
+
+</body>
+</html>
