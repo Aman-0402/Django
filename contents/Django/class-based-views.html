@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Class-Based Views (CBV) in Django</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" class="scroll-top-btn">↑</button>
+
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Class-Based Views (CBV)</h1>
+    <p class="subtitle">
+      Replace repetitive function-based views with Django's powerful built-in generic views.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+
+  <!-- ================= INTRO ================= -->
+  <h2>📘 FBV vs CBV — What's the Difference?</h2>
+  <p>
+    So far every view was a <strong>Function-Based View (FBV)</strong> — a plain Python function.
+    <strong>Class-Based Views (CBV)</strong> are Python classes that do the same job
+    but with less code by using Django's built-in generic view classes.
+  </p>
+
+  <table class="content-table">
+    <tr><th>FBV</th><th>CBV</th></tr>
+    <tr><td>Plain function</td><td>Python class</td></tr>
+    <tr><td>Write all logic manually</td><td>Inherit built-in logic</td></tr>
+    <tr><td>More code, more control</td><td>Less code, faster to write</td></tr>
+    <tr><td>Good for simple/custom views</td><td>Good for standard CRUD pages</td></tr>
+  </table>
+
+  <div class="note">
+    🔑 Both FBV and CBV are valid. Use CBV when doing standard list/detail/create/update/delete.
+    Use FBV for custom logic that doesn't fit a generic pattern.
+  </div>
+
+  <!-- ================= SETUP ================= -->
+  <h2>📂 Project Setup (Same Student Model)</h2>
+  <pre><code># students/models.py
+
+from django.db import models
+
+class Student(models.Model):
+    name   = models.CharField(max_length=100)
+    age    = models.IntegerField()
+    email  = models.EmailField()
+    course = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name</code></pre>
+
+  <!-- ================= LISTVIEW ================= -->
+  <h2>🟢 ListView — Show All Records</h2>
+  <p>Replaces a view that does <code>Model.objects.all()</code> and renders a template.</p>
+
+  <pre><code># students/views.py
+
+from django.views.generic import ListView
+from .models import Student
+
+class StudentListView(ListView):
+    model         = Student
+    template_name = "students/student_list.html"
+    context_object_name = "students"   # name used in template (default: object_list)</code></pre>
+
+  <pre><code># students/urls.py
+
+from django.urls import path
+from .views import StudentListView
+
+urlpatterns = [
+    path("", StudentListView.as_view(), name="student_list"),
+]</code></pre>
+
+  <pre><code>&lt;!-- students/templates/students/student_list.html --&gt;
+
+{% for student in students %}
+  &lt;p&gt;{{ student.name }} — {{ student.course }}&lt;/p&gt;
+{% endfor %}</code></pre>
+
+  <div class="note">
+    ✔ Django automatically queries <code>Student.objects.all()</code>.<br>
+    ✔ No need to write the query yourself.<br>
+    ✔ <code>.as_view()</code> converts the class to a callable for <code>urls.py</code>.
+  </div>
+
+  <!-- ================= DETAILVIEW ================= -->
+  <h2>🔵 DetailView — Show Single Record</h2>
+  <p>Fetches one record by <code>pk</code> from the URL automatically.</p>
+
+  <pre><code># students/views.py
+
+from django.views.generic import DetailView
+from .models import Student
+
+class StudentDetailView(DetailView):
+    model         = Student
+    template_name = "students/student_detail.html"
+    context_object_name = "student"</code></pre>
+
+  <pre><code># students/urls.py
+
+path("&lt;int:pk&gt;/", StudentDetailView.as_view(), name="student_detail"),</code></pre>
+
+  <pre><code>&lt;!-- student_detail.html --&gt;
+
+&lt;h2&gt;{{ student.name }}&lt;/h2&gt;
+&lt;p&gt;Age: {{ student.age }}&lt;/p&gt;
+&lt;p&gt;Email: {{ student.email }}&lt;/p&gt;
+&lt;p&gt;Course: {{ student.course }}&lt;/p&gt;</code></pre>
+
+  <!-- ================= CREATEVIEW ================= -->
+  <h2>🟡 CreateView — Add New Record</h2>
+  <p>Renders a form on GET, validates and saves on POST — automatically.</p>
+
+  <pre><code># students/views.py
+
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+from .models import Student
+
+class StudentCreateView(CreateView):
+    model         = Student
+    fields        = ["name", "age", "email", "course"]
+    template_name = "students/student_form.html"
+    success_url   = reverse_lazy("student_list")   # redirect after save</code></pre>
+
+  <pre><code># students/urls.py
+
+path("add/", StudentCreateView.as_view(), name="student_create"),</code></pre>
+
+  <pre><code>&lt;!-- student_form.html (shared by Create and Update) --&gt;
+
+&lt;form method="POST"&gt;
+  {% csrf_token %}
+  {{ form.as_p }}
+  &lt;button type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+  <div class="note">
+    ✔ Django auto-generates the form from <code>fields</code>.<br>
+    ✔ <code>reverse_lazy()</code> used instead of <code>reverse()</code> because the URL is resolved at class definition time, not runtime.
+  </div>
+
+  <!-- ================= UPDATEVIEW ================= -->
+  <h2>🟣 UpdateView — Edit Existing Record</h2>
+  <p>Same as CreateView but pre-fills the form with existing data.</p>
+
+  <pre><code># students/views.py
+
+from django.views.generic.edit import UpdateView
+from django.urls import reverse_lazy
+from .models import Student
+
+class StudentUpdateView(UpdateView):
+    model         = Student
+    fields        = ["name", "age", "email", "course"]
+    template_name = "students/student_form.html"   # same template as Create
+    success_url   = reverse_lazy("student_list")</code></pre>
+
+  <pre><code># students/urls.py
+
+path("edit/&lt;int:pk&gt;/", StudentUpdateView.as_view(), name="student_update"),</code></pre>
+
+  <pre><code>&lt;!-- Link in list template --&gt;
+&lt;a href="{% url 'student_update' student.pk %}"&gt;Edit&lt;/a&gt;</code></pre>
+
+  <!-- ================= DELETEVIEW ================= -->
+  <h2>🔴 DeleteView — Delete a Record</h2>
+  <p>Shows a confirmation page on GET, deletes on POST.</p>
+
+  <pre><code># students/views.py
+
+from django.views.generic.edit import DeleteView
+from django.urls import reverse_lazy
+from .models import Student
+
+class StudentDeleteView(DeleteView):
+    model         = Student
+    template_name = "students/student_confirm_delete.html"
+    success_url   = reverse_lazy("student_list")</code></pre>
+
+  <pre><code># students/urls.py
+
+path("delete/&lt;int:pk&gt;/", StudentDeleteView.as_view(), name="student_delete"),</code></pre>
+
+  <pre><code>&lt;!-- student_confirm_delete.html --&gt;
+
+&lt;p&gt;Delete "{{ student.name }}"?&lt;/p&gt;
+&lt;form method="POST"&gt;
+  {% csrf_token %}
+  &lt;button type="submit"&gt;Yes, Delete&lt;/button&gt;
+  &lt;a href="{% url 'student_list' %}"&gt;Cancel&lt;/a&gt;
+&lt;/form&gt;</code></pre>
+
+  <!-- ================= ALL URLS ================= -->
+  <h2>📌 All URLs Together</h2>
+  <pre><code># students/urls.py
+
+from django.urls import path
+from .views import (
+    StudentListView,
+    StudentDetailView,
+    StudentCreateView,
+    StudentUpdateView,
+    StudentDeleteView,
+)
+
+urlpatterns = [
+    path("",                    StudentListView.as_view(),   name="student_list"),
+    path("&lt;int:pk&gt;/",           StudentDetailView.as_view(), name="student_detail"),
+    path("add/",                StudentCreateView.as_view(), name="student_create"),
+    path("edit/&lt;int:pk&gt;/",      StudentUpdateView.as_view(), name="student_update"),
+    path("delete/&lt;int:pk&gt;/",    StudentDeleteView.as_view(), name="student_delete"),
+]</code></pre>
+
+  <!-- ================= CUSTOMIZING ================= -->
+  <h2>⚙️ Customizing CBVs</h2>
+
+  <h3>Override QuerySet (Filter Results)</h3>
+  <pre><code>class StudentListView(ListView):
+    model         = Student
+    template_name = "students/student_list.html"
+    context_object_name = "students"
+
+    def get_queryset(self):
+        return Student.objects.filter(course="Django").order_by("name")</code></pre>
+
+  <h3>Add Extra Context</h3>
+  <pre><code">class StudentListView(ListView):
+    model = Student
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["total"] = Student.objects.count()
+        return context</code></pre>
+
+  <h3>Override Form (Use ModelForm)</h3>
+  <pre><code>from .forms import StudentModelForm
+
+class StudentCreateView(CreateView):
+    model      = Student
+    form_class = StudentModelForm       # use custom form instead of fields = [...]
+    template_name = "students/student_form.html"
+    success_url   = reverse_lazy("student_list")</code></pre>
+
+  <!-- ================= SUMMARY ================= -->
+  <h2>🔹 Generic CBV Quick Reference</h2>
+  <table class="content-table">
+    <tr><th>View Class</th><th>Import From</th><th>Does</th></tr>
+    <tr><td><code>ListView</code></td><td><code>django.views.generic</code></td><td>List all records</td></tr>
+    <tr><td><code>DetailView</code></td><td><code>django.views.generic</code></td><td>Show single record by pk</td></tr>
+    <tr><td><code>CreateView</code></td><td><code>django.views.generic.edit</code></td><td>Add new record</td></tr>
+    <tr><td><code>UpdateView</code></td><td><code>django.views.generic.edit</code></td><td>Edit existing record</td></tr>
+    <tr><td><code>DeleteView</code></td><td><code>django.views.generic.edit</code></td><td>Delete record + confirm</td></tr>
+  </table>
+
+  <h2>🔹 FBV vs CBV — Same Result, Less Code</h2>
+  <table class="content-table">
+    <tr><th>Task</th><th>FBV Lines</th><th>CBV Lines</th></tr>
+    <tr><td>List view</td><td>~8</td><td>4</td></tr>
+    <tr><td>Create view</td><td>~12</td><td>5</td></tr>
+    <tr><td>Update view</td><td>~14</td><td>5</td></tr>
+    <tr><td>Delete view</td><td>~10</td><td>4</td></tr>
+  </table>
+
+  <div class="note">
+    🎯 CBVs shine in standard CRUD apps. Combine <code>ListView</code> + <code>CreateView</code>
+    + <code>UpdateView</code> + <code>DeleteView</code> and you have a full admin panel
+    with almost no view logic.
+  </div>
+
+</section>
+
+<div class="content-navigation">
+  <a href="./forms.html" class="btn secondary">⬅ Back: Forms & ModelForms</a>
+  <a href="./auth.html" class="btn primary">Next: Django Authentication ➜</a>
+</div>
+
+</body>
+</html>
