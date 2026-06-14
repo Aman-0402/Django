@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profiles in Django</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" type="button" class="scroll-top-btn">↑</button>
+
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">User Profiles in Django</h1>
+    <p class="subtitle">
+      Extend Django's built-in User model with extra fields using a Profile model and signals.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+
+  <!-- ================= INTRO ================= -->
+  <h2>📘 Why User Profiles?</h2>
+  <p>
+    Django's built-in <code>User</code> model only has basic fields — username, email, password.
+    Real applications need more: profile picture, bio, phone number, address, etc.
+  </p>
+  <p>
+    The standard approach is to create a separate <code>Profile</code> model linked to
+    <code>User</code> via a <code>OneToOneField</code>. Django then treats them as one
+    combined user object.
+  </p>
+
+  <table class="content-table">
+    <tr><th>Approach</th><th>When to Use</th></tr>
+    <tr><td><code>OneToOneField</code> Profile model</td><td>Most projects — simple, keeps auth separate</td></tr>
+    <tr><td>Custom <code>AbstractUser</code></td><td>Start of project only — adds fields directly to User table</td></tr>
+    <tr><td>Custom <code>AbstractBaseUser</code></td><td>Completely custom auth (replace username with email, etc.)</td></tr>
+  </table>
+
+  <div class="note">
+    🔑 <strong>OneToOneField profile</strong> is the recommended pattern for existing projects.
+    <code>AbstractUser</code> must be set before first migration — can't switch later without wiping the DB.
+  </div>
+
+  <!-- ================= PROFILE MODEL ================= -->
+  <h2>🟢 Step 1 — Create Profile Model</h2>
+  <pre><code># accounts/models.py
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class Profile(models.Model):
+    user    = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio     = models.TextField(blank=True)
+    phone   = models.CharField(max_length=15, blank=True)
+    avatar  = models.ImageField(upload_to="avatars/", blank=True, null=True)
+    website = models.URLField(blank=True)
+
+    def __str__(self):
+        return f"{self.user.username}'s Profile"</code></pre>
+
+  <div class="note">
+    ✔ <code>OneToOneField</code> — one User maps to exactly one Profile.<br>
+    ✔ <code>on_delete=models.CASCADE</code> — deleting User also deletes their Profile.<br>
+    ✔ <code>blank=True</code> — field optional in forms.<br>
+    ✔ <code>null=True</code> — allows NULL in database (needed for file fields).
+  </div>
+
+  <h3>Run Migrations</h3>
+  <pre><code>python manage.py makemigrations
+python manage.py migrate</code></pre>
+
+  <h3>Install Pillow (for ImageField)</h3>
+  <pre><code>pip install Pillow</code></pre>
+
+  <!-- ================= SIGNALS ================= -->
+  <h2>⚡ Step 2 — Auto-Create Profile Using Signals</h2>
+  <p>
+    Without signals, you'd have to manually create a Profile every time a User is created.
+    Django <strong>signals</strong> let you hook into events automatically.
+  </p>
+
+  <pre><code># accounts/signals.py
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
+from .models import Profile
+
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_profile(sender, instance, **kwargs):
+    instance.profile.save()</code></pre>
+
+  <div class="note">
+    ✔ <code>post_save</code> fires after every <code>User.save()</code>.<br>
+    ✔ <code>created=True</code> only on first save (new user), not on updates.<br>
+    ✔ Second signal keeps Profile in sync whenever User is updated.
+  </div>
+
+  <h3>Register Signals in apps.py</h3>
+  <pre><code># accounts/apps.py
+
+from django.apps import AppConfig
+
+class AccountsConfig(AppConfig):
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "accounts"
+
+    def ready(self):
+        import accounts.signals    # connect signals when app loads</code></pre>
+
+  <pre><code># accounts/__init__.py
+
+default_app_config = "accounts.apps.AccountsConfig"</code></pre>
+
+  <!-- ================= ACCESS PROFILE ================= -->
+  <h2>🔵 Step 3 — Access Profile Data</h2>
+
+  <h3>In Views</h3>
+  <pre><code># accounts/views.py
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+
+@login_required
+def profile(request):
+    # request.user.profile — works because of OneToOneField reverse relation
+    return render(request, "accounts/profile.html", {"profile": request.user.profile})</code></pre>
+
+  <h3>In Templates</h3>
+  <pre><code>&lt;!-- accounts/templates/accounts/profile.html --&gt;
+
+&lt;h2&gt;{{ user.username }}&lt;/h2&gt;
+
+{% if profile.avatar %}
+  &lt;img src="{{ profile.avatar.url }}" alt="Avatar" width="150"&gt;
+{% endif %}
+
+&lt;p&gt;Bio: {{ profile.bio }}&lt;/p&gt;
+&lt;p&gt;Phone: {{ profile.phone }}&lt;/p&gt;
+&lt;p&gt;Website: &lt;a href="{{ profile.website }}"&gt;{{ profile.website }}&lt;/a&gt;&lt;/p&gt;</code></pre>
+
+  <!-- ================= EDIT PROFILE ================= -->
+  <h2>🟡 Step 4 — Edit Profile Form</h2>
+  <p>Use two ModelForms together — one for <code>User</code> fields, one for <code>Profile</code> fields.</p>
+
+  <h3>Forms</h3>
+  <pre><code># accounts/forms.py
+
+from django import forms
+from django.contrib.auth.models import User
+from .models import Profile
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model  = User
+        fields = ["username", "email"]
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model  = Profile
+        fields = ["bio", "phone", "avatar", "website"]</code></pre>
+
+  <h3>Edit View</h3>
+  <pre><code># accounts/views.py
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from .forms import UserUpdateForm, ProfileUpdateForm
+
+@login_required
+def edit_profile(request):
+    u_form = UserUpdateForm(instance=request.user)
+    p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    if request.method == "POST":
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            return redirect("profile")
+
+    return render(request, "accounts/edit_profile.html", {
+        "u_form": u_form,
+        "p_form": p_form,
+    })</code></pre>
+
+  <div class="note">
+    ✔ <code>request.FILES</code> — required when form has file upload (avatar).<br>
+    ✔ Both forms validated together — both must be valid before saving.
+  </div>
+
+  <h3>Edit Profile Template</h3>
+  <pre><code>&lt;!-- accounts/templates/accounts/edit_profile.html --&gt;
+
+&lt;h2&gt;Edit Profile&lt;/h2&gt;
+&lt;form method="POST" enctype="multipart/form-data"&gt;
+  {% csrf_token %}
+
+  &lt;h3&gt;Account Info&lt;/h3&gt;
+  {{ u_form.as_p }}
+
+  &lt;h3&gt;Profile Info&lt;/h3&gt;
+  {{ p_form.as_p }}
+
+  &lt;button type="submit"&gt;Save Changes&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+  <div class="note">
+    ✔ <code>enctype="multipart/form-data"</code> — required for file uploads (avatar image).
+    Without this, <code>request.FILES</code> will be empty.
+  </div>
+
+  <!-- ================= MEDIA FILES ================= -->
+  <h2>🖼️ Step 5 — Serve Uploaded Avatars</h2>
+  <pre><code># settings.py
+
+import os
+
+MEDIA_URL  = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")</code></pre>
+
+  <pre><code># myproject/urls.py
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    # ... your url patterns
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)</code></pre>
+
+  <div class="note">
+    ✔ <code>MEDIA_ROOT</code> — where files are stored on disk (<code>media/avatars/</code>).<br>
+    ✔ <code>MEDIA_URL</code> — URL prefix to access files in browser.<br>
+    ✔ <code>static()</code> in urls.py — serves media files in development only.
+    Production needs a web server (nginx) to serve them.
+  </div>
+
+  <!-- ================= URLS ================= -->
+  <h2>📌 URLs</h2>
+  <pre><code># accounts/urls.py
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path("profile/",      views.profile,      name="profile"),
+    path("profile/edit/", views.edit_profile, name="edit_profile"),
+]</code></pre>
+
+  <!-- ================= ADMIN ================= -->
+  <h2>🛠️ Register Profile in Admin</h2>
+  <pre><code># accounts/admin.py
+
+from django.contrib import admin
+from .models import Profile
+
+admin.site.register(Profile)</code></pre>
+
+  <!-- ================= SUMMARY ================= -->
+  <h2>🔹 Full Flow Summary</h2>
+  <table class="content-table">
+    <tr><th>Step</th><th>What It Does</th></tr>
+    <tr><td>1. Define <code>Profile</code> model</td><td>Stores extra user data</td></tr>
+    <tr><td>2. Signals</td><td>Auto-creates Profile when User registers</td></tr>
+    <tr><td>3. <code>request.user.profile</code></td><td>Access Profile anywhere from User</td></tr>
+    <tr><td>4. Two forms</td><td>Edit User + Profile fields together</td></tr>
+    <tr><td>5. <code>MEDIA_ROOT</code></td><td>Store and serve uploaded avatar images</td></tr>
+  </table>
+
+  <h2>🔹 Quick Reference</h2>
+  <table class="content-table">
+    <tr><th>Task</th><th>Code</th></tr>
+    <tr><td>Get user's profile</td><td><code>request.user.profile</code></td></tr>
+    <tr><td>Get user from profile</td><td><code>profile.user</code></td></tr>
+    <tr><td>Get avatar URL</td><td><code>request.user.profile.avatar.url</code></td></tr>
+    <tr><td>Check if avatar exists</td><td><code>if request.user.profile.avatar</code></td></tr>
+    <tr><td>Create profile manually</td><td><code>Profile.objects.create(user=user)</code></td></tr>
+  </table>
+
+  <div class="note">
+    🎯 Signals + <code>OneToOneField</code> is the cleanest pattern for user profiles.
+    Once set up, <code>request.user.profile</code> works everywhere —
+    in views, templates, and the Django admin.
+  </div>
+
+</section>
+
+<div class="content-navigation">
+  <a href="./auth.html" class="btn secondary">⬅ Back: Authentication</a>
+  <a href="./file-uploads.html" class="btn primary">Next: File Uploads ➜</a>
+</div>
+
+</body>
+</html>
