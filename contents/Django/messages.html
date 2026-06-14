@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Django Messages Framework</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../extra/djangostyle.css">
+  <script defer src="../../extra/djangoscripts.js"></script>
+</head>
+
+<body>
+
+<button id="themeToggle" class="theme-toggle floating-toggle">🌙 Dark Mode</button>
+<button id="scrollTopBtn" type="button" class="scroll-top-btn">↑</button>
+
+<header class="content-header">
+  <div class="header-inner">
+    <h1 class="title">Django Messages Framework</h1>
+    <p class="subtitle">
+      Show one-time success, error, and info notifications to users after form submissions and redirects.
+    </p>
+    <span class="title-accent"></span>
+  </div>
+</header>
+
+<section class="content-section">
+
+  <!-- ================= INTRO ================= -->
+  <h2>📘 What Are Flash Messages?</h2>
+  <p>
+    Flash messages are one-time notifications shown to the user after an action —
+    like "Profile saved!" after a form submit, or "Invalid credentials" after a failed login.
+    They survive a redirect (stored in session) and disappear after being displayed once.
+  </p>
+
+  <table class="content-table">
+    <tr><th>Without Messages</th><th>With Messages Framework</th></tr>
+    <tr><td>Pass error/success via URL params</td><td>Store in session, show on next page</td></tr>
+    <tr><td>Message visible in browser URL bar</td><td>Clean URL, message in HTML</td></tr>
+    <tr><td>Manual session handling</td><td>One line: <code>messages.success(request, "...")</code></td></tr>
+  </table>
+
+  <div class="note">
+    🔑 <code>django.contrib.messages</code> is in <code>INSTALLED_APPS</code> by default.
+    No extra setup needed.
+  </div>
+
+  <!-- ================= MESSAGE LEVELS ================= -->
+  <h2>📊 Message Levels</h2>
+  <table class="content-table">
+    <tr><th>Function</th><th>Level</th><th>Use Case</th></tr>
+    <tr><td><code>messages.debug()</code></td><td>DEBUG (10)</td><td>Dev info only</td></tr>
+    <tr><td><code>messages.info()</code></td><td>INFO (20)</td><td>Neutral information</td></tr>
+    <tr><td><code>messages.success()</code></td><td>SUCCESS (25)</td><td>Action completed ✔</td></tr>
+    <tr><td><code>messages.warning()</code></td><td>WARNING (30)</td><td>Caution needed</td></tr>
+    <tr><td><code>messages.error()</code></td><td>ERROR (40)</td><td>Something failed ✘</td></tr>
+  </table>
+
+  <!-- ================= BASIC USAGE ================= -->
+  <h2>🟢 Basic Usage in Views</h2>
+  <pre><code># students/views.py
+
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from .forms import StudentModelForm
+
+def add_student(request):
+    form = StudentModelForm()
+
+    if request.method == "POST":
+        form = StudentModelForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Student added successfully!")
+            return redirect("student_list")
+        else:
+            messages.error(request, "Please fix the errors below.")
+
+    return render(request, "students/add_student.html", {"form": form})</code></pre>
+
+  <div class="note">
+    ✔ Add message <strong>before</strong> the redirect.<br>
+    ✔ Message is stored in session — survives the redirect.<br>
+    ✔ Message is consumed (deleted) after being displayed once.
+  </div>
+
+  <!-- ================= TEMPLATE ================= -->
+  <h2>📄 Display Messages in Template</h2>
+  <p>Put this block in your base template so messages appear on every page automatically.</p>
+
+  <pre><code>&lt;!-- base.html (inside &lt;body&gt;, above main content) --&gt;
+
+{% if messages %}
+  &lt;div class="messages-container"&gt;
+    {% for message in messages %}
+      &lt;div class="alert alert-{{ message.tags }}"&gt;
+        {{ message }}
+      &lt;/div&gt;
+    {% endfor %}
+  &lt;/div&gt;
+{% endif %}</code></pre>
+
+  <div class="note">
+    ✔ <code>message.tags</code> returns the level name as a string: <code>"success"</code>, <code>"error"</code>, <code>"warning"</code>, <code>"info"</code>.<br>
+    ✔ Use it as a CSS class to style each type differently.
+  </div>
+
+  <!-- ================= CSS STYLING ================= -->
+  <h2>🎨 Styling Messages with CSS</h2>
+  <pre><code>&lt;style&gt;
+.alert {
+  padding: 12px 20px;
+  margin: 10px 0;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.alert-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.alert-error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+.alert-warning { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+.alert-info    { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+&lt;/style&gt;</code></pre>
+
+  <!-- ================= WITH BOOTSTRAP ================= -->
+  <h2>🅱️ Messages with Bootstrap</h2>
+  <pre><code>&lt;!-- Bootstrap alert classes map directly to message tags --&gt;
+
+{% if messages %}
+  {% for message in messages %}
+    &lt;div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert"&gt;
+      {{ message }}
+      &lt;button type="button" class="btn-close" data-bs-dismiss="alert"&gt;&lt;/button&gt;
+    &lt;/div&gt;
+  {% endfor %}
+{% endif %}</code></pre>
+
+  <div class="note">
+    ⚠️ Bootstrap uses <code>alert-danger</code> but Django tags produce <code>error</code>.
+    Fix by overriding the tag in settings (see below).
+  </div>
+
+  <h3>Fix error → danger for Bootstrap</h3>
+  <pre><code"># settings.py
+
+from django.contrib.messages import constants as messages
+
+MESSAGE_TAGS = {
+    messages.DEBUG:   "secondary",
+    messages.INFO:    "info",
+    messages.SUCCESS: "success",
+    messages.WARNING: "warning",
+    messages.ERROR:   "danger",    # maps to Bootstrap's alert-danger
+}</code></pre>
+
+  <!-- ================= MULTIPLE MESSAGES ================= -->
+  <h2>🔗 Multiple Messages at Once</h2>
+  <pre><code">def process_order(request):
+    messages.success(request, "Order placed successfully.")
+    messages.info(request, "You will receive a confirmation email.")
+    messages.warning(request, "Stock is low — order may take 3-5 days.")
+    return redirect("order_confirmation")</code></pre>
+
+  <p>All three appear on the next page, in the order they were added.</p>
+
+  <!-- ================= EXTRA TAGS ================= -->
+  <h2>🏷️ Extra Tags on Messages</h2>
+  <p>Add custom CSS classes to individual messages.</p>
+
+  <pre><code">messages.success(request, "Profile updated.", extra_tags="fade-in top-right")</code></pre>
+
+  <pre><code>&lt;!-- In template --&gt;
+{% for message in messages %}
+  &lt;div class="alert {{ message.tags }}"&gt;
+    {{ message }}
+  &lt;/div&gt;
+{% endfor %}
+
+&lt;!-- message.tags will be: "success fade-in top-right" --&gt;</code></pre>
+
+  <!-- ================= CBV ================= -->
+  <h2>⚙️ Messages in Class-Based Views</h2>
+  <pre><code">from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+from .models import Student
+
+class StudentCreateView(SuccessMessageMixin, CreateView):
+    model           = Student
+    fields          = ["name", "age", "email", "course"]
+    template_name   = "students/student_form.html"
+    success_url     = reverse_lazy("student_list")
+    success_message = "%(name)s was added successfully!"</code></pre>
+
+  <div class="note">
+    ✔ <code>SuccessMessageMixin</code> — adds success message automatically after <code>form.save()</code>.<br>
+    ✔ <code>%(name)s</code> — references a form field value in the message.
+  </div>
+
+  <!-- ================= OUTSIDE VIEWS ================= -->
+  <h2>📌 Messages Outside Views (Signals / Admin)</h2>
+  <pre><code"># In admin custom action — request object is available
+def mark_as_django(self, request, queryset):
+    count = queryset.update(course="Django")
+    self.message_user(request, f"{count} students updated.", messages.SUCCESS)</code></pre>
+
+  <!-- ================= SUMMARY ================= -->
+  <h2>🔹 Messages Quick Reference</h2>
+  <table class="content-table">
+    <tr><th>Task</th><th>Code</th></tr>
+    <tr><td>Success message</td><td><code>messages.success(request, "Done!")</code></td></tr>
+    <tr><td>Error message</td><td><code>messages.error(request, "Failed.")</code></td></tr>
+    <tr><td>Warning message</td><td><code>messages.warning(request, "Check this.")</code></td></tr>
+    <tr><td>Info message</td><td><code>messages.info(request, "FYI...")</code></td></tr>
+    <tr><td>Custom CSS class</td><td><code>messages.success(request, "...", extra_tags="top")</code></td></tr>
+    <tr><td>CBV success message</td><td><code>SuccessMessageMixin + success_message = "..."</code></td></tr>
+    <tr><td>Bootstrap fix</td><td><code>MESSAGE_TAGS = {messages.ERROR: "danger"}</code></td></tr>
+  </table>
+
+  <h2>🔹 Message Lifecycle</h2>
+  <table class="content-table">
+    <tr><th>Step</th><th>What Happens</th></tr>
+    <tr><td>1. View calls <code>messages.success()</code></td><td>Message stored in session</td></tr>
+    <tr><td>2. View returns <code>redirect()</code></td><td>Browser follows redirect</td></tr>
+    <tr><td>3. Next page renders</td><td>Template reads messages from session</td></tr>
+    <tr><td>4. Template displays messages</td><td>Messages cleared from session</td></tr>
+    <tr><td>5. Page refresh</td><td>Messages gone — won't show again</td></tr>
+  </table>
+
+  <div class="note">
+    🎯 Always add messages <strong>before</strong> redirect — not after.
+    Put the display block in <strong>base.html</strong> once and every page gets it for free.
+  </div>
+
+</section>
+
+<div class="content-navigation">
+  <a href="./admin-customization.html" class="btn secondary">⬅ Back: Admin Customization</a>
+  <a href="./pagination.html" class="btn primary">Next: Pagination ➜</a>
+</div>
+
+</body>
+</html>
