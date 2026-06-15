@@ -39,6 +39,7 @@ body {
 .content-header {
   padding: 3rem 1.5rem 2rem;
   animation: fadeSlideDown 0.6s ease-out;
+  will-change: opacity, transform;
 }
 
 .header-inner {
@@ -196,16 +197,22 @@ body {
 /* =====================
    TABLE
 ===================== */
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
 .content-table {
   width: 100%;
+  min-width: 480px;
   border-collapse: collapse;
-  margin-top: 1rem;
 }
 
 .content-table th,
 .content-table td {
   border: 1px solid var(--border);
   padding: 10px;
+  white-space: nowrap;
 }
 
 /* =====================
