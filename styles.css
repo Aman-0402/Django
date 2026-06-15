@@ -1,3 +1,13 @@
+:root {
+  --card-width: 280px;
+  --gap: clamp(30px, 5vw, 80px);
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --card-bg-hover: rgba(255, 255, 255, 0.18);
+  --card-border: rgba(255, 255, 255, 0.18);
+  --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 18px 48px 0 rgba(0, 0, 0, 0.6);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,163 +16,156 @@
 }
 
 body {
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
-  overflow: hidden; /* Prevents scrollbars from moving icons */
+  overflow-x: hidden;
   position: relative;
 }
 
-/* --- Background Setup --- */
+/* --- Background --- */
 .background-wrapper {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("assets/djangonewconfirm.png"); /* Note: Use / for web paths */
+  background-image: url("assets/djangonewconfirm.png");
   background-size: cover;
   background-position: center;
   z-index: -2;
 }
 
-/* Dark overlay to make text/cards pop */
 .overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.62);
   z-index: -1;
 }
 
-/* --- Main Content Area --- */
+/* --- Main Content --- */
 .container {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  gap: 100px; /* Space between the two boxes */
+  min-height: 100vh;
+  gap: var(--gap);
+  padding: 40px 20px;
   position: relative;
-  z-index: 10; /* Ensures cards are above floating icons */
+  z-index: 10;
 }
 
-/* Card Styling */
+/* --- Card --- */
 .card {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px); /* Glass effect */
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  padding: 40px;
+  background: var(--card-bg);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  border-radius: 22px;
+  padding: 40px 30px;
   text-align: center;
-  width: 300px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  text-decoration: none; /* Remove link underline */
+  width: var(--card-width);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  text-decoration: none;
   color: white;
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-}
-
-.card:hover {
-  transform: translateY(-10px);
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 15px 40px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow);
   cursor: pointer;
 }
 
+.card:hover {
+  transform: translateY(-12px);
+  background: var(--card-bg-hover);
+  box-shadow: var(--shadow-hover);
+}
+
+.card:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.7);
+  outline-offset: 4px;
+}
+
 .card img {
-  width: 100px;
+  width: 90px;
   height: auto;
   margin-bottom: 20px;
-  filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+  transition: transform 0.3s ease;
+}
+
+.card:hover img {
+  transform: scale(1.08);
 }
 
 .card h2 {
-  font-size: 2rem;
-  letter-spacing: 1px;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
   text-transform: uppercase;
+  font-weight: 700;
 }
 
-/* --- Floating Icons Animation --- */
+/* --- Floating Icons --- */
 .floating-icon {
-  position: absolute;
-  width: 60px; /* Size of floating icons */
+  position: fixed;
+  width: 60px;
   height: auto;
-  opacity: 0.7;
-  z-index: 1; /* Behind the cards, above the background */
+  opacity: 0.6;
+  z-index: 1;
   animation: float-anim 6s ease-in-out infinite;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+  will-change: transform;
 }
 
 @keyframes float-anim {
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-  100% {
-    transform: translateY(0px);
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.icon-1 { top: 10%;    left: 10%;   animation-delay: 0s;   width: 50px; }
+.icon-2 { top: 15%;    right: 15%;  animation-delay: 1s;   width: 70px; }
+.icon-3 { bottom: 15%; left: 15%;   animation-delay: 2s;   width: 60px; }
+.icon-4 { bottom: 10%; right: 10%;  animation-delay: 0.5s; width: 55px; }
+.icon-5 { top: 45%;    left: 5%;    animation-delay: 3s;   width: 45px; }
+.icon-6 { top: 50%;    right: 5%;   animation-delay: 1.5s; width: 65px; }
+.icon-7 { top: 5%;     left: 45%;   animation-delay: 2.5s; width: 40px; }
+.icon-8 { bottom: 5%;  right: 40%;  animation-delay: 4s;   width: 50px; }
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+  :root { --card-width: 240px; }
+
+  .card h2 { font-size: 1.5rem; }
+
+  .floating-icon {
+    width: 36px;
+    opacity: 0.3;
   }
 }
 
-/* Specific positions for each icon to scatter them */
-.icon-1 {
-  top: 10%;
-  left: 10%;
-  animation-delay: 0s;
-  width: 50px;
-}
-.icon-2 {
-  top: 15%;
-  right: 15%;
-  animation-delay: 1s;
-  width: 70px;
-}
-.icon-3 {
-  bottom: 15%;
-  left: 15%;
-  animation-delay: 2s;
-  width: 60px;
-}
-.icon-4 {
-  bottom: 10%;
-  right: 10%;
-  animation-delay: 0.5s;
-  width: 55px;
-}
-.icon-5 {
-  top: 45%;
-  left: 5%;
-  animation-delay: 3s;
-  width: 45px;
-}
-.icon-6 {
-  top: 50%;
-  right: 5%;
-  animation-delay: 1.5s;
-  width: 65px;
-}
-.icon-7 {
-  top: 5%;
-  left: 45%;
-  animation-delay: 2.5s;
-  width: 40px;
-}
-.icon-8 {
-  bottom: 5%;
-  right: 40%;
-  animation-delay: 4s;
-  width: 50px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .container {
     flex-direction: column;
-    gap: 30px;
+    gap: 24px;
+    padding: 60px 20px;
   }
+
+  :root { --card-width: min(320px, 90vw); }
+
+  .card { padding: 32px 24px; }
+
+  .icon-5,
+  .icon-6,
+  .icon-7,
+  .icon-8 {
+    display: none;
+  }
+
   .floating-icon {
-    width: 40px; /* Smaller icons on mobile */
-    opacity: 0.4;
+    width: 32px;
+    opacity: 0.25;
   }
 }
