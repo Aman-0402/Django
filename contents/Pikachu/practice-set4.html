@@ -8,166 +8,183 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: radial-gradient(circle at 50% -20%, #431407, #000 70%); background-attachment: fixed; color: #e0e0e0; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         .header { text-align: center; margin-bottom: 36px; }
-        .set-badge { display: inline-block; background: #c2410c; color: #fff; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; padding: 4px 14px; border-radius: 20px; margin-bottom: 12px; text-transform: uppercase; }
+        .set-badge { display: inline-block; background: #ea580c; color: #fff; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; padding: 4px 14px; border-radius: 20px; margin-bottom: 12px; text-transform: uppercase; }
         h1 { color: #fff; font-size: 1.9em; letter-spacing: 1px; margin-bottom: 6px; }
         .sub { color: #666; font-size: 0.9em; }
-        .score-board { background: #1c0a04; border: 1px solid #7c2d12; border-radius: 14px; padding: 14px 28px; margin-bottom: 32px; text-align: center; font-size: 1em; color: #fb923c; }
+        .score-board { background: #1a0a00; border: 1px solid #431407; border-radius: 14px; padding: 14px 28px; margin-bottom: 32px; text-align: center; font-size: 1em; color: #fb923c; }
         .score-board span { font-weight: 700; font-size: 1.4em; color: #fdba74; }
         .quiz-wrapper { width: 100%; max-width: 820px; }
-        .question-card { background: #110604; border: 1px solid #7c2d12; border-radius: 14px; padding: 26px; margin-bottom: 26px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .question-card { background: #0f0600; border: 1px solid #431407; border-radius: 14px; padding: 26px; margin-bottom: 26px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
         .q-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-        .q-num { background: #1c0a04; color: #fb923c; font-size: 0.8em; font-weight: 700; padding: 4px 10px; border-radius: 8px; white-space: nowrap; }
+        .q-num { background: #1a0a00; color: #fb923c; font-size: 0.8em; font-weight: 700; padding: 4px 10px; border-radius: 8px; white-space: nowrap; }
         .q-tag { font-size: 0.72em; padding: 3px 8px; border-radius: 6px; font-weight: 600; }
         .tag-django { background: #0d2218; color: #34d399; }
         .tag-flask { background: #1a0a2e; color: #c084fc; }
         .question-text { font-size: 1.05rem; font-weight: 600; color: #e2e8f0; line-height: 1.55; }
         .options-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
-        .option-btn { padding: 13px 18px; background: #160804; border: 1px solid #7c2d12; color: #bbb; text-align: left; border-radius: 10px; cursor: pointer; font-size: 0.97rem; transition: all 0.2s ease; }
-        .option-btn:hover:not(:disabled) { background: #1c0e08; border-color: #c2410c; color: #fff; }
+        .option-btn { padding: 13px 18px; background: #180800; border: 1px solid #431407; color: #bbb; text-align: left; border-radius: 10px; cursor: pointer; font-size: 0.97rem; transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { background: #2a1000; border-color: #ea580c; color: #fff; }
         .option-btn.correct { background: #0d2218 !important; border-color: #22c55e !important; color: #86efac !important; }
         .option-btn.incorrect { background: #1f0a0a !important; border-color: #ef4444 !important; color: #fca5a5 !important; }
-        .option-btn.selected { border-color: #f97316; background: #1c0a04; color: #fff; }
+        .option-btn.selected { border-color: #f97316; background: #1a0a00; color: #fff; }
         .option-btn:disabled { cursor: default; opacity: 0.75; }
+        .explanation { margin-top: 16px; padding: 13px 16px; background: #0d0400; border-left: 3px solid #f97316; border-radius: 0 8px 8px 0; font-size: 0.9em; color: #94a3b8; line-height: 1.6; }
+        .explanation strong { color: #fdba74; }
         .btn-row { margin-top: 14px; display: flex; gap: 10px; }
-        .submit-btn { padding: 9px 20px; background: #c2410c; border: none; border-radius: 8px; color: #fff; font-size: 0.95rem; cursor: pointer; font-weight: 600; transition: background 0.2s; }
-        .submit-btn:hover:not(:disabled) { background: #9a3412; }
+        .submit-btn { padding: 9px 20px; background: #ea580c; border: none; border-radius: 8px; color: #fff; font-size: 0.95rem; cursor: pointer; font-weight: 600; }
+        .submit-btn:hover:not(:disabled) { background: #c2410c; }
         .submit-btn:disabled { opacity: 0.5; cursor: default; }
-        .reset-btn { padding: 8px 16px; background: #160804; border: 1px solid #7c2d12; border-radius: 8px; color: #888; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
-        .reset-btn:hover { background: #1c0e08; color: #ccc; }
-        .final-score { text-align: center; margin-top: 40px; padding: 30px; background: #110604; border: 1px solid #7c2d12; border-radius: 18px; }
+        .reset-btn { padding: 8px 16px; background: #180800; border: 1px solid #431407; border-radius: 8px; color: #888; cursor: pointer; font-size: 0.9rem; }
+        .reset-btn:hover { background: #2a1000; color: #ccc; }
+        .final-score { text-align: center; margin-top: 40px; padding: 30px; background: #0f0600; border: 1px solid #431407; border-radius: 18px; }
         .final-score h2 { font-size: 1.6em; color: #fdba74; margin-bottom: 8px; }
         .final-score p { color: #666; }
         .back-link { display: inline-block; margin-top: 24px; color: #f97316; text-decoration: none; font-weight: 600; }
         .back-link:hover { color: #fb923c; }
+        .hidden { display: none; }
+        #finalScore { max-width: 820px; width: 100%; }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="set-badge">Set 04 / 05</div>
-        <h1>Authentication & Profiles</h1>
-        <p class="sub">50 questions · Intermediate level · Instant feedback</p>
+        <h1>Authentication &amp; Profiles</h1>
+        <p class="sub">50 questions · Intermediate level · Instant feedback with explanation</p>
     </div>
     <div class="score-board">Score: <span id="scoreDisplay">0</span> / <span id="totalDisplay">0</span></div>
     <div class="quiz-wrapper" id="quiz-container"></div>
-    <div class="final-score" id="finalScore" style="display:none; max-width:820px; width:100%;">
-        <h2>Set Complete! 🎉</h2>
-        <p id="finalText"></p>
+    <div class="final-score hidden" id="finalScore">
+        <h2>Set Complete! 🎉</h2><p id="finalText"></p>
         <a href="./practice.html" class="back-link">← Back to Practice Sets</a>
     </div>
     <script>
     const questions = [
-        { id:1, tag:"Django", text:"What module provides Django's built-in authentication system?", options:["django.auth","django.contrib.sessions","django.contrib.auth","django.security"], correct:2 },
-        { id:2, tag:"Django", text:"What is the built-in user model class in Django?", options:["Account","Person","Profile","User"], correct:3 },
-        { id:3, tag:"Django", text:"What method creates a Django user with a properly hashed password?", options:["User.objects.create()","User.create_user()","User.objects.create_user()","User.new()"], correct:2 },
-        { id:4, tag:"Django", text:"What method creates a Django superuser with all permissions?", options:["User.objects.create_admin()","User.objects.create_superuser()","User.objects.make_superuser()","User.superuser()"], correct:1 },
-        { id:5, tag:"Django", text:"What function checks user credentials and returns a user object in Django?", options:["login()","check_user()","verify()","authenticate()"], correct:3 },
-        { id:6, tag:"Django", text:"What function logs in a user (creates session) in Django?", options:["auth()","session()","login()","start_session()"], correct:2 },
-        { id:7, tag:"Django", text:"What function logs out a user (destroys session) in Django?", options:["logout()","end_session()","deauth()","signout()"], correct:0 },
-        { id:8, tag:"Django", text:"What decorator protects a Django Function-Based View with login?", options:["@require_login","@auth_required","@login_required","@session_required"], correct:2 },
-        { id:9, tag:"Django", text:"What mixin protects a Django Class-Based View with login?", options:["AuthMixin","SessionMixin","LoginMixin","LoginRequiredMixin"], correct:3 },
-        { id:10, tag:"Django", text:"What Django setting defines where to redirect after successful login?", options:["LOGIN_URL","AUTH_REDIRECT","LOGIN_REDIRECT_URL","SUCCESS_URL"], correct:2 },
-        { id:11, tag:"Django", text:"What Django setting defines where to redirect after logout?", options:["LOGOUT_REDIRECT_URL","AFTER_LOGOUT","LOGOUT_URL","SESSION_END_URL"], correct:0 },
-        { id:12, tag:"Django", text:"What Django setting defines the URL of the login page?", options:["AUTH_URL","SIGNIN_URL","LOGIN_PAGE","LOGIN_URL"], correct:3 },
-        { id:13, tag:"Django", text:"How do you access the logged-in user in a Django view?", options:["session.user","current_user","request.user","auth.user"], correct:2 },
-        { id:14, tag:"Django", text:"How do you check if the current user is authenticated in Django?", options:["request.user.is_logged_in","request.user.logged_in","request.user.is_authenticated","request.is_auth"], correct:2 },
-        { id:15, tag:"Django", text:"What built-in Django form handles user registration with password matching?", options:["RegisterForm","SignupForm","UserCreationForm","AuthForm"], correct:2 },
-        { id:16, tag:"Django", text:"What built-in Django view handles the login page?", options:["AuthView","SigninView","LoginPage","LoginView"], correct:3 },
-        { id:17, tag:"Django", text:"What built-in Django view handles logout?", options:["SignoutView","DeauthView","LogoutView","SessionEndView"], correct:2 },
-        { id:18, tag:"Django", text:"What does is_staff=True mean on a Django User object?", options:["User is a superuser","User can access /admin/","User has all permissions","User is a moderator"], correct:1 },
-        { id:19, tag:"Django", text:"What does is_superuser=True mean on a Django User?", options:["User can access /admin/","User is a staff member","User has all permissions regardless of assignments","User created the project"], correct:2 },
-        { id:20, tag:"Django", text:"What does set_password() do on a Django User instance?", options:["Prompts user to change password","Sets password as plain text","Sets password with automatic hashing","Resets password to default"], correct:2 },
-        { id:21, tag:"Django", text:"After calling set_password(), what keeps the current user session valid?", options:["login(request, user)","session.refresh()","update_session_auth_hash(request, user)","request.session.save()"], correct:2 },
-        { id:22, tag:"Django", text:"What password hashing algorithm does Django use by default?", options:["bcrypt","MD5","SHA1","PBKDF2 + SHA256"], correct:3 },
-        { id:23, tag:"Django", text:"What is password1 field in Django's UserCreationForm?", options:["Old password","Confirm password","Enter new password","Encrypted password"], correct:2 },
-        { id:24, tag:"Django", text:"How do you access a user in a template without passing explicitly?", options:["It's not possible","Via request.user in template","Via {{ user }} — Django adds it automatically via context processors","Via {% load user %}"], correct:2 },
-        { id:25, tag:"Django", text:"What does {% if user.is_authenticated %} check in a Django template?", options:["If user object exists","If user has admin access","If the current user is logged in","If user has verified email"], correct:2 },
-        { id:26, tag:"Django", text:"What field links a Profile model to User with a one-to-one relationship?", options:["ForeignKey","ManyToManyField","OneToOneField","PrimaryKey"], correct:2 },
-        { id:27, tag:"Django", text:"What happens to a Profile when its related User is deleted (with CASCADE)?", options:["Profile is kept","Profile is set to NULL","Profile is also deleted","An error is raised"], correct:2 },
-        { id:28, tag:"Django", text:"What Django signal fires after every model save() call?", options:["pre_save","after_save","model_saved","post_save"], correct:3 },
-        { id:29, tag:"Django", text:"What decorator connects a function to a Django signal?", options:["@signal()","@connect()","@receiver()","@listen()"], correct:2 },
-        { id:30, tag:"Django", text:"What does the created parameter in post_save signal indicate?", options:["True if record was updated","True if record is newly created","True if save was successful","True if user is logged in"], correct:1 },
-        { id:31, tag:"Django", text:"How do you auto-create a Profile whenever a new User registers?", options:["Override User.save()","Use post_save signal on User model","Override UserCreationForm","Use a middleware"], correct:1 },
-        { id:32, tag:"Django", text:"How do you access a user's profile from a request in Django?", options:["request.profile","Profile.get(request.user)","request.user.profile","get_profile(request.user)"], correct:2 },
-        { id:33, tag:"Django", text:"Where do you import signals to make them load on app startup?", options:["In settings.py","In urls.py","In models.py","In AppConfig.ready() method in apps.py"], correct:3 },
-        { id:34, tag:"Django", text:"What model field stores an image file in Django?", options:["FileField","PhotoField","BinaryField","ImageField"], correct:3 },
-        { id:35, tag:"Django", text:"What Python library is required to use Django's ImageField?", options:["ImageMagick","OpenCV","Pillow","python-pil"], correct:2 },
-        { id:36, tag:"Django", text:"What does upload_to='avatars/' parameter do in ImageField?", options:["Sets URL prefix for images","Sets directory to store uploaded files in MEDIA_ROOT","Sets file size limit","Sets allowed image types"], correct:1 },
-        { id:37, tag:"Django", text:"How do you access an uploaded image's URL in a Django template?", options:["{{ obj.image }}","{{ obj.image.path }}","{{ obj.image.src }}","{{ obj.image.url }}"], correct:3 },
-        { id:38, tag:"Django", text:"What setting defines where uploaded files are stored on disk?", options:["FILE_ROOT","UPLOAD_DIR","MEDIA_ROOT","STATIC_ROOT"], correct:2 },
-        { id:39, tag:"Django", text:"What setting defines the URL prefix for accessing uploaded files?", options:["MEDIA_URL","FILE_URL","UPLOAD_URL","STATIC_URL"], correct:0 },
-        { id:40, tag:"Django", text:"What does request.FILES contain in a Django view?", options:["GET parameters","POST text data","Uploaded file objects","Session files"], correct:1 },
-        { id:41, tag:"Flask", text:"What Flask extension is commonly used for user authentication?", options:["Flask-Auth","Flask-Session","Flask-Login","Flask-Security"], correct:2 },
-        { id:42, tag:"Flask", text:"What mixin must Flask-Login user models include?", options:["AuthMixin","LoginMixin","SessionMixin","UserMixin"], correct:3 },
-        { id:43, tag:"Flask", text:"What function logs in a user in Flask-Login?", options:["auth_user()","session.login()","login_user()","flask_login()"], correct:2 },
-        { id:44, tag:"Flask", text:"What function logs out a user in Flask-Login?", options:["deauth_user()","session.logout()","signout_user()","logout_user()"], correct:3 },
-        { id:45, tag:"Flask", text:"What decorator protects a Flask view with Flask-Login?", options:["@require_auth","@auth_required","@login_required","@session_required"], correct:2 },
-        { id:46, tag:"Flask", text:"How do you access the currently logged-in user in Flask-Login?", options:["request.user","session.user","g.user","current_user"], correct:3 },
-        { id:47, tag:"Flask", text:"What is the user_loader callback used for in Flask-Login?", options:["Loads all users","Loads a user from the database by ID from the session","Validates login credentials","Creates a new user"], correct:1 },
-        { id:48, tag:"Flask", text:"What decorator registers the Flask-Login user_loader function?", options:["@login_manager.load_user","@flask_login.user_loader","@login_manager.user_loader","@app.user_loader"], correct:2 },
-        { id:49, tag:"Flask", text:"What does current_user.is_authenticated return in Flask-Login?", options:["True if user has admin role","True if user is logged in","True if user has verified email","True if user exists in DB"], correct:1 },
-        { id:50, tag:"Flask", text:"What class initializes the Flask-Login extension?", options:["FlaskLogin","AuthManager","LoginExtension","LoginManager"], correct:3 }
+        { id:1, tag:"Django", text:"What is Django's built-in user model called?", options:["User","AuthUser","DjangoUser","django.User"], correct:0, explanation:"django.contrib.auth.models.User is the built-in user model. It has username, password, email, first_name, last_name, is_staff, is_active, and is_superuser fields." },
+        { id:2, tag:"Django", text:"Which form does Django provide for user registration?", options:["RegisterForm","SignupForm","UserCreationForm","NewUserForm"], correct:2, explanation:"UserCreationForm provides username, password1, and password2 fields with built-in validation. Import from django.contrib.auth.forms." },
+        { id:3, tag:"Django", text:"How do you check if a user is logged in inside a Django template?", options:["{{ user.is_logged_in }}","{% if user.authenticated %}","{% if user.is_authenticated %}","{{ user.logged }}"], correct:2, explanation:"user.is_authenticated is a property that returns True for logged-in users and False for AnonymousUser. It is always available in templates via the request context." },
+        { id:4, tag:"Django", text:"What does @login_required decorator do?", options:["Logs user in automatically","Redirects unauthenticated users to login page","Checks admin permissions","Creates a login form"], correct:1, explanation:"@login_required redirects to settings.LOGIN_URL (default: /accounts/login/) if the user is not authenticated. Place it above the view function." },
+        { id:5, tag:"Django", text:"What does authenticate() return if credentials are invalid?", options:["False","0","None","raises AuthError"], correct:2, explanation:"authenticate(request, username=u, password=p) returns the User object on success, or None on failure. It never raises an exception on bad credentials." },
+        { id:6, tag:"Django", text:"What does login(request, user) do in Django?", options:["Validates credentials","Creates a new user session and stores user in it","Redirects to home page","Generates a login token"], correct:1, explanation:"login() stores the user's ID in the session using SESSION_KEY. After this call, request.user becomes the authenticated user object." },
+        { id:7, tag:"Django", text:"What does logout(request) do in Django?", options:["Deletes the user account","Clears the session data and logs out the user","Redirects to login page","Disables the user account"], correct:1, explanation:"logout() calls session.flush() which removes all session data including the auth key, then sets request.user to AnonymousUser." },
+        { id:8, tag:"Django", text:"Where does @login_required redirect by default?", options:["/login/","/accounts/login/","/auth/login/","/user/login/"], correct:1, explanation:"Default redirect target is /accounts/login/. Override with LOGIN_URL in settings.py or pass login_url='/custom/' directly to the decorator." },
+        { id:9, tag:"Django", text:"What does LOGIN_REDIRECT_URL setting control?", options:["URL shown on login page","URL to redirect after successful login","Login page URL","URL after logout"], correct:1, explanation:"After a successful login, Django redirects to LOGIN_REDIRECT_URL (default: /accounts/profile/). Set it to '/' or '/dashboard/' in settings.py." },
+        { id:10, tag:"Django", text:"What does LOGOUT_REDIRECT_URL setting control?", options:["URL before logout","URL to redirect after logout","URL to confirm logout","Session expiry URL"], correct:1, explanation:"After logout(), Django redirects to LOGOUT_REDIRECT_URL. The default is None, which shows a logged-out confirmation page. Set to '/' to go home." },
+        { id:11, tag:"Django", text:"Which Django view handles login with a built-in form?", options:["LoginFormView","AuthLoginView","LoginView","UserLoginView"], correct:2, explanation:"LoginView from django.contrib.auth.views handles GET (show form) and POST (authenticate + redirect). Wire it directly in urls.py with no extra code." },
+        { id:12, tag:"Django", text:"Which Django view handles logout?", options:["LogoutUser","SignoutView","LogoutFormView","LogoutView"], correct:3, explanation:"LogoutView accepts POST requests only for security. In Django 5+, GET-based logout is disabled. Use a small form with POST method to trigger it." },
+        { id:13, tag:"Django", text:"What method checks a user's password in Django?", options:["user.verify_password()","user.check_password()","user.authenticate()","user.validate_password()"], correct:1, explanation:"user.check_password('raw_password') securely compares input against the stored hash. Returns True or False. Never compare raw strings directly." },
+        { id:14, tag:"Django", text:"What method sets a user's password correctly in Django?", options:["user.password = 'raw'","user.set_password('raw')","user.update_password('raw')","user.hash_password('raw')"], correct:1, explanation:"set_password() hashes the password using PBKDF2 before storing it. Assigning user.password = 'raw' stores plaintext — never do that." },
+        { id:15, tag:"Django", text:"What does update_session_auth_hash() do after a password change?", options:["Logs the user out","Logs out all other sessions","Prevents session invalidation after password change","Hashes the session key"], correct:2, explanation:"Without update_session_auth_hash(request, user), changing the password invalidates the current session, causing the user to be logged out unexpectedly." },
+        { id:16, tag:"Django", text:"What does request.user return for a non-logged-in user?", options:["None","False","AnonymousUser instance","Guest user object"], correct:2, explanation:"AnonymousUser is a special object with is_authenticated=False and is_staff=False. Checking is_authenticated handles both logged-in and anonymous users." },
+        { id:17, tag:"Django", text:"What is a OneToOneField used for in user profiles?", options:["Multiple profiles per user","One profile linked to exactly one user","Optional profile","Profile as a separate app"], correct:1, explanation:"OneToOneField(User, on_delete=CASCADE) creates a unique constraint in the DB, ensuring each User has exactly one Profile record." },
+        { id:18, tag:"Django", text:"What signal fires after a User is saved in Django?", options:["pre_save","user_created","post_save","user_registered"], correct:2, explanation:"post_save is sent by every model after .save() completes. Check the created=True argument to distinguish new inserts from updates." },
+        { id:19, tag:"Django", text:"What does the 'created' parameter in a post_save signal mean?", options:["Record was created by admin","Record was just inserted (True) vs updated (False)","Signal was manually triggered","User registered today"], correct:1, explanation:"Use: @receiver(post_save, sender=User) def handle(sender, instance, created, **kwargs): if created: Profile.objects.create(user=instance)." },
+        { id:20, tag:"Django", text:"Where do you connect signals in a Django app?", options:["models.py","views.py","In AppConfig.ready() method","settings.py"], correct:2, explanation:"AppConfig.ready() in apps.py runs once at startup. Import your signals module there: import myapp.signals. Avoid connecting at module top-level in models.py." },
+        { id:21, tag:"Django", text:"What does request.FILES contain in Django?", options:["All GET parameters","Uploaded files from multipart forms","Static files","Media file paths"], correct:1, explanation:"request.FILES is a dict-like object of UploadedFile objects. It is only populated when the form has enctype='multipart/form-data'." },
+        { id:22, tag:"Django", text:"What does ImageField require installed in Python?", options:["boto3","Wand","Pillow","OpenCV"], correct:2, explanation:"ImageField validates that the uploaded file is an actual image. This requires the Pillow library: pip install Pillow." },
+        { id:23, tag:"Django", text:"What does upload_to='photos/' do on a Django FileField?", options:["Creates the photos/ URL","Sets subfolder inside MEDIA_ROOT for uploads","Validates photo types","Renames uploaded files"], correct:1, explanation:"Files are saved to MEDIA_ROOT/photos/. The upload_to argument can also be a callable for dynamic per-user paths." },
+        { id:24, tag:"Django", text:"What setting defines where uploaded files are stored on disk?", options:["UPLOAD_ROOT","FILES_ROOT","STATIC_ROOT","MEDIA_ROOT"], correct:3, explanation:"MEDIA_ROOT = BASE_DIR / 'media' sets the filesystem path for all uploaded files. Pair it with MEDIA_URL = '/media/' for browser access." },
+        { id:25, tag:"Django", text:"What setting defines the URL prefix for serving uploaded files?", options:["FILES_URL","UPLOAD_URL","STATIC_URL","MEDIA_URL"], correct:3, explanation:"MEDIA_URL = '/media/' prefixes all FileField/ImageField URLs. In development, serve files by adding a URL pattern using django.conf.urls.static." },
+        { id:26, tag:"Django", text:"Which decorator restricts a view to staff users only?", options:["@staff_required","@permission_required('is_staff')","@login_required(staff=True)","@user_passes_test(lambda u: u.is_staff)"], correct:3, explanation:"@user_passes_test(lambda u: u.is_staff) from django.contrib.auth.decorators checks any boolean condition, redirecting or returning 403 if False." },
+        { id:27, tag:"Django", text:"What does is_staff=True allow a user to do in Django?", options:["Create superusers","Access the /admin/ panel","Deploy to production","Edit all users"], correct:1, explanation:"is_staff=True grants access to the Django admin interface. Actual CRUD permissions within admin depend on the user's assigned groups and permissions." },
+        { id:28, tag:"Django", text:"What does is_superuser=True grant in Django?", options:["Access to /admin/ only","Write access to all models","All permissions without explicit assignment","Server shell access"], correct:2, explanation:"Superusers bypass all permission checks — has_perm() always returns True. This is equivalent to root access within the Django permission system." },
+        { id:29, tag:"Django", text:"How do you create a superuser in Django?", options:["python manage.py newsuperuser","python manage.py createsuperuser","python manage.py admin create","python manage.py adduser --super"], correct:1, explanation:"createsuperuser prompts interactively for username, email, and password, then creates a User with is_staff=True and is_superuser=True." },
+        { id:30, tag:"Django", text:"What does PasswordChangeForm do in Django?", options:["Creates a new password field","Validates old password and sets new one","Resets forgotten password","Generates random password"], correct:1, explanation:"PasswordChangeForm(user, request.POST) validates the current password first, checks password1 == password2, then calls set_password()." },
+        { id:31, tag:"Flask", text:"What is Flask-Login?", options:["A Flask login page template","A Flask extension managing user sessions and authentication","A Flask database extension","A Flask form extension"], correct:1, explanation:"Flask-Login tracks logged-in users, protects views with @login_required, and manages the user session cookie across requests automatically." },
+        { id:32, tag:"Flask", text:"What properties must your User model implement for Flask-Login?", options:["is_auth()","get_user()","load_user()","is_authenticated, is_active, is_anonymous, get_id()"], correct:3, explanation:"Flask-Login requires is_authenticated, is_active, is_anonymous properties, and a get_id() method. Use UserMixin to get default implementations for free." },
+        { id:33, tag:"Flask", text:"What does UserMixin provide in Flask-Login?", options:["Database model base","Default implementations of is_authenticated, is_active, is_anonymous, get_id()","Login form fields","Session management functions"], correct:1, explanation:"class User(UserMixin, db.Model) — UserMixin provides sensible defaults so you only need to override the properties that differ for your use case." },
+        { id:34, tag:"Flask", text:"What decorator protects a Flask route requiring login?", options:["@auth_required","@requires_login","@login_required","@must_login"], correct:2, explanation:"@login_required from flask_login redirects unauthenticated users to the view named in login_manager.login_view." },
+        { id:35, tag:"Flask", text:"What function logs a user in with Flask-Login?", options:["session.login(user)","auth.login(user)","login_user(user)","flask_login.set_user(user)"], correct:2, explanation:"login_user(user) stores the user's ID in the session cookie. Pass remember=True to set a persistent remember-me cookie." },
+        { id:36, tag:"Flask", text:"What function logs a user out with Flask-Login?", options:["session.clear()","auth.logout()","logout_user()","current_user.logout()"], correct:2, explanation:"logout_user() removes the user from the session. Call it before redirecting to the login page or home." },
+        { id:37, tag:"Flask", text:"How do you access the currently logged-in user in Flask-Login?", options:["session['user']","flask.user","current_user","request.user"], correct:2, explanation:"current_user from flask_login is a context-local proxy. If no user is logged in, it is an AnonymousUser with is_authenticated=False." },
+        { id:38, tag:"Flask", text:"What does @login_manager.user_loader do?", options:["Logs in all users","Defines how to load a user from their ID stored in session","Validates the login form","Sets login page URL"], correct:1, explanation:"@login_manager.user_loader def load_user(user_id): return User.query.get(int(user_id)) — this callback is called on every request to restore the current user." },
+        { id:39, tag:"Flask", text:"What does login_manager.login_view define?", options:["The login form template","The function name of the login route","The login URL path","The login redirect URL"], correct:1, explanation:"login_manager.login_view = 'auth.login' tells Flask-Login which view function to redirect to when @login_required fails. It takes the endpoint name, not a URL." },
+        { id:40, tag:"Flask", text:"How do you check if the current user is authenticated in a Flask template?", options:["{{ user.logged_in }}","{% if current_user.authenticated %}","{% if current_user.is_authenticated %}","{% if session.user %}"], correct:2, explanation:"current_user is injected into all Jinja2 templates when Flask-Login is initialized. is_authenticated returns True or False." },
+        { id:41, tag:"Flask", text:"What does generate_password_hash() do in Werkzeug?", options:["Validates password strength","Hashes password using PBKDF2","Encrypts password","Generates a random password"], correct:1, explanation:"generate_password_hash('raw') returns a string like 'method$salt$hash'. Default is pbkdf2:sha256. Store this string in the DB, never the raw password." },
+        { id:42, tag:"Flask", text:"What does check_password_hash() do in Werkzeug?", options:["Generates a hash","Returns the original password","Compares raw password against stored hash","Validates password format"], correct:2, explanation:"check_password_hash(stored_hash, 'raw_input') returns True if they match. It extracts the salt and method from the stored string automatically." },
+        { id:43, tag:"Flask", text:"What is Flask-Bcrypt used for?", options:["File encryption","Hashing passwords with bcrypt algorithm","CSRF protection","Session encryption"], correct:1, explanation:"bcrypt is a deliberately slow hashing algorithm designed for passwords. Flask-Bcrypt wraps it: bcrypt.generate_password_hash() and bcrypt.check_password_hash()." },
+        { id:44, tag:"Flask", text:"What does remember=True in login_user() do?", options:["Saves username in input","Sets a persistent cookie so user stays logged in after browser closes","Caches user data","Enables auto-login next visit"], correct:1, explanation:"remember=True sets a long-lived remember-me cookie. The duration is controlled by REMEMBER_COOKIE_DURATION in the Flask config." },
+        { id:45, tag:"Flask", text:"What is Flask-Principal used for?", options:["API key management","Role and permission management (authorization)","User registration","Token authentication"], correct:1, explanation:"Flask-Principal provides role-based access control. Define needs (RoleNeed, ItemNeed) and check them with Permission.require() in your views." },
+        { id:46, tag:"Flask", text:"What does current_user.is_anonymous return for logged-out users?", options:["True","False","None","AnonymousUser"], correct:0, explanation:"AnonymousUser.is_anonymous is True. UserMixin-based logged-in users return False. Use this for conditional UI in templates." },
+        { id:47, tag:"Flask", text:"How do you restrict a Flask route to admin users only?", options:["@admin_only","@login_required + check current_user.is_admin inside view","@require_admin","@permission('admin')"], correct:1, explanation:"Combine @login_required with an inline check: if not current_user.is_admin: abort(403). Flask-Principal offers a cleaner declarative approach for larger apps." },
+        { id:48, tag:"Flask", text:"What does session.permanent = True do in Flask?", options:["Prevents session deletion","Makes session persist beyond browser close using PERMANENT_SESSION_LIFETIME","Encrypts the session","Clears session on logout"], correct:1, explanation:"By default Flask sessions expire when the browser closes. Setting session.permanent = True respects PERMANENT_SESSION_LIFETIME (default: 31 days)." },
+        { id:49, tag:"Flask", text:"What does flask_login.AnonymousUser represent?", options:["Admin user","Guest / logged-out user","New registered user","Demo user"], correct:1, explanation:"When no user is logged in, current_user is an AnonymousUser with is_authenticated=False and is_anonymous=True. Customizable via login_manager.anonymous_user." },
+        { id:50, tag:"Flask", text:"What HTTP header is commonly used for token-based auth in Flask APIs?", options:["X-Auth-Token","Cookie","Authorization: Bearer &lt;token&gt;","X-API-Key"], correct:2, explanation:"Authorization: Bearer &lt;token&gt; is the standard. Extract it in Flask with: request.headers.get('Authorization','').replace('Bearer ',''), then verify and load the user." }
     ];
 
     let score = 0, answered = 0;
+
     function renderQuiz() {
-        const container = document.getElementById('quiz-container');
-        container.innerHTML = '';
+        const c = document.getElementById('quiz-container'); c.innerHTML = '';
         questions.forEach(q => {
-            const card = document.createElement('div');
-            card.className = 'question-card';
-            card.id = 'q' + q.id;
-            card.innerHTML = `<div class="q-header"><span class="q-num">Q${q.id}</span><span class="q-tag tag-${q.tag.toLowerCase()}">${q.tag}</span></div><div class="question-text">${q.text}</div><div class="options-grid">${q.options.map((opt,i)=>`<button type="button" class="option-btn" data-qid="${q.id}" data-idx="${i}">${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}</div><div class="btn-row"><button type="button" class="submit-btn" id="sub${q.id}" disabled>Check Answer</button><button type="button" class="reset-btn" id="res${q.id}">Reset</button></div>`;
-            container.appendChild(card);
+            const card = document.createElement('div'); card.className = 'question-card'; card.id = 'q' + q.id;
+            card.innerHTML = `
+                <div class="q-header">
+                    <span class="q-num">Q${q.id}</span>
+                    <span class="q-tag tag-${q.tag.toLowerCase()}">${q.tag}</span>
+                </div>
+                <div class="question-text">${q.text}</div>
+                <div class="options-grid">
+                    ${q.options.map((o, i) => `<button type="button" class="option-btn" data-qid="${q.id}" data-idx="${i}">${String.fromCharCode(65 + i)}. ${o}</button>`).join('')}
+                </div>
+                <div class="btn-row">
+                    <button type="button" class="submit-btn" id="sub${q.id}" disabled>Check Answer</button>
+                    <button type="button" class="reset-btn" id="res${q.id}">Reset</button>
+                </div>`;
+            c.appendChild(card);
         });
         document.getElementById('totalDisplay').textContent = questions.length;
         attachEvents();
     }
+
     function attachEvents() {
-        document.querySelectorAll('.option-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const qid = this.dataset.qid;
-                document.getElementById('q'+qid).querySelectorAll('.option-btn').forEach(b=>b.classList.remove('selected'));
-                this.classList.add('selected');
-                document.getElementById('sub'+qid).disabled = false;
+        document.querySelectorAll('.option-btn').forEach(b => b.addEventListener('click', function () {
+            document.getElementById('q' + this.dataset.qid).querySelectorAll('.option-btn').forEach(x => x.classList.remove('selected'));
+            this.classList.add('selected');
+            document.getElementById('sub' + this.dataset.qid).disabled = false;
+        }));
+
+        document.querySelectorAll('.submit-btn').forEach(b => b.addEventListener('click', function () {
+            const qid = this.id.replace('sub', '');
+            const q = questions.find(x => x.id == qid);
+            const card = document.getElementById('q' + qid);
+            const sel = card.querySelector('.option-btn.selected');
+            if (!sel) return;
+            const idx = parseInt(sel.dataset.idx);
+            card.querySelectorAll('.option-btn').forEach(b => {
+                b.disabled = true;
+                const i = parseInt(b.dataset.idx);
+                if (i === q.correct) b.classList.add('correct');
+                else if (b === sel && i !== q.correct) b.classList.add('incorrect');
             });
-        });
-        document.querySelectorAll('.submit-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const qid = this.id.replace('sub','');
-                const q = questions.find(x=>x.id==qid);
-                const card = document.getElementById('q'+qid);
-                const selected = card.querySelector('.option-btn.selected');
-                if (!selected) return;
-                const idx = parseInt(selected.dataset.idx);
-                card.querySelectorAll('.option-btn').forEach(b=>{
-                    b.disabled=true;
-                    const i=parseInt(b.dataset.idx);
-                    if(i===q.correct) b.classList.add('correct');
-                    else if(b===selected&&i!==q.correct) b.classList.add('incorrect');
-                });
-                if(idx===q.correct) score++;
-                answered++;
-                document.getElementById('scoreDisplay').textContent = score;
-                this.disabled = true;
-                if(answered===questions.length) showFinal();
-            });
-        });
-        document.querySelectorAll('.reset-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const qid = this.id.replace('res','');
-                const card = document.getElementById('q'+qid);
-                card.querySelectorAll('.option-btn').forEach(b=>{b.disabled=false;b.classList.remove('selected','correct','incorrect');});
-                document.getElementById('sub'+qid).disabled = true;
-            });
-        });
+            const exp = document.createElement('div');
+            exp.className = 'explanation';
+            exp.innerHTML = `<strong>💡 Explanation:</strong> ${q.explanation}`;
+            card.querySelector('.btn-row').before(exp);
+            if (idx === q.correct) score++;
+            answered++;
+            document.getElementById('scoreDisplay').textContent = score;
+            this.disabled = true;
+            if (answered === questions.length) showFinal();
+        }));
+
+        document.querySelectorAll('.reset-btn').forEach(b => b.addEventListener('click', function () {
+            const qid = this.id.replace('res', '');
+            const card = document.getElementById('q' + qid);
+            card.querySelectorAll('.option-btn').forEach(x => { x.disabled = false; x.classList.remove('selected', 'correct', 'incorrect'); });
+            document.getElementById('sub' + qid).disabled = true;
+            const e = card.querySelector('.explanation');
+            if (e) e.remove();
+        }));
     }
+
     function showFinal() {
-        const pct = Math.round((score/questions.length)*100);
-        document.getElementById('finalText').textContent = `You scored ${score} out of ${questions.length} (${pct}%). ${pct>=80?'🔥 Excellent!':pct>=60?'👍 Good job!':'📚 Keep practising!'}`;
+        const pct = Math.round((score / questions.length) * 100);
+        document.getElementById('finalText').textContent = `You scored ${score} out of ${questions.length} (${pct}%). ${pct >= 80 ? '🔥 Excellent!' : pct >= 60 ? '👍 Good job!' : '📚 Keep practising!'}`;
         const el = document.getElementById('finalScore');
-        el.style.display = 'block';
-        el.scrollIntoView({behavior:'smooth'});
+        el.classList.remove('hidden');
+        el.scrollIntoView({ behavior: 'smooth' });
     }
+
     renderQuiz();
     </script>
 </body>

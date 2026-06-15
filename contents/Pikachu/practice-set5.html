@@ -3,172 +3,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Set 5 – Advanced & Mixed</title>
+    <title>Set 5 – Advanced &amp; Mixed</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background: radial-gradient(circle at 50% -20%, #0c1a20, #000 70%); background-attachment: fixed; color: #e0e0e0; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        body { background: radial-gradient(circle at 50% -20%, #082f49, #000 70%); background-attachment: fixed; color: #e0e0e0; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         .header { text-align: center; margin-bottom: 36px; }
-        .set-badge { display: inline-block; background: #0369a1; color: #fff; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; padding: 4px 14px; border-radius: 20px; margin-bottom: 12px; text-transform: uppercase; }
+        .set-badge { display: inline-block; background: #0284c7; color: #fff; font-size: 0.75em; font-weight: 700; letter-spacing: 2px; padding: 4px 14px; border-radius: 20px; margin-bottom: 12px; text-transform: uppercase; }
         h1 { color: #fff; font-size: 1.9em; letter-spacing: 1px; margin-bottom: 6px; }
         .sub { color: #666; font-size: 0.9em; }
-        .score-board { background: #071520; border: 1px solid #0c4a6e; border-radius: 14px; padding: 14px 28px; margin-bottom: 32px; text-align: center; font-size: 1em; color: #38bdf8; }
+        .score-board { background: #001829; border: 1px solid #082f49; border-radius: 14px; padding: 14px 28px; margin-bottom: 32px; text-align: center; font-size: 1em; color: #38bdf8; }
         .score-board span { font-weight: 700; font-size: 1.4em; color: #7dd3fc; }
         .quiz-wrapper { width: 100%; max-width: 820px; }
-        .question-card { background: #060d12; border: 1px solid #0c4a6e; border-radius: 14px; padding: 26px; margin-bottom: 26px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .question-card { background: #000e1a; border: 1px solid #082f49; border-radius: 14px; padding: 26px; margin-bottom: 26px; box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
         .q-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-        .q-num { background: #071520; color: #38bdf8; font-size: 0.8em; font-weight: 700; padding: 4px 10px; border-radius: 8px; white-space: nowrap; }
+        .q-num { background: #001829; color: #38bdf8; font-size: 0.8em; font-weight: 700; padding: 4px 10px; border-radius: 8px; white-space: nowrap; }
         .q-tag { font-size: 0.72em; padding: 3px 8px; border-radius: 6px; font-weight: 600; }
         .tag-django { background: #0d2218; color: #34d399; }
         .tag-flask { background: #1a0a2e; color: #c084fc; }
-        .tag-mixed { background: #071520; color: #38bdf8; }
         .question-text { font-size: 1.05rem; font-weight: 600; color: #e2e8f0; line-height: 1.55; }
         .options-grid { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
-        .option-btn { padding: 13px 18px; background: #0a1820; border: 1px solid #0c4a6e; color: #bbb; text-align: left; border-radius: 10px; cursor: pointer; font-size: 0.97rem; transition: all 0.2s ease; }
-        .option-btn:hover:not(:disabled) { background: #0e2535; border-color: #0369a1; color: #fff; }
+        .option-btn { padding: 13px 18px; background: #001220; border: 1px solid #082f49; color: #bbb; text-align: left; border-radius: 10px; cursor: pointer; font-size: 0.97rem; transition: all 0.2s ease; }
+        .option-btn:hover:not(:disabled) { background: #001e35; border-color: #0284c7; color: #fff; }
         .option-btn.correct { background: #0d2218 !important; border-color: #22c55e !important; color: #86efac !important; }
         .option-btn.incorrect { background: #1f0a0a !important; border-color: #ef4444 !important; color: #fca5a5 !important; }
-        .option-btn.selected { border-color: #0ea5e9; background: #071520; color: #fff; }
+        .option-btn.selected { border-color: #0ea5e9; background: #001829; color: #fff; }
         .option-btn:disabled { cursor: default; opacity: 0.75; }
+        .explanation { margin-top: 16px; padding: 13px 16px; background: #000c18; border-left: 3px solid #0ea5e9; border-radius: 0 8px 8px 0; font-size: 0.9em; color: #94a3b8; line-height: 1.6; }
+        .explanation strong { color: #7dd3fc; }
         .btn-row { margin-top: 14px; display: flex; gap: 10px; }
-        .submit-btn { padding: 9px 20px; background: #0369a1; border: none; border-radius: 8px; color: #fff; font-size: 0.95rem; cursor: pointer; font-weight: 600; transition: background 0.2s; }
-        .submit-btn:hover:not(:disabled) { background: #075985; }
+        .submit-btn { padding: 9px 20px; background: #0284c7; border: none; border-radius: 8px; color: #fff; font-size: 0.95rem; cursor: pointer; font-weight: 600; }
+        .submit-btn:hover:not(:disabled) { background: #0369a1; }
         .submit-btn:disabled { opacity: 0.5; cursor: default; }
-        .reset-btn { padding: 8px 16px; background: #0a1820; border: 1px solid #0c4a6e; border-radius: 8px; color: #888; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
-        .reset-btn:hover { background: #0e2535; color: #ccc; }
-        .final-score { text-align: center; margin-top: 40px; padding: 30px; background: #060d12; border: 1px solid #0c4a6e; border-radius: 18px; }
+        .reset-btn { padding: 8px 16px; background: #001220; border: 1px solid #082f49; border-radius: 8px; color: #888; cursor: pointer; font-size: 0.9rem; }
+        .reset-btn:hover { background: #001e35; color: #ccc; }
+        .final-score { text-align: center; margin-top: 40px; padding: 30px; background: #000e1a; border: 1px solid #082f49; border-radius: 18px; }
         .final-score h2 { font-size: 1.6em; color: #7dd3fc; margin-bottom: 8px; }
         .final-score p { color: #666; }
         .back-link { display: inline-block; margin-top: 24px; color: #0ea5e9; text-decoration: none; font-weight: 600; }
         .back-link:hover { color: #38bdf8; }
+        .hidden { display: none; }
+        #finalScore { max-width: 820px; width: 100%; }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="set-badge">Set 05 / 05</div>
-        <h1>Advanced & Mixed</h1>
-        <p class="sub">50 questions · Advanced level · Instant feedback</p>
+        <h1>Advanced &amp; Mixed</h1>
+        <p class="sub">50 questions · Advanced level · Instant feedback with explanation</p>
     </div>
     <div class="score-board">Score: <span id="scoreDisplay">0</span> / <span id="totalDisplay">0</span></div>
     <div class="quiz-wrapper" id="quiz-container"></div>
-    <div class="final-score" id="finalScore" style="display:none; max-width:820px; width:100%;">
-        <h2>All Sets Done! 🏆</h2>
-        <p id="finalText"></p>
+    <div class="final-score hidden" id="finalScore">
+        <h2>Set Complete! 🎉</h2><p id="finalText"></p>
         <a href="./practice.html" class="back-link">← Back to Practice Sets</a>
     </div>
     <script>
     const questions = [
-        { id:1, tag:"Django", text:"What does messages.success() do in Django?", options:["Saves a success log","Shows a one-time success notification to the user","Sends an email","Marks user as verified"], correct:1 },
-        { id:2, tag:"Django", text:"Where should the messages display block be placed for site-wide use?", options:["In every template individually","Only in the home template","In the base template that others extend","In settings.py"], correct:2 },
-        { id:3, tag:"Django", text:"What does message.tags return for a messages.error() message?", options:["'error'","'danger'","'critical'","'alert'"], correct:0 },
-        { id:4, tag:"Django", text:"What Django setting maps message levels to custom CSS class strings?", options:["MESSAGE_CLASSES","ALERT_TAGS","MESSAGE_TAGS","NOTIFICATION_TAGS"], correct:2 },
-        { id:5, tag:"Django", text:"What mixin adds an automatic success message to a CBV?", options:["MessageMixin","FlashMixin","AlertMixin","SuccessMessageMixin"], correct:3 },
-        { id:6, tag:"Django", text:"What URL does Django's built-in admin panel run at by default?", options:["/dashboard/","/__admin__/","/manage/","/admin/"], correct:3 },
-        { id:7, tag:"Django", text:"What does list_display in ModelAdmin control?", options:["Columns shown in admin list view","Display order of models","CSS layout","Which fields are editable"], correct:0 },
-        { id:8, tag:"Django", text:"What does search_fields in ModelAdmin enable?", options:["Full-text search engine","A search bar in the admin list view","Elasticsearch integration","Autocomplete fields"], correct:1 },
-        { id:9, tag:"Django", text:"What does list_filter in ModelAdmin add?", options:["A search bar","A sidebar filter panel","Dropdown in list","Inline edit mode"], correct:1 },
-        { id:10, tag:"Django", text:"What does fieldsets in ModelAdmin do?", options:["Sets field order only","Groups fields into named sections on add/edit page","Hides certain fields","Sets field validators"], correct:1 },
-        { id:11, tag:"Django", text:"What does the actions attribute in ModelAdmin define?", options:["URL actions","Bulk actions in the dropdown on list page","Admin menu items","Quick buttons on detail page"], correct:1 },
-        { id:12, tag:"Django", text:"What are Django admin inlines used for?", options:["Showing related records inline on parent model's page","Embedding CSS","Inline Python execution","Showing SQL queries"], correct:0 },
-        { id:13, tag:"Django", text:"What layout does TabularInline use?", options:["Full form for each related object","Stacked vertical layout","Compact table with one row per related object","Card grid layout"], correct:2 },
-        { id:14, tag:"Django", text:"What does Django's Paginator class do?", options:["Paginates URLs","Splits a queryset into pages","Creates numbered links","Handles infinite scroll"], correct:1 },
-        { id:15, tag:"Django", text:"What does paginator.page(n) return?", options:["Page number","A Page object for page n","A queryset for page n","Total count"], correct:1 },
-        { id:16, tag:"Django", text:"What does page_obj.has_previous() return?", options:["Page number of previous page","True if a previous page exists","The previous page object","False always on page 1"], correct:1 },
-        { id:17, tag:"Django", text:"What does the pre_delete signal fire on?", options:["Before a model field is changed","Before a model instance is deleted","After deletion","On queryset delete only"], correct:1 },
-        { id:18, tag:"Django", text:"What is the F() expression used for in Django ORM?", options:["Filtering by field name","Referencing a field value in a query without loading to Python","Formatting output","Foreign key access"], correct:1 },
-        { id:19, tag:"Django", text:"What is the Q() object used for in Django ORM?", options:["Querying with pagination","Building complex OR/AND filter conditions","Quick queries","Queue management"], correct:1 },
-        { id:20, tag:"Django", text:"Which Django command checks for common project issues?", options:["python manage.py test","python manage.py validate","python manage.py check","python manage.py verify"], correct:2 },
-        { id:21, tag:"Flask", text:"What are Flask Blueprints?", options:["HTML page templates","Modular components for organizing Flask routes and views","Database schemas","Configuration files"], correct:1 },
-        { id:22, tag:"Flask", text:"How do you register a Flask Blueprint with the application?", options:["app.add_blueprint()","app.use_blueprint()","app.register_blueprint()","flask.register(blueprint)"], correct:2 },
-        { id:23, tag:"Flask", text:"What does Blueprint('name', __name__) create?", options:["A new Flask app","A new Blueprint instance","A new URL rule","A configuration object"], correct:1 },
-        { id:24, tag:"Flask", text:"What is the Flask application factory pattern?", options:["A design pattern for models","A function that creates and returns the Flask app instance","A factory class for forms","A template generator"], correct:1 },
-        { id:25, tag:"Flask", text:"What is Flask's g object?", options:["The global configuration","A request-scoped temporary storage object","The database connection","The current user object"], correct:1 },
-        { id:26, tag:"Flask", text:"What does @app.before_request decorator do?", options:["Runs function before importing Flask","Runs function before every incoming request","Runs function before app starts","Validates requests"], correct:1 },
-        { id:27, tag:"Flask", text:"What does @app.after_request decorator do?", options:["Runs function after app shuts down","Runs function after every response","Logs after requests","Compresses responses"], correct:1 },
-        { id:28, tag:"Flask", text:"What does @app.errorhandler(404) decorator do?", options:["Raises a 404 error","Logs 404 errors","Defines a custom handler function for 404 errors","Redirects 404s to home"], correct:2 },
-        { id:29, tag:"Flask", text:"What is Flask-Migrate used for?", options:["User migration between apps","Database schema migrations for Flask-SQLAlchemy","File migration","Session migration"], correct:1 },
-        { id:30, tag:"Flask", text:"What does flask db upgrade do?", options:["Upgrades Flask version","Applies pending migrations to the database","Creates migration scripts","Shows migration status"], correct:1 },
-        { id:31, tag:"Flask", text:"What does flask db migrate do?", options:["Applies migrations","Generates a new migration script from model changes","Initializes migration directory","Shows pending migrations"], correct:1 },
-        { id:32, tag:"Flask", text:"What is @app.teardown_appcontext used for?", options:["Shutting down the app","Cleanup code that runs after each request context ends","Resetting the database","Clearing caches"], correct:1 },
-        { id:33, tag:"Flask", text:"What does app.config.from_object() do?", options:["Loads config from a file","Loads configuration from a Python object or class","Imports another Flask app","Reads environment variables"], correct:1 },
-        { id:34, tag:"Flask", text:"How do you return JSON response in Flask?", options:["return json.dumps({})","return response('json', {})","return jsonify({})","return flask.json({})"], correct:2 },
-        { id:35, tag:"Flask", text:"What does make_response() do in Flask?", options:["Makes a template","Creates a custom response object with headers/status","Makes an API call","Creates a redirect"], correct:1 },
-        { id:36, tag:"Mixed", text:"Django's MVT pattern — what does the 'V' in MVT stand for?", options:["Validator","Variable","View","Virtual"], correct:2 },
-        { id:37, tag:"Mixed", text:"Jinja2 filter: {{ name|upper }} does what?", options:["Converts to lowercase","Capitalizes first letter","Converts to uppercase","Strips whitespace"], correct:2 },
-        { id:38, tag:"Mixed", text:"What does Django's get_object_or_404() do?", options:["Creates object if not found","Returns None if not found","Gets object or returns a 404 HTTP error","Filters objects by 404 status"], correct:2 },
-        { id:39, tag:"Mixed", text:"What does select_related() do in Django ORM?", options:["Selects fields instead of objects","Performs SQL JOIN for ForeignKey to reduce database queries","Selects random records","Caches related objects"], correct:1 },
-        { id:40, tag:"Mixed", text:"What does prefetch_related() do in Django ORM?", options:["Same as select_related()","Prefetches ManyToMany and reverse FK in separate queries","Caches all queries","Prefetches static files"], correct:1 },
-        { id:41, tag:"Mixed", text:"What does Django's {% url 'name' %} template tag do?", options:["Fetches data from URL","Generates a URL from a named URL pattern","Links to a static file","Creates an anchor tag"], correct:1 },
-        { id:42, tag:"Mixed", text:"What does QuerySet.values() return instead of model instances?", options:["A list of primary keys","Dictionaries of field values","A flat list of values","Tuples of (pk, str)"], correct:1 },
-        { id:43, tag:"Mixed", text:"What is Django middleware?", options:["A database layer","Code that processes every request and response globally","A form validation layer","A caching mechanism"], correct:1 },
-        { id:44, tag:"Mixed", text:"What is Flask's secret_key used for?", options:["Database encryption","Admin authentication","Session cookie signing and security","API authentication"], correct:2 },
-        { id:45, tag:"Mixed", text:"What does QuerySet.count() do compared to len(QuerySet)?", options:["They are identical","count() returns count in SQL without loading objects (faster)","len() is faster","count() loads all objects first"], correct:1 },
-        { id:46, tag:"Mixed", text:"What does Django's {% load static %} tag do?", options:["Loads static files into memory","Makes the static template tag available in the template","Serves static files","Compresses CSS/JS"], correct:1 },
-        { id:47, tag:"Mixed", text:"In Flask, what does redirect(url_for('view_name')) do?", options:["Renders the view template","Generates and redirects to the URL of the named view","Imports the view function","Creates a shortcut"], correct:1 },
-        { id:48, tag:"Mixed", text:"What does Django's collectstatic command do?", options:["Collects all models","Gathers static files from all apps into STATIC_ROOT for deployment","Validates static file paths","Minifies CSS and JS"], correct:1 },
-        { id:49, tag:"Mixed", text:"What is Jinja2's |safe filter used for?", options:["Sanitizes HTML output","Marks a string as safe to render as HTML without escaping","Encrypts sensitive data","Validates URLs"], correct:1 },
-        { id:50, tag:"Mixed", text:"What does Django's python manage.py shell command provide?", options:["A production REPL","An interactive Python shell with Django project loaded","A database shell","A template testing shell"], correct:1 }
+        { id:1, tag:"Django", text:"What is Django middleware?", options:["A database layer","A layer that processes requests and responses globally","A type of template","A form validation system"], correct:1, explanation:"Middleware hooks into Django's request/response cycle. Each middleware calls the next in the chain. Built-in middleware handles auth, sessions, CSRF, and security headers." },
+        { id:2, tag:"Django", text:"What is the N+1 query problem in Django ORM?", options:["Querying more than N records","Fetching related objects with one query per record instead of a JOIN","Having more than N models","Running N migrations"], correct:1, explanation:"Looping over 100 posts and accessing post.author each time runs 101 queries. Fix with select_related() for ForeignKey or prefetch_related() for ManyToMany." },
+        { id:3, tag:"Django", text:"What does prefetch_related() do?", options:["Joins ForeignKey tables","Runs a separate query and caches ManyToMany/reverse FK results in Python","Selects specific fields","Caches the full queryset"], correct:1, explanation:"prefetch_related() does a separate IN query then joins results in Python memory. Use it for ManyToMany or reverse ForeignKey; use select_related() for direct FK." },
+        { id:4, tag:"Django", text:"What does values_list() return in Django ORM?", options:["List of model instances","List of tuples or single values","List of dicts","A flat QuerySet"], correct:1, explanation:"values_list('id','name') returns [(1,'Aman'),(2,'Raj')]. Add flat=True with a single field to get a plain list: [1, 2, 3]. More memory-efficient than full objects." },
+        { id:5, tag:"Django", text:"What is a Django signal?", options:["A background task","An event notification system for decoupled app communication","A database trigger","A URL redirect"], correct:1, explanation:"Signals let senders notify receivers without direct coupling. Built-in signals: post_save, pre_save, post_delete, m2m_changed. Create custom ones with Signal()." },
+        { id:6, tag:"Django", text:"What does the @receiver decorator do with signals?", options:["Creates a new signal","Connects a function to a signal","Sends a signal","Blocks a signal"], correct:1, explanation:"@receiver(post_save, sender=User) links the decorated function to the post_save signal, scoped to the User model specifically." },
+        { id:7, tag:"Django", text:"What is Django REST Framework (DRF)?", options:["A template engine","A toolkit for building Web APIs with Django","A database ORM","A task queue"], correct:1, explanation:"DRF adds Serializer, ViewSet, Router, authentication classes, and permission classes on top of Django to build RESTful APIs." },
+        { id:8, tag:"Django", text:"What is a Serializer in DRF?", options:["A URL router","Converts model instances to/from JSON","A database migration tool","A view class"], correct:1, explanation:"Serializer defines fields and validates incoming data. serializer.data outputs a JSON-ready dict; serializer.save() creates or updates the model instance." },
+        { id:9, tag:"Django", text:"What does ModelSerializer do in DRF?", options:["Extends ModelForm for APIs","Auto-generates fields from a model like ModelForm does","Creates database models","Converts models to HTML forms"], correct:1, explanation:"ModelSerializer auto-creates fields from the model's definition, generates validators, and implements create() and update() automatically." },
+        { id:10, tag:"Django", text:"What does @api_view(['GET','POST']) do in DRF?", options:["Converts a class to a view","Wraps an FBV with DRF request/response handling","Creates an API endpoint URL","Validates API tokens"], correct:1, explanation:"@api_view converts a regular function-based view to use DRF's Request object, Response class, and authentication/permission checking." },
+        { id:11, tag:"Django", text:"What does the Paginator class do in Django?", options:["Controls page URL routing","Splits a queryset into pages","Paginates HTML templates","Creates page numbers in admin"], correct:1, explanation:"Paginator(queryset, per_page) splits data into pages. page_obj = paginator.get_page(request.GET.get('page')) handles invalid page numbers gracefully." },
+        { id:12, tag:"Django", text:"What does page_obj.has_next() return?", options:["Page number","True if there is a next page","List of next items","Next page URL"], correct:1, explanation:"has_next() and has_previous() let templates render navigation links conditionally. page_obj.next_page_number() gives the number for the URL." },
+        { id:13, tag:"Django", text:"What is django.contrib.messages used for?", options:["Email notifications","One-time notification messages shown on next request","Logging system","Chat functionality"], correct:1, explanation:"The messages framework stores messages in the session. They display once on the next page load then are cleared — great for form submission feedback." },
+        { id:14, tag:"Django", text:"What are the 5 Django message levels in order?", options:["DEBUG, INFO, SUCCESS, WARNING, ERROR","LOG, INFO, SUCCESS, WARNING, CRITICAL","DEBUG, INFO, WARNING, ERROR, CRITICAL","TRACE, INFO, SUCCESS, WARNING, ERROR"], correct:0, explanation:"DEBUG(10), INFO(20), SUCCESS(25), WARNING(30), ERROR(40). Shortcut functions messages.success(), messages.error() etc. map to each level." },
+        { id:15, tag:"Django", text:"What does list_display in ModelAdmin do?", options:["Lists fields in forms","Sets columns shown in admin list view","Displays a list of models","Creates dropdown filters"], correct:1, explanation:"list_display = ['name', 'email', 'created'] defines which fields or methods appear as columns in the Django admin changelist page." },
+        { id:16, tag:"Django", text:"What does list_filter in ModelAdmin do?", options:["Filters queryset in views","Adds sidebar filter widgets in admin list view","Controls field display order","Restricts admin access"], correct:1, explanation:"list_filter = ['course', 'is_active'] adds clickable filter options in the right sidebar of the Django admin changelist page." },
+        { id:17, tag:"Django", text:"What does search_fields in ModelAdmin do?", options:["Adds full-text search to database","Enables a search box that queries specified fields in admin","Creates a search API endpoint","Adds search to templates"], correct:1, explanation:"search_fields = ['name', 'email'] enables the search box in admin. Django generates LIKE queries across all listed fields." },
+        { id:18, tag:"Django", text:"What does @admin.register(MyModel) do?", options:["Creates model in database","Registers model with admin site — cleaner alternative to admin.site.register()","Generates admin URLs","Creates admin permissions"], correct:1, explanation:"@admin.register(Student) class StudentAdmin(admin.ModelAdmin): is cleaner than calling admin.site.register(Student, StudentAdmin) separately at the bottom." },
+        { id:19, tag:"Django", text:"What is TabularInline in Django admin?", options:["A type of model field","Displays related objects in a compact table within the parent admin page","Creates a tabbed admin interface","Groups fields in admin form"], correct:1, explanation:"TabularInline shows FK-related child objects in a compact table layout. StackedInline shows them vertically. Both embed child forms inside the parent admin page." },
+        { id:20, tag:"Django", text:"What does fieldsets in ModelAdmin control?", options:["Database field order","Groups fields into labeled sections in the admin edit form","Creates new field types","Controls field validation"], correct:1, explanation:"fieldsets = [('Section Name', {'fields': ['f1', 'f2']})] organizes the admin edit form into collapsible, labeled sections." },
+        { id:21, tag:"Django", text:"What is the purpose of WSGI in Django deployment?", options:["Web Server Gateway Interface — connects Python app to web server","Windows Server Gateway Interface","A Django middleware type","A deployment database adapter"], correct:0, explanation:"WSGI is the Python standard for web app-to-server communication. Production servers like gunicorn or uWSGI serve Django through the wsgi.py entry point." },
+        { id:22, tag:"Django", text:"What does collectstatic do in Django?", options:["Downloads CSS libraries","Copies all static files to STATIC_ROOT for production serving","Updates static file URLs","Deletes unused static files"], correct:1, explanation:"python manage.py collectstatic gathers static files from all apps and STATICFILES_DIRS into STATIC_ROOT. Required before every production deploy." },
+        { id:23, tag:"Django", text:"Why must DEBUG=False in production?", options:["For performance only","Prevents detailed error tracebacks from being shown publicly","Enables caching","Disables Django admin"], correct:1, explanation:"With DEBUG=True, Django exposes stack traces with local variable values, settings data, and SQL queries in the browser — a serious security leak in production." },
+        { id:24, tag:"Django", text:"What does ALLOWED_HOSTS in Django settings control?", options:["Hosts allowed to access admin","List of valid domain names the Django app will serve","CORS allowed origins","Database hosts"], correct:1, explanation:"ALLOWED_HOSTS = ['mysite.com', 'www.mysite.com'] prevents HTTP Host header injection attacks. Only use ['*'] in development." },
+        { id:25, tag:"Django", text:"What is gunicorn?", options:["A Django database adapter","A Python WSGI HTTP server for production","A Django caching backend","A task queue"], correct:1, explanation:"gunicorn (Green Unicorn) is a production-ready WSGI server. Start it with: gunicorn myproject.wsgi:application --bind 0.0.0.0:8000." },
+        { id:26, tag:"Flask", text:"What is a Flask Blueprint?", options:["A project planning document","A modular component for organizing routes and views","A database schema","A deployment configuration"], correct:1, explanation:"Blueprint groups related routes, templates, and static files. Register it on the app with: app.register_blueprint(bp, url_prefix='/blog')." },
+        { id:27, tag:"Flask", text:"How do you create a Flask Blueprint?", options:["Blueprint = flask.Blueprint()","bp = Blueprint('name', __name__)","blueprint = app.Blueprint()","bp = flask.create_blueprint('name')"], correct:1, explanation:"bp = Blueprint('auth', __name__, template_folder='templates') — the name is used as a prefix for url_for(): url_for('auth.login')." },
+        { id:28, tag:"Flask", text:"What does url_prefix='/api' in register_blueprint do?", options:["Sets base URL prefix for all blueprint routes","Creates API documentation","Names the blueprint","Sets rate limiting"], correct:0, explanation:"All routes in the blueprint are prefixed: @bp.route('/users') becomes accessible at /api/users." },
+        { id:29, tag:"Flask", text:"What is the application factory pattern in Flask?", options:["A design pattern using create_app() to create app instances","A way to create multiple databases","A factory for creating models","A template generation pattern"], correct:0, explanation:"def create_app(config=None): app = Flask(__name__); ... return app — enables testing with different configs and prevents circular import problems." },
+        { id:30, tag:"Flask", text:"What is Flask's current_app proxy?", options:["A reference to the current view","A proxy to the active Flask app within the application context","The current request object","The active database connection"], correct:1, explanation:"current_app refers to the Flask application handling the current request. Useful inside blueprints where the app object is not directly importable." },
+        { id:31, tag:"Flask", text:"What is Flask's g object?", options:["A global Python dict","A per-request temporary storage object","A database connection","The current user object"], correct:1, explanation:"flask.g is a namespace object that lives for the duration of one request. Use it to store per-request data like DB connections fetched once and reused." },
+        { id:32, tag:"Flask", text:"What does @app.before_request do?", options:["Runs before server starts","Runs a function before every request is processed","Validates request headers","Blocks certain requests"], correct:1, explanation:"@app.before_request def check_auth(): — the decorated function runs before every view. Returning a response short-circuits further processing." },
+        { id:33, tag:"Flask", text:"What does @app.after_request do?", options:["Cleans up after server stops","Runs a function after every response is generated","Logs completed requests","Sends email after request"], correct:1, explanation:"@app.after_request def add_headers(response): response.headers['X-Frame-Options'] = 'DENY'; return response — must always return the response object." },
+        { id:34, tag:"Flask", text:"What does @app.errorhandler(404) do?", options:["Creates a 404 URL","Catches 404 errors and returns a custom response","Logs 404 errors","Redirects 404 to homepage"], correct:1, explanation:"@app.errorhandler(404) def not_found(e): return render_template('404.html'), 404 — replaces Flask's default plain-text error page." },
+        { id:35, tag:"Flask", text:"What is Flask-Migrate?", options:["A deployment tool","Alembic-based migration manager for Flask-SQLAlchemy","A Flask update manager","A database backup tool"], correct:1, explanation:"Flask-Migrate wraps Alembic: flask db init, flask db migrate -m 'msg', flask db upgrade. Generates versioned migration scripts for schema changes." },
+        { id:36, tag:"Flask", text:"What command generates a Flask-Migrate migration?", options:["flask db makemigrations","flask db migrate","flask db generate","flask db create"], correct:1, explanation:"flask db migrate -m 'add user table' detects model changes and writes a versioned migration script to migrations/versions/." },
+        { id:37, tag:"Flask", text:"What command applies Flask-Migrate migrations?", options:["flask db apply","flask db push","flask db upgrade","flask db migrate --apply"], correct:2, explanation:"flask db upgrade applies pending migrations. flask db downgrade reverts the last one. flask db history shows all migration versions." },
+        { id:38, tag:"Flask", text:"What is Flask-Caching used for?", options:["Browser cache headers","Server-side caching (memory, Redis, filesystem) for views and functions","Client-side data caching","Database query optimization"], correct:1, explanation:"@cache.cached(timeout=300) caches a view's output for 5 minutes. @cache.memoize() caches a function's result per unique argument combination." },
+        { id:39, tag:"Flask", text:"What is Celery used for with Flask or Django?", options:["Database migrations","Asynchronous background task processing","Caching","File storage"], correct:1, explanation:"Celery processes tasks (emails, image processing, report generation) outside the request/response cycle. Requires a message broker like Redis or RabbitMQ." },
+        { id:40, tag:"Flask", text:"What does flask db init do?", options:["Initializes the database tables","Creates the migrations/ directory structure for Flask-Migrate","Creates all model tables","Connects to the database"], correct:1, explanation:"flask db init is run once per project. It creates the migrations/ folder, alembic.ini, and env.py. Always run before the first flask db migrate." },
+        { id:41, tag:"Django", text:"What does related_name='students' on a ForeignKey do?", options:["Names the FK field","Sets the reverse accessor name from parent to children","Names the database column","Creates a student filter"], correct:1, explanation:"With related_name='students', you write course.students.all() instead of course.student_set.all(). Makes reverse queryset access more readable." },
+        { id:42, tag:"Django", text:"What is Django's Q object used for?", options:["Queuing tasks","Complex OR/AND queries in ORM","Quick queries","Queue-based lookups"], correct:1, explanation:"Q(name='Aman') | Q(name='Raj') enables OR queries. Combine with & for AND. Cannot be done with plain filter kwargs; requires Q for OR logic." },
+        { id:43, tag:"Django", text:"What does the F() object do in Django ORM?", options:["Formats output","References a model field value in a query without fetching it to Python","Filters by field name","Flattens a queryset"], correct:1, explanation:"F('price') * 2 runs the multiplication in SQL rather than Python. Also used for atomic updates: Product.objects.update(stock=F('stock') - 1)." },
+        { id:44, tag:"Django", text:"What is Django's cache framework for?", options:["File uploads","Storing computed results to avoid repeated expensive operations","Database backup","Session management"], correct:1, explanation:"cache.set('key', value, timeout) and cache.get('key') store results. Backends: database, memcached, Redis, filesystem, or local-memory." },
+        { id:45, tag:"Django", text:"What does CSRF_TRUSTED_ORIGINS do in Django settings?", options:["Disables CSRF protection","Lists trusted origins for cross-origin CSRF requests","Sets cookie domain","Configures CORS"], correct:1, explanation:"Required in Django 4+ when using HTTPS or subdomains: CSRF_TRUSTED_ORIGINS = ['https://mysite.com']. Prevents CSRF token mismatch errors." },
+        { id:46, tag:"Flask", text:"What is CORS and why does Flask need it for APIs?", options:["Cross-Origin Resource Sharing — allows browsers to call a Flask API from different domains","A database protocol","A caching header","A token type"], correct:0, explanation:"Browsers block cross-origin AJAX by default. Flask-CORS adds Access-Control-Allow-Origin headers: CORS(app) for all routes, or @cross_origin() per route." },
+        { id:47, tag:"Flask", text:"What does make_response() do in Flask?", options:["Creates a request object","Creates a response object you can modify before returning","Sends HTTP response immediately","Makes a DB query"], correct:1, explanation:"resp = make_response(render_template('page.html')); resp.headers['X-Custom'] = 'val'; resp.set_cookie('key', 'val'); return resp." },
+        { id:48, tag:"Django", text:"What does get_or_create() do in Django ORM?", options:["Gets or raises 404","Fetches a record or creates it if not found — returns (obj, created) tuple","Creates or updates a record","Gets first or creates new"], correct:1, explanation:"obj, created = User.objects.get_or_create(email='a@b.com', defaults={'name':'Aman'}). This is an atomic operation that prevents race conditions." },
+        { id:49, tag:"Django", text:"What does update_or_create() do in Django ORM?", options:["Renames or creates a record","Finds and updates, or creates a new record — returns (obj, created) tuple","Updates all matching records","Creates only if missing"], correct:1, explanation:"Similar to get_or_create but updates the defaults dict if the record already exists: obj, created = Model.objects.update_or_create(email=e, defaults={'name':n})." },
+        { id:50, tag:"Flask", text:"What is the key difference between Flask's dev server and production deployment?", options:["No difference","Dev server is single-threaded, no SSL, auto-reloads — unsafe for production traffic","Dev server is faster","Production uses the built-in Flask server"], correct:1, explanation:"Flask's built-in server handles one request at a time, lacks process management, and can expose debugging info. Production requires gunicorn or uWSGI behind Nginx." }
     ];
 
     let score = 0, answered = 0;
+
     function renderQuiz() {
-        const container = document.getElementById('quiz-container');
-        container.innerHTML = '';
+        const c = document.getElementById('quiz-container'); c.innerHTML = '';
         questions.forEach(q => {
-            const card = document.createElement('div');
-            card.className = 'question-card';
-            card.id = 'q' + q.id;
-            card.innerHTML = `<div class="q-header"><span class="q-num">Q${q.id}</span><span class="q-tag tag-${q.tag.toLowerCase()}">${q.tag}</span></div><div class="question-text">${q.text}</div><div class="options-grid">${q.options.map((opt,i)=>`<button type="button" class="option-btn" data-qid="${q.id}" data-idx="${i}">${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}</div><div class="btn-row"><button type="button" class="submit-btn" id="sub${q.id}" disabled>Check Answer</button><button type="button" class="reset-btn" id="res${q.id}">Reset</button></div>`;
-            container.appendChild(card);
+            const card = document.createElement('div'); card.className = 'question-card'; card.id = 'q' + q.id;
+            card.innerHTML = `
+                <div class="q-header">
+                    <span class="q-num">Q${q.id}</span>
+                    <span class="q-tag tag-${q.tag.toLowerCase()}">${q.tag}</span>
+                </div>
+                <div class="question-text">${q.text}</div>
+                <div class="options-grid">
+                    ${q.options.map((o, i) => `<button type="button" class="option-btn" data-qid="${q.id}" data-idx="${i}">${String.fromCharCode(65 + i)}. ${o}</button>`).join('')}
+                </div>
+                <div class="btn-row">
+                    <button type="button" class="submit-btn" id="sub${q.id}" disabled>Check Answer</button>
+                    <button type="button" class="reset-btn" id="res${q.id}">Reset</button>
+                </div>`;
+            c.appendChild(card);
         });
         document.getElementById('totalDisplay').textContent = questions.length;
         attachEvents();
     }
+
     function attachEvents() {
-        document.querySelectorAll('.option-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const qid = this.dataset.qid;
-                document.getElementById('q'+qid).querySelectorAll('.option-btn').forEach(b=>b.classList.remove('selected'));
-                this.classList.add('selected');
-                document.getElementById('sub'+qid).disabled = false;
+        document.querySelectorAll('.option-btn').forEach(b => b.addEventListener('click', function () {
+            document.getElementById('q' + this.dataset.qid).querySelectorAll('.option-btn').forEach(x => x.classList.remove('selected'));
+            this.classList.add('selected');
+            document.getElementById('sub' + this.dataset.qid).disabled = false;
+        }));
+
+        document.querySelectorAll('.submit-btn').forEach(b => b.addEventListener('click', function () {
+            const qid = this.id.replace('sub', '');
+            const q = questions.find(x => x.id == qid);
+            const card = document.getElementById('q' + qid);
+            const sel = card.querySelector('.option-btn.selected');
+            if (!sel) return;
+            const idx = parseInt(sel.dataset.idx);
+            card.querySelectorAll('.option-btn').forEach(b => {
+                b.disabled = true;
+                const i = parseInt(b.dataset.idx);
+                if (i === q.correct) b.classList.add('correct');
+                else if (b === sel && i !== q.correct) b.classList.add('incorrect');
             });
-        });
-        document.querySelectorAll('.submit-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const qid = this.id.replace('sub','');
-                const q = questions.find(x=>x.id==qid);
-                const card = document.getElementById('q'+qid);
-                const selected = card.querySelector('.option-btn.selected');
-                if (!selected) return;
-                const idx = parseInt(selected.dataset.idx);
-                card.querySelectorAll('.option-btn').forEach(b=>{
-                    b.disabled=true;
-                    const i=parseInt(b.dataset.idx);
-                    if(i===q.correct) b.classList.add('correct');
-                    else if(b===selected&&i!==q.correct) b.classList.add('incorrect');
-                });
-                if(idx===q.correct) score++;
-                answered++;
-                document.getElementById('scoreDisplay').textContent = score;
-                this.disabled = true;
-                if(answered===questions.length) showFinal();
-            });
-        });
-        document.querySelectorAll('.reset-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const qid = this.id.replace('res','');
-                const card = document.getElementById('q'+qid);
-                card.querySelectorAll('.option-btn').forEach(b=>{b.disabled=false;b.classList.remove('selected','correct','incorrect');});
-                document.getElementById('sub'+qid).disabled = true;
-            });
-        });
+            const exp = document.createElement('div');
+            exp.className = 'explanation';
+            exp.innerHTML = `<strong>💡 Explanation:</strong> ${q.explanation}`;
+            card.querySelector('.btn-row').before(exp);
+            if (idx === q.correct) score++;
+            answered++;
+            document.getElementById('scoreDisplay').textContent = score;
+            this.disabled = true;
+            if (answered === questions.length) showFinal();
+        }));
+
+        document.querySelectorAll('.reset-btn').forEach(b => b.addEventListener('click', function () {
+            const qid = this.id.replace('res', '');
+            const card = document.getElementById('q' + qid);
+            card.querySelectorAll('.option-btn').forEach(x => { x.disabled = false; x.classList.remove('selected', 'correct', 'incorrect'); });
+            document.getElementById('sub' + qid).disabled = true;
+            const e = card.querySelector('.explanation');
+            if (e) e.remove();
+        }));
     }
+
     function showFinal() {
-        const pct = Math.round((score/questions.length)*100);
-        document.getElementById('finalText').textContent = `You scored ${score} out of ${questions.length} (${pct}%). ${pct>=80?'🔥 Excellent!':pct>=60?'👍 Good job!':'📚 Keep practising!'}`;
+        const pct = Math.round((score / questions.length) * 100);
+        document.getElementById('finalText').textContent = `You scored ${score} out of ${questions.length} (${pct}%). ${pct >= 80 ? '🔥 Excellent!' : pct >= 60 ? '👍 Good job!' : '📚 Keep practising!'}`;
         const el = document.getElementById('finalScore');
-        el.style.display = 'block';
-        el.scrollIntoView({behavior:'smooth'});
+        el.classList.remove('hidden');
+        el.scrollIntoView({ behavior: 'smooth' });
     }
+
     renderQuiz();
     </script>
 </body>
