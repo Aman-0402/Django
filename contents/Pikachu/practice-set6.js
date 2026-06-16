@@ -127,6 +127,29 @@ const finalOverlay = document.getElementById("finalOverlay");
 const finalText = document.getElementById("finalText");
 const retakeBtn = document.getElementById("retakeBtn");
 const fullscreenBtn = document.getElementById("fullscreenBtn");
+const introOverlay = document.getElementById("introOverlay");
+const introForm = document.getElementById("introForm");
+const examShell = document.getElementById("examShell");
+const examStudentInfo = document.getElementById("examStudentInfo");
+
+/* =====================
+   INTRO / ENROLLMENT GATE
+===================== */
+introForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("studentName").value.trim();
+    const enroll = document.getElementById("enrollNumber").value.trim();
+    if (!name || !enroll) return;
+
+    examStudentInfo.textContent = `${name} • ${enroll}`;
+
+    document.documentElement.requestFullscreen().catch(() => {});
+
+    introOverlay.classList.add("hidden");
+    examShell.classList.remove("hidden");
+
+    init();
+});
 
 /* =====================
    INIT
@@ -385,5 +408,3 @@ fullscreenBtn.addEventListener("click", () => {
 document.addEventListener("fullscreenchange", () => {
     fullscreenBtn.textContent = document.fullscreenElement ? "⤓" : "⛶";
 });
-
-init();

@@ -35,6 +35,99 @@ body {
     height: 100vh;
 }
 
+.hidden {
+    display: none !important;
+}
+
+/* ===== Intro / Enrollment gate ===== */
+.intro-overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 50% 0%, #1c1a05 0%, var(--bg) 60%);
+    z-index: 200;
+    padding: 20px;
+}
+
+.intro-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: clamp(28px, 5vw, 44px);
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+}
+
+.intro-badge {
+    display: inline-block;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+}
+
+.intro-card h1 {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+}
+
+.intro-card p {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin-bottom: 26px;
+}
+
+#introForm {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+}
+
+#introForm label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-weight: 600;
+    margin-top: 6px;
+}
+
+#introForm input {
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--panel-2);
+    color: var(--text);
+    font-size: 0.95rem;
+}
+
+#introForm input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.intro-start-btn {
+    margin-top: 18px;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+}
+
+/* ===== Student info badge in exam bar ===== */
+.exam-student-info {
+    font-size: 0.82em;
+    color: var(--muted);
+    padding-left: 12px;
+    border-left: 1px solid var(--border);
+}
+
 /* ===== Top bar ===== */
 .exam-bar {
     display: flex;
