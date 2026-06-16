@@ -133,6 +133,54 @@ const examShell = document.getElementById("examShell");
 const examStudentInfo = document.getElementById("examStudentInfo");
 
 /* =====================
+   ATTEMPT LOG (localStorage)
+===================== */
+const LOG_KEY = "examSet6Log";
+let currentLogIndex = -1;
+
+function loadLog() {
+    try {
+        return JSON.parse(localStorage.getItem(LOG_KEY)) || [];
+    } catch {
+        return [];
+    }
+}
+
+function saveLog(log) {
+    localStorage.setItem(LOG_KEY, JSON.stringify(log));
+}
+
+function startLogEntry(name, enroll) {
+    const now = new Date();
+    const log = loadLog();
+    log.push({
+        name,
+        enroll,
+        date: now.toLocaleDateString(),
+        time: now.toLocaleTimeString(),
+        timestamp: now.toISOString(),
+        score: null,
+        total: questions.length,
+        completed: false
+    });
+    saveLog(log);
+    currentLogIndex = log.length - 1;
+}
+
+function finishLogEntry(finalScore) {
+    if (currentLogIndex < 0) return;
+    const log = loadLog();
+    if (!log[currentLogIndex]) return;
+    log[currentLogIndex].score = finalScore;
+    log[currentLogIndex].completed = true;
+    log[currentLogIndex].finishedAt = new Date().toISOString();
+    saveLog(log);
+}
+
+// Console helper: run getExamLog() in devtools to inspect/export all attempts
+window.getExamLog = loadLog;
+
+/* =====================
    INTRO / ENROLLMENT GATE
 ===================== */
 introForm.addEventListener("submit", (e) => {
@@ -142,6 +190,7 @@ introForm.addEventListener("submit", (e) => {
     if (!name || !enroll) return;
 
     examStudentInfo.textContent = `${name} • ${enroll}`;
+    startLogEntry(name, enroll);
 
     document.documentElement.requestFullscreen().catch(() => {});
 
@@ -383,6 +432,7 @@ function showFinal() {
     const pct = questions.length ? Math.round((score / questions.length) * 100) : 0;
     finalText.textContent = `You scored ${score} out of ${questions.length} (${pct}%). ${pct >= 80 ? "🔥 Excellent!" : pct >= 60 ? "👍 Good job!" : "📚 Keep practising!"}`;
     finalOverlay.classList.remove("hidden");
+    finishLogEntry(score);
 }
 
 retakeBtn.addEventListener("click", () => {
