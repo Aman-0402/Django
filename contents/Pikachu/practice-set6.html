@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set 6 – Exam Mode</title>
+    <link rel="stylesheet" href="./practice-set6.css">
+</head>
+<body>
+    <div class="exam-shell">
+
+        <header class="exam-bar">
+            <div class="exam-bar-left">
+                <span class="exam-badge">Exam Mode</span>
+                <span class="exam-title">Set 06</span>
+            </div>
+            <div class="exam-bar-right">
+                <span class="exam-progress-text"><span id="qIndex">0</span>/<span id="qTotal">0</span></span>
+                <button type="button" id="fullscreenBtn" class="icon-btn" title="Toggle fullscreen" aria-label="Toggle fullscreen">⛶</button>
+            </div>
+        </header>
+
+        <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <main class="exam-main" id="examMain">
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">📝</div>
+                <h2>No questions loaded yet</h2>
+                <p>This exam set is ready and waiting. Questions will appear here once added to <code>practice-set6.js</code>.</p>
+            </div>
+        </main>
+
+        <footer class="exam-footer">
+            <button type="button" id="prevBtn" class="nav-btn" disabled>← Previous</button>
+            <div class="exam-score">Score: <span id="scoreDisplay">0</span></div>
+            <button type="button" id="nextBtn" class="nav-btn primary" disabled>Next →</button>
+        </footer>
+
+        <div class="final-overlay hidden" id="finalOverlay">
+            <div class="final-card">
+                <div class="final-icon">🏁</div>
+                <h2>Exam Complete</h2>
+                <p id="finalText"></p>
+                <div class="final-actions">
+                    <button type="button" id="retakeBtn" class="nav-btn primary">Retake</button>
+                    <a href="./practice.html" class="nav-btn">Back to Sets</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="./practice-set6.js"></script>
+</body>
+</html>
